@@ -122,32 +122,7 @@
 <p>Spatially localized patterns in cellular automata have shown a lot of interesting behavior that led to new understanding of self-organizing system. While the notion of environment is a keypoint in Maturana and Varela biology of cognition, studies on cellular automata rarely introduced a well defined environment in their system. In this paper, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to learn the CA rule leading to such creature. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles in their way.</p>
 <h2 id='introduction'>Introduction</h2>
 
-<p>Glossary</p>
-<p>A temporary summary of a few terms that need further definitions and clarifications, we can decide the wordings and refer to their meanings in the main text</p>
-<ul><li>cellular automata (CA) -- a discrete grid of cells + local update rule</li>
-<li>continuous CA &#x2F; geometric automata (GA) -- generalized CAs with real number states, large neighborhood (kernel), and fractional update rule; patterns are very different from discrete CAs (thus I prefer the specific term GA)</li>
-<li>Lenia -- a particular class of cont CA &#x2F; GA</li>
-<li>differentiable Lenia -- Lenia modified to be suitable for automatic differentiation</li>
-<li>kernel -- convolutional kernel, acts as a sensory receptive field local to cells</li>
-<li>channel -- a separate grid of cells ("world"); multiple parallel channels can interact with each other through one or multiple kernels</li>
-<li>learnable channel -- so called "creature channel", the kernel parameters and initial patterns associated to this channel can be learned by auto diff</li>
-<li>predefined &#x2F; hand-engineered channel -- general term for "obstable channel" or "energy channel"; patterns can be fixed or calculated, the channel can interact with other channels in a predefined way (using kernels of predefined parameters)</li>
-<li>obstacle channel -- a type of predefined channel, influence the learnable channels by casting a huge negative growth (through specific kernels)</li>
-<li>environment -- everything outside a specific agent &#x3D; patterns in predefined channels + other agents and patterns in learnable channels</li>
-<li>environmental element -- one distinguishable element in the environment</li>
-<li>obstacle, energy -- specific types of environmenral elements</li>
-<li>self-organized pattern -- an emergent pattern that is self-organized due to repeated application of kernels</li>
-<li>(spatially) localized pattern -- a pattern that occupies a limited range in space, compare to "global pattern" </li>
-<li>agent -- so called "creature ", localized pattern in learnable channels with sensorimotor capabilities (in Lenia, agent and evironment can be difficult to separate)</li>
-<li>sensorimotor capabilities -- according to Clement, "[an agent] that displays consistent, structured and robust interactions with elements of the environment -- e.g. a creature able to consistently avoid certain elements while being attracted by some others, robustly wrt different positions of those elements"</li>
-<li>individuality -- the ability of an agent to be (loosely) distinguished from the environment and other agents, such that its sensorimotor capabilities, "computation" etc are mostly restricted inside its volume</li>
-<li>curriculum - 1. survivial &amp; localization, 2. directed movement, 3. robustness against disturbances</li>
-<li>agency</li>
-<li>self-organization</li>
-<li>emergence… etc</li></ul>
-
-
-<p>Embodied cognition is a widely discussed topic in artificial intelligence (AI) and artificial life (ALife), yet it seems that orthogonal standpoints are taken on what is considered as &quot;embodiment&quot; and on how to reach sensorimotor &quot;agency&quot; within those.</p>
+<h2 id='embodied-cognition-is-a-widely-discussed-topic-in-artificial-intelligence-ai-and-artificial-life-alife-yet-it-seems-that-orthogonal-standpoints-are-taken-on-what-is-considered-as-embodiment-and-on-how-to-reach-sensorimotor-agency-within-those'>Embodied cognition is a widely discussed topic in artificial intelligence (AI) and artificial life (ALife), yet it seems that orthogonal standpoints are taken on what is considered as &quot;embodiment&quot; and on how to reach sensorimotor &quot;agency&quot; within those.</h2>
 
 
 
@@ -398,7 +373,7 @@ IMGEP Step <br>
 
 
 
-<p> Modeling agent-environment interactions in Lenia, the example of obstacles. </p>
+<h3 id='-modeling-agentenvironment-interactions-in-lenia-the-example-of-obstacles-'> Modeling agent-environment interactions in Lenia, the example of obstacles. </h3>
 
 <p> In this work we'll focus on obstacles in the environment as navigating between obstacles requires sensorimotor capabilities.</p>
 
