@@ -364,6 +364,12 @@ IMGEP Step <br>
 </code>
 </pre>
 </div>
+<h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
+<div class='l-body'>
+<video autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
+              <source src="vidMovingTraining1.mp4" type="video/mp4">
+            </video>
+</div>
 
 
 
@@ -410,6 +416,18 @@ IMGEP Step <br>
 
 <p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown below. The multi-channel creature(bottom left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
 <p>The creatures found by hand are not that robust to this environment physics. This motivated our search for methods which, given this environmental physics  in the CA paradigm, are able to learn the parameters leading to the emergence of "agency" and "sensorimotor capabilities", with better robustness and resilience to this environment.</p>
+<div class="row l-page side">
+    <div class="column">
+      <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
+                    <source src="noObstacle1wall.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
+                    <source src="multiK4.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
 <h3 id='method'>Method</h3>
 <img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
 
