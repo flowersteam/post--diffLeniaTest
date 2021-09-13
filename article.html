@@ -122,7 +122,7 @@
 <p>Spatially localized patterns in cellular automata have shown a lot of interesting behavior that led to new understanding of self-organizing system. While the notion of environment is a keypoint in Maturana and Varela biology of cognition, studies on cellular automata rarely introduced a well defined environment in their system. In this paper, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to learn the CA rule leading to such creature. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles in their way.</p>
 <h2 id='introduction'>Introduction</h2>
 
-<h2 id='embodied-cognition-is-a-widely-discussed-topic-in-artificial-intelligence-ai-and-artificial-life-alife-yet-it-seems-that-orthogonal-standpoints-are-taken-on-what-is-considered-as-embodiment-and-on-how-to-reach-sensorimotor-agency-within-those'>Embodied cognition is a widely discussed topic in artificial intelligence (AI) and artificial life (ALife), yet it seems that orthogonal standpoints are taken on what is considered as &quot;embodiment&quot; and on how to reach sensorimotor &quot;agency&quot; within those.</h2>
+<p>Embodied cognition is a widely discussed topic in artificial intelligence (AI) and artificial life (ALife), yet it seems that orthogonal standpoints are taken on what is considered as &quot;embodiment&quot; and on how to reach sensorimotor &quot;agency&quot; within those.</p>
 
 
 
@@ -388,7 +388,7 @@ IMGEP Step <br>
 <div class="row l-page side">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
-                    <source src="noObstacle1.mp4" type="video/mp4">
+                    <source src="move1.mp4" type="video/mp4">
                   </video>
     </div>
     <div class="column">
@@ -400,7 +400,7 @@ IMGEP Step <br>
 
 
 <div class='l-screen-inset'>
-<video autoplay="" muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
+<video autoplay="" controls muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
               <source src="moveTraining.mp4" type="video/mp4">
             </video>
 </div>
@@ -409,7 +409,8 @@ IMGEP Steps <br>
  <span style="font-size: 14px;color:#A0A0A0;">Left is the random Initialization, and then each video from left to right are successive IMGEP step and 
 Final video is best </span>
  </p><br>
-<video autoplay="" muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
+<div class='l-screen-inset'>
+<video autoplay="" controls muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
               <source src="moveTrainingInner.mp4" type="video/mp4">
             </video>
 </div>
@@ -417,6 +418,7 @@ Final video is best </span>
 InnerOptimization <br>
  <span style="font-size: 14px;color:#A0A0A0;"> First IMGEP step with training , gradient descent step (1,20,60,70,80,90,100,110,120) </span>
  </p><br>
+</div>
 
 
 
@@ -465,13 +467,10 @@ InnerOptimization <br>
                   </video>
     </div>
   </div>
-
-<p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown below. The multi-channel creature(bottom left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
-<p>The creatures found by hand are not that robust to this environment physics. This motivated our search for methods which, given this environmental physics  in the CA paradigm, are able to learn the parameters leading to the emergence of "agency" and "sensorimotor capabilities", with better robustness and resilience to this environment.</p>
 <div class="row l-page side">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
-                    <source src="noObstacle1Wall.mp4" type="video/mp4">
+                    <source src="move1Wall.mp4" type="video/mp4">
                   </video>
     </div>
     <div class="column">
@@ -480,6 +479,10 @@ InnerOptimization <br>
                   </video>
     </div>
   </div>
+
+<p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown below. The multi-channel creature(bottom left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
+<p>The creatures found by hand are not that robust to this environment physics. This motivated our search for methods which, given this environmental physics  in the CA paradigm, are able to learn the parameters leading to the emergence of "agency" and "sensorimotor capabilities", with better robustness and resilience to this environment.</p>
+
 
 <p>As you can see on the videos, the moving creatures obtained with gradient descent and curriculum do not necessarily display robustness to our obstacles. (some by luck already have some level of robustness ). This motivates our choice to go further and add obstacles in the training process.</p>
 
