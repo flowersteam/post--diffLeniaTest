@@ -153,7 +153,8 @@
 
 <p>Cellular automata are, in their classic form, a grid of "cells" which sequentially update their state based on the states of their neighbours. The dynamic of the CA is thus entirely defined by the initialization (initial state of the cells in the grid) and the update rule (how a cell updates based on its neighbours). But predicting their long term behavior is a difficult challenge even for simple ones  due to their chaotic dynamics. </p>
 
-<p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous states. To be more precise, Lenia is a class of cellular automata in which each choice of parameters and functions will be a Cellular automata.  For example, the Game of Life can be seen as a particular choice of those parameters and functions.   Having these update rules parametrized allows  the search for interesting update rules. </p>
+<p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous states. To be more precise, Lenia is a class of cellular automata in which each choice of parameters and functions will be a Cellular automata.  For example, the Game of Life can be seen as a particular choice of those parameters and functions.   Having these update rules parametrized allows  the search for interesting update rules which lead to the emergence of interesting patterns, including moving ones.</p>
+
 <p>A wide variety of complex patterns has been found in Lenia, using hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. However, as <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite> studies focused on exploration of the morphology space and as moving creatures are hard to find, these studies didn't find much of moving creatures. The work from <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> focused a lot on spatially localized patterns and especially moving ones.</p>
 
 
@@ -195,11 +196,11 @@
 
 <p> However, all of the previous methods use only random mutations and manual tuning to find these patterns, which can be computationally heavy especially to find very specific functionalities or in high dimensional parameter space. This motivates our choice to take advantage of the differentiability of some parameters of Lenia to find, in a more efficient and systematic way, similar types of behaviors .</p>
 <p> </p>
-<p>As said before, using other creatures as environment is a fuzzy delimitation leading to non intuitive separation between agent and environment (what belongs to each). We therefore handcraft the environment and clearly separate it from the creatures by putting it in a different channel.</p>
 
 
 
-<p>In this section, we first explain in more detail the model in Lenia, then we show how we defined the environment in this system, and finally  we present how we made the Lenia model more differentiable. </p>
+
+<p>In this section, we first explain in more detail the model in Lenia and  present how we made the Lenia model more differentiable. </p>
 
 
 
@@ -292,19 +293,35 @@ Update step  of channel 1 in the Lenia System <br>
 
 
 
-<p>In Lenia, the system is composed of several communicating grids which we call channels. In each of these grid, every cell&#x2F;pixel c can take any value between 0 and 1. Cells at 0  in every channel are considered dead while others are alive. An initial pattern \( A^0\) is needed in order to begin a rollout. Each cell senses its neighbourhood in every channel  through kernels which are filters of different shapes and sizes. Every kernel sense a particular channel. This kernels are also associated with  a grow function which will convert this sensing into an update ( whether positive or negative or neutral) and a target channel in which this update will be added.In our experiments, we used the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we only used 1 channel in which an agent can emerge  and another one for the obstacles. We don't want the obstacle channel to be perturbed and so no update is directed toward the obstacle channel. </p>
+<p>In the second version of Lenia <dt-cite key="chan2020lenia"></dt-cite>, the system is composed of several communicating grids which we call channels. In each of these grid, every cell&#x2F;pixel c can take any value between 0 and 1. Cells at 0  are considered dead while others are alive. We can see channels as a type of cell. Each type of cell has its own physic : it has its own way to interact with other cells of its type and also its own way to interact with cells of other types.</p>
+
+<p>Each cell senses its neighbourhood in some other channels (its neighbourhood in its channel, with cell of the same type but also in other channels with other type of cells)  through kernels which are filters of different shapes and sizes. Every kernel senses a particular channel. These kernels are also associated with  a growth function which will convert this sensing into an update ( whether positive or negative growth or neutral) and a target channel in which this update will be added. The couple (kernel,growth function) has therefore a channel to sense c0, and a channel in which they update c1. A couple (kernel,growth function) characterize a rule on how a type of cell c1 reacts to its neighbourhood of cells of type c0. Note that c0 and c1 could be the same, which correspond to interaction of cells of the same type. And we can have several rules characterizing the interaction between c0 and c1. In our experiments, we used the multi channel, multi kernel version of Lenia <dt-cite key="chan2020lenia"></dt-cite> but for simplicity we only used 1 channel in which an agent can emerge  and another one for the obstacles. We don't want the obstacle channel to be perturbed and so no update is directed toward the obstacle channel. </p>
 
 <p>A lenia step in our case is thus decomposed as such: for every cell c  in the grid, we look at it's neighbourhood in all channels. We then multiply those neighbourhoods with the kernels filters \((K)_k\) associated with each channel, some kernels sense the neighbourhood in the obstacle channel while others in the learnable channel. (this multiplication on every neighbourhood is convolution). Then, for every kernel, we obtain a scalar which is then passed to the growth function \(G_k\) associated with the kernel. The scalars obtained  after the growth functions are all summed (with a weight) to get the growth at cell c in the learnable  channel. We finally add the total growth to the learnablechannel  and clip the value between 0 and 1.</p>
-<p>The parameters of the update rule are thus those controlling the kernel shape (R,r,rk,w,b), those controlling the growth function (m,s,h) and a time controlling parameter (T). (R and T in our experiment are chosen randomly and fixed while all the other parameters will be optimized)</p>
+
+<p>An initial pattern \( A^0\) is needed in order to begin a rollout. Then, For every Lenia step, to update a channel c1, we look at every ( kernel, growth function) that has its growth function applied in the channel c1. (which means they are kernels associated with the development of the channel c1, or to use again the analogy with cells, how the type of cell c1 reacts to the disposition at time t). For every pixel c in the grid, we look at it's neighbourhood in the channels perceived by the kernels selected. ( those channels are the type of cells which interact with the type of cell c1 ) We then multiply those neighbourhoods by the kernels filter \(K_k\)associated with each channel to sense it. Then for every kernel, we obtain a scalar which is then passed to the growth function \(G_k\) associated with the kernel. The scalars obtained  after the growth functions are all summed (with a weight) to get the growth at pixel c in the channel c1. We finally add the total growth to the channel c1  and clip the value between 0 and 1.</p>
+
+
+
+
+
+<p>We are thus able to define the physics of the cells, how they interact with each other( with the ones of the same type or with other types of cells), By changing the kernels shape, changing how its neighbourhood is perceived, as well as the growth function, changing the reaction to this perception. </p>
+
+
+
 
 
 
 <h3 id='differentiable-lenia'>Differentiable Lenia</h3>
-<p>Now that the  environment is defined, we want to learn both the initialization and the CA rules of the creature leading to interesting behaviors. All parameters of the CA rule are optimized, as well as the initialization which is a square of fixed size.( each pixel will have its value optimized)</p>
 
-<p>To learn these parameters we chose to use gradient descent method. Thus we tried to make Lenia as Differentiable friendly as possible. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(x-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
+<p>We aim to optimize the CA rule and the initialization such that it leads to the emergence of agents in the channels.</p>
+
+<p>To learn these parameters we chose to use gradient descent method. However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters.Thus we tried to make Lenia as Differentiable friendly as possible. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(x-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
 <img src="freeK.png" alt="schemeK" class='l-body'>
 <p>We did this shift because in the vanilla version of Lenia, the shape of the kernel was only given by a vector b of arbitrary size (but often max size 4). The number of bumps was given by the number of coefficients in b&gt;0. However, the fact that the number of bumps depends on the number of coefficient &gt; 0 prevents proper differentiation. (if a coefficient is at 0 then it won't change with gradient descent as it doesn't play a role, and if a coefficient is &gt;0 a gradient step can put it &lt;0 which will make a strong unexpected change). We could have left the number of bumps to an arbitrary value like 3, and only optimizing the height such that they stay &gt;0 but this would have been a strong limitation on the shape. The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
+
+<p>The parameters of the update rule are thus those controlling the kernel shape (R,r,rk,w,b), those controlling the growth function (m,s,h) and a time controlling parameter (T). (R and T in our experiment are chosen randomly and fixed while all the other parameters will be optimized)</p>
+
 <p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations and each iteration has it's result clipped between 0 and 1. We should thus limit ourselves to a few iterations when training.</p>
 <p>Now that our system is defined and differentiable, we need a loss that would result in moving and robust creatures.</p>
 <h2 id='how-to-discover-moving-creatures-in-lenia-'>How to discover moving creatures in Lenia ?</h2>
@@ -326,6 +343,7 @@ Update step  of channel 1 in the Lenia System <br>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
 
 <p>The effectiveness of curriculum with complex tasks has already been shown in <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1901-01753"></dt-cite> where they made an agent design increasingly complex tasks trying to make it both not too hard and not too easy for another learning agent. And in complex self organizing systems in <dt-cite key="variengien2021selforganized"></dt-cite> where they needed to first make it learn easy computation in order to stabilize it.</p>
+
 <p>However, knowing how far  and in which direction the target should be pushed can be a hard problem. In fact, some location can lead to hard optimization landscape with a danger to get stuck while some other locations by luck  can make the optimization easy. And these spots would change for every random initialization.  This motivates the need for a stochastic exploration of the target position.    </p>
 
 <p>One modular way we introduced it was using IMGEP <dt-cite key="Forestier2017IntrinsicallyMG"></dt-cite> which has already been used as an explorative tool in Lenia to explore the morphological space <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>.</p>
@@ -364,12 +382,41 @@ IMGEP Step <br>
 </code>
 </pre>
 </div>
+<p>IMGEP also allows us to use the information we get when a step "fails", meaning that it does not attain the target position that well. (because it might still make a small improvement or it went in a completely different area which we might want to explore). The fact, that we don't alway select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" trying a bit differently which may help to avoid being stuck.</p>
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
+<p>The method proposed above gives us  rules( the physics) and an initialization that lead to the emergence of a moving creature. The rules and initialization are different every time we run the method as the initialization of the method is random. This results in different creatures emerging with every new rule.  Some creatures are long term stable while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for  longer, the creature can have unpredictable behaviors. Moreover the rules are not trained on a diversity of situation and therefore the shape might not be a strong attractor.</p>
+<div class="row l-page side">
+    <div class="column">
+      <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
+                    <source src="noObstacle1.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
+                    <source src="move6.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
+
+
 <div class='l-screen-inset'>
-<video autoplay="" loop="" muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
-              <source src="vidMovingTraining1.mp4" type="video/mp4">
+<video autoplay="" muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
+              <source src="moveTraining.mp4" type="video/mp4">
             </video>
 </div>
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+IMGEP Steps <br>
+ <span style="font-size: 14px;color:#A0A0A0;">Left is the random Initialization, and then each video from left to right are successive IMGEP step and 
+Final video is best </span>
+ </p><br>
+<video autoplay="" muted="" class="videoShow demoObstacle" style="display:block" id="resultMoving1">
+              <source src="moveTrainingInner.mp4" type="video/mp4">
+            </video>
+</div>
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+InnerOptimization <br>
+ <span style="font-size: 14px;color:#A0A0A0;"> First IMGEP step with training , gradient descent step (1,20,60,70,80,90,100,110,120) </span>
+ </p><br>
 
 
 
@@ -381,8 +428,12 @@ IMGEP Step <br>
 
 <h3 id='-modeling-agentenvironment-interactions-in-lenia-the-example-of-obstacles-'> Modeling agent-environment interactions in Lenia, the example of obstacles. </h3>
 
-<p> In this work we'll focus on obstacles in the environment as navigating between obstacles requires sensorimotor capabilities.</p>
+<p>Using other creatures as environment is a fuzzy delimitation leading to non intuitive separation between agent and environment (what belongs to each). We therefore handcraft the environment and clearly separate it from the creatures by putting it in a different channel.</p>
 
+<p>We can handcraft and fix some rules of the environment in order to properly define some of the physics of our system. This way, some part of the system are fixed corresponding to rules&#x2F;physics we want to have while other stay free so that we can find ones leading to interesting behavior, like emergence of agency. </p>
+
+
+<p> In this work we'll focus on obstacles in the environment as navigating between obstacles requires sensorimotor capabilities </p>
 <p>To implement obstacles in Lenia we added a separate obstacle channel with a kernel from this channel to the creature channel. This kernel has a huge negative growth where there are obstacles and no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels where there are obstacles. This is similar to <dt-cite key="PhysRevE.101.012407"></dt-cite> where they put an antibiotic zone as an obstacle where the bacteria can't live. The creature can only sense the obstacles through the changes&#x2F;deformations it implies on the creature. In fact, the only kernel that goes from the obstacle channel to the creature is the fixed kernel that we impose. And as this kernel is localized, the creature has to "touch" the obstacle to sense it. To be precise the creature can only sense an obstacle    because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it).</p>
 <div class="row l-page side">
     <div class="column">
@@ -399,8 +450,9 @@ IMGEP Step <br>
 
 
 <p>In this study, the creature can't have any impact on the environmental elements in another channel. This differs from other studies such as <dt-cite key="PMID:24494612"></dt-cite> in the game of life where the creature also perturbs its environment.</p>
+<p>In this study, we want the obstacle channel to stay still. To do so, there is no rule that goes toward the obstacle channel, this way the obstacle channel is never updated.</p>
 
-<p>Now that we've defined the environment and its physics, we'll test how the creature found by an expert with seemingly self-maintenance will react to this environment.</p>
+<p>Now that we've defined some rules in the environmentthe environment and its physics, we'll test how the creature found with seemingly self-maintenance will react to this environment.</p>
 <div class="row l-page side">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -413,6 +465,9 @@ IMGEP Step <br>
                   </video>
     </div>
   </div>
+
+<p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown below. The multi-channel creature(bottom left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
+<p>The creatures found by hand are not that robust to this environment physics. This motivated our search for methods which, given this environmental physics  in the CA paradigm, are able to learn the parameters leading to the emergence of "agency" and "sensorimotor capabilities", with better robustness and resilience to this environment.</p>
 <div class="row l-page side">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -421,12 +476,12 @@ IMGEP Step <br>
     </div>
     <div class="column">
       <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
-                    <source src="multiK4.mp4" type="video/mp4">
+                    <source src="move6Wall.mp4" type="video/mp4">
                   </video>
     </div>
   </div>
-<p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown below. The multi-channel creature(bottom left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
-<p>The creatures found by hand are not that robust to this environment physics. This motivated our search for methods which, given this environmental physics  in the CA paradigm, are able to learn the parameters leading to the emergence of "agency" and "sensorimotor capabilities", with better robustness and resilience to this environment.</p>
+
+<p>As you can see on the videos, the moving creatures obtained with gradient descent and curriculum do not necessarily display robustness to our obstacles. (some by luck already have some level of robustness ). This motivates our choice to go further and add obstacles in the training process.</p>
 
 <h3 id='method'>Method</h3>
 <img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
@@ -439,7 +494,7 @@ IMGEP Step <br>
       Right:  Blue disks are the obstacles, red the target shape and green the creature at last timestep before optimisation .
      </p>
 
-<p>Now that we have an algorithm that is capable of learning moving creatures in Lenia. The next step is to find a way to learn a creature that would resist and avoid  various obstacles in its environment<strong> </strong>. In this section, we try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creatures. So we learn a single global rule for multiple functions contrary to <dt-cite key="horibe2021regenerating"></dt-cite> which separates regenerating and building into two different CA.</p>
+<p>Now that we have an algorithm that is capable of learning moving creatures in Lenia. The next step is to find a way to learn the rules leading to the emergence of a creature that would resist and avoid  various obstacles in its environment<strong> </strong>. In this section, we try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creatures. So we learn a single global rule for multiple functions contrary to <dt-cite key="horibe2021regenerating"></dt-cite> which separates regenerating and building into two different CA.</p>
 <p>What we want to obtain is a creature that is able to sense and be robust to different obstacles. To do so, we train the creatures using the method from previous section but adding randomly generated obstacles. This way our gradient descent  is<strong> stochastic gradient descent with the stochasticity coming from the sampling of the obstacles</strong>. The learning process will thus encounter a lot of different configurations and may find general behavior. We do not take into account the sampled target goal when putting obstacles which may lead to impossible target goals but this happens only to very few optimization steps overall which may have negligible impact on the optimization.  In practice, we only put obstacles in half the lattice grid. This way, there is half of the grid free from obstacles where we first learn a creature that is able to move without any perturbation as in previous section and then <strong>as we push the target further and further the creature starts to encounter obstacles</strong>. And the deeper the target position is, the more it encounters obstacles and so the more robust it should be. In fact at the beginning the creature is just a little perturbed by one obstacle and the target circle will optimize the creature to get past the obstacle and recover. (scheme) Then if you want the creature to go further it will have to encounter more obstacles and still be able to resist the second one even if the first one perturbed it. So the curriculum is made by going further and further because the further you go the more you will have to resist obstacles. See appendix for more details on the obstacles.</p>
 <p>In the IMGEP, to take into account the fact that the position attained depends on the obstacle configuration, the reached goal is an average of the position attained on different configurations of obstacles.</p>
 <div clas=l-body>
@@ -629,7 +684,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <h1>Appendix</h1>
 <span id="appendix"><span>
 <h2 id='overcoming-bad-initialization-problem'>Overcoming "bad initialization" problem</h2>
-<img src="dependencies.svg" alt="schemeLearn" width="100%" class="l-body" >
+<img src="dependencies.svg" alt="schemeLearn" width="100%" >
 <p  style="font-size: 13px;color:#A0A0A0;">
  The arrows show the dependencies between the creatures, the back of the arrow is the creature which initializes the optimization and the head of the arrow is the creature obtained after optimization. The arrows are only to show how much initialization and first optimisation steps mattter but dependencies is not used.
 </p>
@@ -640,11 +695,11 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h2 id='still-failure-cases'>Still failure cases</h2>
 <p>Even with the initialization selection and small mutations, sometimes the algorithm doesn't seem able to learn to go past obstacles and we can't reach goal position beyond a certain limit near the beginning of obstacles.</p>
-<video id="robust" width="100%" controls="" autoplay loop muted="" class="videoShow l-middle side">
+<video id="robust" width="100%" controls="" autoplay loop muted="" class="videoShow">
               <source src="unstable.mp4" type="video/mp4">
             </video>
 
-<video id="robust" width="100%" controls="" autoplay loop muted="" class="videoShow l-middle side">
+<video id="robust" width="100%" controls="" autoplay loop muted="" class="videoShow">
               <source src="strange210.mp4" type="video/mp4">
             </video>
 
