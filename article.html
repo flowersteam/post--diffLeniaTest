@@ -383,7 +383,7 @@ IMGEP Step <br>
 <p>IMGEP also allows us to use the information we get when a step "fails", meaning that it does not attain the target position that well. (because it might still make a small improvement or it went in a completely different area which we might want to explore). The fact, that we don't alway select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" trying a bit differently which may help to avoid being stuck.</p>
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
 <p>The method proposed above gives us  rules( the physics) and an initialization that lead to the emergence of a moving creature. The rules and initialization are different every time we run the method as the initialization of the method is random. This results in different creatures emerging with every new rule.  Some creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for  longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified in loss.</p>
-<div class="row l-body">
+<div class="row l-screen-inset">
     <div class="column">
       <video id="robust" width="95%" controls autoplay loop muted="" class="videoShow">
                     <source src="move1.mp4" type="video/mp4">
@@ -397,6 +397,11 @@ IMGEP Step <br>
 <div class="column">
       <video id="robust" width="95%" controls  autoplay loop muted="" class="videoShow">
                     <source src="move7.mp4" type="video/mp4">
+                  </video>
+    </div>
+<div class="column">
+      <video id="robust" width="95%" controls  autoplay loop muted="" class="videoShow">
+                    <source src="move9.mp4" type="video/mp4">
                   </video>
     </div>
 <div class="column">
@@ -420,12 +425,12 @@ Creatures obtained <br>
 <div class=' l-screen-inset'>
 <div class='row'>
  <div class="column">
-      <video id="robust" width="95%" autoplay controls loop muted="" class="videoShow">
+      <video id="robust" width="95%" autoplay controls  muted="" class="videoShow">
                     <source src="moveTraining.mp4" type="video/mp4">
                   </video>
     </div>
     <div class="column">
-      <video id="robust" width="95%" controls  autoplay loop muted="" class="videoShow">
+      <video id="robust" width="95%" controls  autoplay muted="" class="videoShow">
                     <source src="move7training.mp4" type="video/mp4">
                   </video>
 </div>
@@ -440,12 +445,12 @@ Final video is best across all IMGEP </span>
 <div class='l-screen-inset'>
 <div class='row'>
  <div class="column">
-      <video id="robust" width="95%" autoplay controls loop muted="" class="videoShow">
+      <video id="robust" width="95%" autoplay controls  muted="" class="videoShow">
                     <source src="moveTrainingInner.mp4" type="video/mp4">
                   </video>
     </div>
     <div class="column">
-      <video id="robust" width="95%" controls  autoplay loop muted="" class="videoShow">
+      <video id="robust" width="95%" controls  autoplay  muted="" class="videoShow">
                     <source src="move7trainingInner.mp4" type="video/mp4">
                   </video>
 </div>
@@ -510,6 +515,18 @@ InnerOptimization <br>
     <div class="column">
       <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
                     <source src="move6Wall.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
+<div class="row l-page side">
+    <div class="column">
+      <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
+                    <source src="move9wall.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="95%"  autoplay loop muted="" class="videoShow">
+                    <source src="move9dot.mp4" type="video/mp4">
                   </video>
     </div>
   </div>
