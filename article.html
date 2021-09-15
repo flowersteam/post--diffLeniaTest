@@ -354,15 +354,16 @@ IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
  </p><br>
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at the last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we randomly sample position in the grid biasing the sampling toward one edge of the grid.(while still taking care that the goals are not too far from attained positions). We use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by initializing the parameters by the one that achieved the closest goal.</p>
+<p>\(\mathcal{H} &#x3D; ((p_i,rg_i)_{i&#x3D;1,..s}) \)</p>
 <p>The overall method can be summarized as such:</p>
 <div class=l-body>
 <pre>
 <code  style="line-height:0.4">
-    <p>Initialize randomly the history with random parameters saving (parameters, outcomes/goals attained)   \( \mathcal{H} = ((p_i,rg_i)_{i=1,..s})    \)</p>
+    <p>Initialize randomly the history with random parameters saving (parameters, outcomes/reached goals)   \(\mathcal{H} = ((p_i,rg_i)_{i=1,..s}) \)</p>
     <p>loop (number of Imgep step) </p>
     <div style="margin:25px">
-    <p >   sample target position/goal(not too far from attained positions)</p>
-    <p >   Select, from the history (parameters,outcomes/goals attained), the parameters that achieved the closest position/goal </p>
+    <p >   sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
+    <p >   Select, from the history , the parameters that achieved the closest position/goal </p>
     <p > initialize  the system with those parameters p  </p>
     <p>   loop (number of optimisation steps)</p>
     <div style="margin:25px">
@@ -371,14 +372,14 @@ IMGEP Step <br>
   </div>
     <p>   See what is the position(ie goal) achieved </p>
 <p> if the creature died or exploded, don't save</p>
-<p> else add to the history the parameters resulting from optimization and the outcome/goal reached   \( \mathcal{H} =\mathcal{H} U (p,rg )        \) </p>
+<p> else add to the history the parameters resulting from optimization and the outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p,rg )\) </p>
   </div>
 </code>
 </pre>
 </div>
 <p>Other advantages of IMGEP is that we also use the information we get when a step "fails", meaning that it does not attain the target position that well. (because it might still make a small improvement or it might go in a completely different area which we might want to explore). The fact that we don't alway select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" which may help to avoid being stuck.</p>
 
-<p> IMGEP also allows modularity. In this work we only have a simple goal space, encoding  the rollout as the position of the center of mass at last timestep but further studies could add to that goal space extra objective like size or number of obstacles. We could even  take inspiration from <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>  and add some extra dimension for a morphological encoding of the creature.</p>
+<p> IMGEP also allows modularity. In this work we only have a simple goal space, encoding  the rollout as the position of the center of mass at the last timestep but further studies could add to that goal space extra objective like size or number of obstacles. We could even  take inspiration from <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>  and add some extra dimension for a morphological encoding of the creature.</p>
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
 <div class="row l-screen-inset">
    
