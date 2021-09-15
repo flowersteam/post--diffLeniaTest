@@ -490,7 +490,11 @@ InnerOptimization <br>
                   </video>
     </div>
   </div>
-<p>In this study, we want the obstacle channel to stay still. To do so, there is no rule that goes toward the obstacle channel, this way the obstacle channel is never updated. The final system is thus summed up in &lt;a href&#x3D;&quot;#differentiable-lenia&quot;&gt;figure system&lt;&#x2F;a&gt;  with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
+
+<p>
+In this study, we want the obstacle channel to stay still. To do so, there is no rule that goes toward the obstacle channel,
+ this way the obstacle channel is never updated. The final system is thus summed up in <a href="#differentiable-lenia">figure system</a> 
+ with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
 
 <p>Now that we've defined some rules in the environment, we'll test how the moving creatures found with seemingly self-maintenance will react to this environment.</p>
 <div class="row l-page side">
@@ -575,14 +579,15 @@ InnerOptimization <br>
    <p>       add reached goal to the mean </p>
 </div>
 <p> if the creature died or exploded during one of the tests, don't save </p>
-<p> else add to the history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean <span> outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p,rg )\) </p>
+<p> else add to the history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean </span> outcome/goal
+ reached   \(\mathcal{H} =\mathcal{H} \cup (p,rg )\) </p>
    </div>
  </code>
  </pre>
  </div>
 
 
-
+<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the initialization. Some initialization make the optimization easy while other easily get stuck. More info on how we solve this in the overcoming "bad initialization" section of the appendix.</p>
 <h2 id='results'>Results</h2>
 
 <p>In this section, we test the creature to explore its sensorimotor capabilities and robustness. We also test the creatures obtained in situations that it has not encountered during training. To better display the versatility of some of the creatures obtained, we keep the same creature for all the demo below except stated otherwise.</p>
