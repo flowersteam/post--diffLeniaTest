@@ -335,7 +335,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>However simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1. Moreover,if the target is far, as it needs several steps to go to the target and the system is complex&#x2F;chaotic, the optimization landscape will be very hard . The solution we propose to go further than this is curriculum learning using the fact that we can optimize toward a near target shape.</p>
 
-<div class="l-middle-outset">
+<div class="l-body">
   <img id="schemeCuri" src="curriculum.svg" alt="CurriculumScheme" width="100%" >
  </div>
 
