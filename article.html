@@ -354,12 +354,12 @@ IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
  </p><br>
 <p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at the last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we randomly sample position in the grid biasing the sampling toward one edge of the grid.(while still taking care that the goals are not too far from attained positions). We use MSE error between the last state and our target shape centered at the target goal to try to achieve this goal. The way we reuse knowledge acquired is by initializing the parameters by the one that achieved the closest goal.</p>
-<p>\(\mathcal{H} &#x3D; ((p_i,rg_i)_{i&#x3D;1,..s}) \)</p>
+
 <p>The overall method can be summarized as such:</p>
 <div class=l-body>
 <pre>
 <code  style="line-height:0.4">
-    <p>Initialize randomly the history with random parameters saving (parameters, outcomes/reached goals)   \(\mathcal{H} = ((p_i,rg_i)_{i=1,..s}) \)</p>
+    <p>Initialize randomly the history with random parameters saving (parameters, outcomes/reached goals)   \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
     <p>loop (number of Imgep step) </p>
     <div style="margin:25px">
     <p >   sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
@@ -370,7 +370,9 @@ IMGEP Step <br>
     <p>       Run lenia </p>
     <p>       Gradient descent toward the disk at target position to optimize the parameters</p>
   </div>
-    <p>   See what is the position(ie goal) achieved </p>
+<br>
+<br>
+    <p> Run lenia one more time to see what is the position(ie goal) achieved </p>
 <p> if the creature died or exploded, don't save</p>
 <p> else add to the history the parameters resulting from optimization and the outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p,rg )\) </p>
   </div>
@@ -551,19 +553,29 @@ InnerOptimization <br>
 <div clas=l-body>
  <pre>
  <code  style="line-height:0.4">
-     <p>Initialize randomly the history (sampling random parameters)</p>
+      <p>Initialize randomly the history with random parameters saving (parameters, outcomes/reached goals)   \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
      <p>loop (number of Imgep step) </p>
      <div style="margin:25px">
-     <p >   sample target position/goal (not too far from attained positions)</p>
-     <p >   Select the policy that achieved the closest position/goal</p>
+     <p >   sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
+    <p >   Select, from the history , the parameters that achieved the closest position/goal </p>
+    <p > initialize  the system with those parameters p  </p>
      <p>   loop (number of optimisation steps)</p>
      <div style="margin:25px">
      <p style="color:rgba(255,0,0,0.5)">       Sample random obstacles  </p>
      <p>       Run lenia </p>
      <p>       Gradient descent toward the disk at target position</p>
    </div>
-     <p>   See what is the position(ie goal) achieved <span style="color:rgba(255,0,0,0.5)"> (mean over several random obstacles runs) <span></p>
-<p> (if the creature died or exploded, don't save) </p>
+<br>
+<p>   See what is  the <span style="color:rgba(255,0,0,0.5)"> mean <span> position(ie goal) achieved 
+<span style="color:rgba(255,0,0,0.5)"> over several random obstacles runs <span></p>
+<p> loop (number of random run)</p>
+<div style="margin:25px">
+<p style="color:rgba(255,0,0,0.5)">       Sample random obstacles  </p>
+     <p>       Run lenia </p>
+   <p>       add reached goal to the mean </p>
+</div>
+<p> if the creature died or exploded during one of the tests, don't save </p>
+<p> else add to the history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean <span> outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p,rg )\) </p>
    </div>
  </code>
  </pre>
