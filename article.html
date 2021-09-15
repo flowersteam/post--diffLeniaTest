@@ -306,9 +306,8 @@ Update step  of channel 1 in the Lenia System <br>
 
 <h3 id='differentiable-lenia'>Differentiable Lenia</h3>
 
-<p>Now that the system is defined, we aim to find  the CA rules and  initialization such that it leads to the emergence of agents in the channels.</p>
 
-<p>To learn these parameters we chose to use gradient descent method. However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(x-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
+<p>To learn the parameters of the rules we chose to use gradient descent method. However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(x-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
 <img src="freeK.png" alt="schemeK" class='l-body'>
 <p>The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
 
@@ -327,9 +326,10 @@ Update step  of channel 1 in the Lenia System <br>
 
 
 <p>We start by randomly initializing the parameters and initialization until we get a localized pattern, meaning it doesn't spread to the whole grid and doesn't die (we can do it easily by initializing the weights of the growth with small values, leading to very slow&#x2F;small changes).This obtained pattern will  most of the time stay at the same position. What we want is to change the parameters and initialization such that this pattern ends further in the grid, meaning that it survived and stayed localized but moved to a different location in a few timesteps. Because our system is differentiable, we're able to backpropagate through the timesteps by "unfolding" the roll-out. We therefore need a loss applied on the roll-out which will encourage movement to a new position. </p>
-<p>Target image with MSE error applied at the last timestep of a rollout seems effective to learn CA rule leading to a certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem, made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass. We apply the MSE loss between  the pattern at the last timestep of the roll out  and a target shape.</p>
+<p>Target image with MSE error applied at the last timestep of a rollout seems effective to learn CA rule leading to a certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem, made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass. We apply the MSE loss between  the pattern at the last timestep of the roll out  and a target shape put at a target location further in the grid.</p>
+
 <p> The first target shape we tried was a single disk in order to get a spatially localized agent. However, after seeing that the robust creature obtained seemed to have a "core" and a shallow envelope, we informally chose to move to two superposed discs, a large shallow one with a thick smaller one on top. The target shape has the formula:\(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 because as we clip the pixels to 1 after each update it&#39;s better to have pixels below 1 than pixel saturated if you want to have gradients.</p>
-<p>However simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1. (Moreover even without that, as we apply a lot of steps, vanishing gradient problems can easily arise.) The solution we propose to go further than this is curriculum learning.</p>
+<p>However simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1. (Moreover even without that, as we apply a lot of steps, vanishing gradient problems can easily arise.) The solution we propose to go further than this is curriculum learning using the fact that we can optimize toward a near target shape.</p>
 
 <h3 id='imgep-and-utility-of-curriculum'><i>IMGEP and Utility of curriculum</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
@@ -358,25 +358,27 @@ IMGEP Step <br>
 <div class=l-body>
 <pre>
 <code  style="line-height:0.4">
-    <p>Initialize randomly the history (sampling random parameters)</p>
+    <p>Initialize randomly the history with random parameters saving (parameters, outcomes/goals attained)   \( \mathcal{H} = ((p_i,rg_i)_{i=1,..s})    \)</p>
     <p>loop (number of Imgep step) </p>
     <div style="margin:25px">
     <p >   sample target position/goal(not too far from attained positions)</p>
-    <p >   Select the policy that achieved the closest position/goal</p>
+    <p >   Select, from the history (parameters,outcomes/goals attained), the parameters that achieved the closest position/goal </p>
+    <p > initialize  the system with those parameters p  </p>
     <p>   loop (number of optimisation steps)</p>
     <div style="margin:25px">
     <p>       Run lenia </p>
-    <p>       Gradient descent toward the disk at target position</p>
+    <p>       Gradient descent toward the disk at target position to optimize the parameters</p>
   </div>
     <p>   See what is the position(ie goal) achieved </p>
-<p> (if the creature died or exploded, don't save) </p>
+<p> if the creature died or exploded, don't save</p>
+<p> else add to the history the parameters resulting from optimization and the outcome/goal reached   \( \mathcal{H} =\mathcal{H} U (p,rg )        \) </p>
   </div>
 </code>
 </pre>
 </div>
-<p>IMGEP also allows us to use the information we get when a step "fails", meaning that it does not attain the target position that well. (because it might still make a small improvement or it went in a completely different area which we might want to explore). The fact, that we don't alway select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" trying a bit differently which may help to avoid being stuck.</p>
+<p>Other advantages of IMGEP is that we also use the information we get when a step "fails", meaning that it does not attain the target position that well. (because it might still make a small improvement or it might go in a completely different area which we might want to explore). The fact that we don't alway select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" which may help to avoid being stuck.</p>
 
-<p> IMGEP also allows modularity, here we only have a simple goal space, encoding  the rollout as the position of the center of mass at last timestep but further studies could add to that goal space</p>
+<p> IMGEP also allows modularity. In this work we only have a simple goal space, encoding  the rollout as the position of the center of mass at last timestep but further studies could add to that goal space extra objective like size or number of obstacles. We could even  take inspiration from <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>  and add some extra dimension for a morphological encoding of the creature.</p>
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
 <div class="row l-screen-inset">
    
@@ -485,7 +487,7 @@ InnerOptimization <br>
                   </video>
     </div>
   </div>
-<p>In this study, we want the obstacle channel to stay still. To do so, there is no rule that goes toward the obstacle channel, this way the obstacle channel is never updated. The final system is thus summed up in &lt;a href&#x3D;&quot;#differentiable-lenia&quot;&gt;figure&lt;&#x2F;a&gt;  with the channel 1 being the learnable channel while the channel 2 is the obstacle channel</p>
+<p>In this study, we want the obstacle channel to stay still. To do so, there is no rule that goes toward the obstacle channel, this way the obstacle channel is never updated. The final system is thus summed up in &lt;a href&#x3D;&quot;#differentiable-lenia&quot;&gt;figure system&lt;&#x2F;a&gt;  with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
 
 <p>Now that we've defined some rules in the environment, we'll test how the moving creatures found with seemingly self-maintenance will react to this environment.</p>
 <div class="row l-page side">
