@@ -129,7 +129,7 @@
 
 <def>
 <p> <b>Agent </b> a macro unity we could separate from the rest which regulates/self-maintains </p>
-</def>
+</def><br>
 <def>
 <p> <b>Sensori-motor capabilities </b> being able to react to perturbation from the environment </p>
 </def>
@@ -332,7 +332,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 
 <p>We start by randomly initializing the parameters and initialization until we get a localized pattern, meaning it doesn't spread to the whole grid and doesn't die (we can do it easily by initializing the weights of the growth with small values, leading to very slow&#x2F;small changes).This obtained pattern will  most of the time stay at the same position. What we want is to change the parameters and initialization such that this pattern ends further in the grid, meaning that it survived and stayed localized but moved to a different location in a few timesteps. Because our system is differentiable, we're able to backpropagate through the timesteps by "unfolding" the roll-out. We therefore need a loss applied on the roll-out which will encourage movement to a new position.</p>
-<p>&lt;img src&#x3D;&quot;OptimStep.svg&quot; alt&#x3D;&quot;optimScheme&quot; class&#x3D;&#39;l-middle-outset&#39; &gt; </p>
+<img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
 <p>Target image with MSE error applied at the last timestep of a rollout seems effective to learn CA rule leading to a certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem, made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass. We apply the MSE loss between  the pattern at the last timestep of the roll out  and a target shape put at a target location further in the grid.</p>
 
 
