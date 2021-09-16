@@ -347,22 +347,6 @@ Left to right is one optimization step. <br>
  (most of the time for the first optimization steps agent at last time step will be at initialization 
 location but to make it clearer we separated both). . </span>
  </p><br>
-<div class='l-screen-inset'>
-
-      <video id="robust" width="95%" autoplay controls  muted="" class="videoShow">
-                    <source src="moveTrainingInner.mp4" type="video/mp4">
-                  </video>
-
-      <video id="robust" width="95%" controls  autoplay  muted="" class="videoShow">
-                    <source src="move7trainingInner.mp4" type="video/mp4">
-                  </video>
-
-</div>
-<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-Inner Optimization <br>
- <span style="font-size: 14px;color:#A0A0A0;"> gradient descent step (1,20,60,70,80,90,100,110,120), left video is similar to initialization </span>
- </p><br>
-</div>
 <h3 id='imgep-and-utility-of-curriculum'><i>IMGEP and Utility of curriculum</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
 
@@ -455,16 +439,17 @@ Creatures obtained <br>
  </p><br>
 <p>The method proposed above gives us  rules( the physics) and an initialization that lead to the emergence of a moving creature. The rules and initialization are different every time we run the method as the initialization of the method is random. This results in different creatures emerging with every new rule.  Some creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for  longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified in loss.</p>
 <div class=' l-screen-inset'>
-
+<div class='row'>
+ <div class="column">
       <video id="robust" width="95%" autoplay controls  muted="" class="videoShow">
                     <source src="moveTraining.mp4" type="video/mp4">
                   </video>
-
-
+    </div>
+    <div class="column">
       <video id="robust" width="95%" controls  autoplay muted="" class="videoShow">
                     <source src="move7training.mp4" type="video/mp4">
                   </video>
-
+</div>
 </div>
 
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
@@ -473,7 +458,24 @@ IMGEP Steps <br>
 Final video is best across all IMGEP </span>
  </p><br>
 </div>
-
+<div class='l-screen-inset'>
+<div class='row'>
+ <div class="column">
+      <video id="robust" width="95%" autoplay controls  muted="" class="videoShow">
+                    <source src="moveTrainingInner.mp4" type="video/mp4">
+                  </video>
+    </div>
+    <div class="column">
+      <video id="robust" width="95%" controls  autoplay  muted="" class="videoShow">
+                    <source src="move7trainingInner.mp4" type="video/mp4">
+                  </video>
+</div>
+</div>
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+InnerOptimization <br>
+ <span style="font-size: 14px;color:#A0A0A0;"> First IMGEP step with training  corresponding to the transition between the two first case of above videos, gradient descent step (1,20,60,70,80,90,100,110,120) </span>
+ </p><br>
+</div>
 
 
 
