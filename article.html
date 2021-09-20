@@ -328,7 +328,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like glider in the game of life. Note that moving creatures in cellular automaton differ from other types of movement like motors, muscle contraction or soft robot <dt-cite key="Trivedi2008SoftRB"></dt-cite> by the fact that moving is growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this paper, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
 
-
+<p>In this section, we only work with 1 channel (only 1 type of cells interacting). In this channel we want to  learn the several rules ( parameters of the kernel +growth functions) ,encoding the interactions of those cells, that will result in the emergence of moving creatures when given the proper initialization. At the same time we also aim to learn an initialization that will be adapted to these rules ie lead to the emergence of the creature.</p>
 <p>We start by randomly initializing the parameters and initialization until we get a localized pattern, meaning it doesn't spread to the whole grid and doesn't die (we can do it easily by initializing the weights of the growth with small values, leading to very slow&#x2F;small changes).This obtained pattern will  most of the time stay at the same position. What we want is to change the parameters and initialization such that this pattern ends further in the grid, meaning that it survived and stayed localized but moved to a different location in a few timesteps. Because our system is differentiable, we're able to backpropagate through the timesteps by "unfolding" the roll-out. We therefore need a loss applied on the roll-out which will encourage movement to a new position.</p>
 <img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
 <p>Target image with MSE error applied at the last timestep of a rollout seems effective to learn CA rule leading to a certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem, made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass. We apply the MSE loss between  the pattern at the last timestep of the roll out  and a target shape put at a target location further in the grid.</p>
@@ -351,7 +351,7 @@ Left to right is one optimization step. <br>
  (most of the time for the first optimization steps agent at last time step will be at initialization 
 location but to make it clearer we separated both). . </span>
  </p><br>
-<h3 id='imgep-and-utility-of-curriculum'><i>IMGEP and Utility of curriculum</i></h3>
+<h3 id='curriculumdriven-goal-exploration-process'><i>Curriculum-driven goal exploration process</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
 
 <p>The effectiveness of curriculum with complex tasks has already been shown in <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1901-01753"></dt-cite> where they made an agent design increasingly complex tasks trying to make it both not too hard and not too easy for another learning agent. And in complex self organizing systems in <dt-cite key="variengien2021selforganized"></dt-cite> where they needed to first make it learn easy computation in order to stabilize it.</p>
@@ -497,6 +497,12 @@ InnerOptimization <br>
                   </video>
 </div>
 </div>
+</div>
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+Optimization steps <br>
+ <span style="font-size: 14px;color:#A0A0A0;"> Top is the result of IMGEP steps from initialization (left) then successive steps and final video is best
+Imgep step. <br> Bottom is inner optimization corresponding to the first IMGEP step, gradient descent step (1,20,60,70,80,90,100,110,120) </span>
+ </p><br>
 </div>
 
 
