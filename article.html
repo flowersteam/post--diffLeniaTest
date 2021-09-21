@@ -205,89 +205,10 @@
 
 <h3 id='lenia'>Lenia</h3>
   <div class="l-screen-inset" style="position:relative">
-  <img src="LeniaWall.svg" alt="scheme">
-  <div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
-
-<div style="position:absolute; left:5%; top:0%;border-radius:5px;">
-    <p>
-    $$ A^{t+1}= \left[A^t +\frac{1}{\textcolor{#00c8c8}{T}}  \left(G_{wall}(K_{wall}*A^t_1) +\sum_k \textcolor{#008000}{h^k} G_k(K_k * A^t_0) \right) \right]^1_0 $$
-  </p>
-
-<div class="row">
-
-
-    <div class="column">
-
-     $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(x-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) \right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$
-
-    </div>
-    <div class="column">
-      $$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$
-    </div>
-  </div>
-  <div class="row">
-    <div class="column">
-      $$ G_k= x \rightarrow 2*exp(-\frac{(x-\textcolor{#c80000}{m^k})^2}{2(\textcolor{#c80000}{s^k} )^2})-1  $$
-
-      <!---exp(-\frac{(x-m^k)^2}{2(s^k)^2})\mathcal{N}(\frac{x}{r^kR},m^k,s^k)-->
-    </div>
-    <div class="column">
-      $$ G_{wall}= x \rightarrow -10 max(0,(x-0.001))  $$
-    </div>
-  </div>
-
-
-
-<p style="text-align: center">
-<b>Parameters:</b><br>
-<span style="color:rgba(186,186,40,0.8)">
-R maximum radius of a kernel</span><br>
-<span style="color:rgba(0,175,175,0.8)">
-T time scale </span><br>
-
-<span style="text-decoration:underline">For each kernel:<span>
-<div class="row">
-  <div class="column">
-    <ul>
-    <li style="color:rgba(0,0,175,0.8)">w  \( \in [0,1]^n \) width of the guassian bumps</li>
-    <li style="color:rgba(0,0,175,0.8)">b  \( \in [0,1]^n \) height of the guassian bumps </li>
-  </ul>
-
-  </div>
-  <div class="column">
-    <ul>
-    <li style="color:rgba(0,0,175,0.8)">rk \( \in [0,1]^n \) shift of gaussian bumps from center of kernel </li>
-    <li style="color:rgba(0,0,175,0.8)"> r   \( \in [0,1] \) relative radius  </li>
-  </ul>
-  </div>
-
-
-  <div class="column">
-    <ul>
-    <li style="color:rgba(175,0,0,0.8)">m mean in growth function</li>
-    <li style="color:rgba(175,0,0,0.8)">s variance/size in growth function </li>
-  </ul>
-  </div>
-
-  <div class="column">
-    <ul>
-    <li style="color:rgba(0,128,0,0.8)"> h   \( \in [0,1] \) weight of the kernel </li>
-
-  </ul>
-  </div>
-</div>
-
-</p>
-
-</div>
-</div>
-
-
- <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
-  </div>
+  <img src="LeniaScheme.svg" alt="scheme">
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Update step  of channel 1 in the Lenia System <br>
- <span style="font-size: 14px;color:#A0A0A0;">(Hover on the Formulas button to see Lenia's equation)</span>
+ <span style="font-size: 14px;color:#A0A0A0;"> Update of channel 2 is done similarly, in parallel of update of channel 1</span>
  </p><br>
 
 
@@ -296,7 +217,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>Each cell senses its neighbourhood in some other channels (its neighbourhood in its channel, with cell of the same type but also in other channels with other type of cells)  through kernels which are filters of different shapes and sizes. Every kernel senses a particular channel. These kernels are also associated with  a growth function which will convert this sensing into an update ( whether positive or negative growth or neutral) The couple (kernel,growth function) has therefore a channel to sense \(c_0\), and a channel in which they update \(c_1\). A couple (kernel,growth function) characterize a rule on how a type of cell \(c_1\) reacts to its neighbourhood of cells of type \(c_0\). Note that \(c_0\) and \(c_1\) could be the same, which correspond to interaction of cells of the same type. And we can have several rules characterizing the interaction between \(c_0\) and \(c_1\). </p>
 
-<p>$$f(a_x, \mathcal{N}(a_x)) &#x3D; \begin{bmatrix} A_{x,c_0}  + \sum_{c_s&#x3D;0}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_0)}  G^k_{c_s \rightarrow c_0} ( K^k_{c_s \rightarrow c_0} (a_{x,c_0}, \mathcal{N}_{c_0}(a_x))) \\…\\A_{x,c_C}  + \sum_{c_s&#x3D;0}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_C)}  G^k_{c_s \rightarrow c_C} ( K^k_{c_s \rightarrow c_C} (a_{x,c_C}, \mathcal{N}_{c_C}(a_x)))\end{bmatrix} $$ </p>
+<p>$$f(a_x, \mathcal{N}(a_x)) &#x3D; \begin{bmatrix} A_{x,c_0}  + \sum_{c_s&#x3D;0}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_0)}  G^k_{c_s \rightarrow c_0} ( K^k_{c_s \rightarrow c_0} (a_{x,c_0}, \mathcal{N}_{c_0}(a_x))) \\.\\.\\.\\A_{x,c_C}  + \sum_{c_s&#x3D;0}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_C)}  G^k_{c_s \rightarrow c_C} ( K^k_{c_s \rightarrow c_C} (a_{x,c_C}, \mathcal{N}_{c_C}(a_x)))\end{bmatrix} $$ </p>
 
 <p>An initial pattern \( A^0\) is needed in order to begin a rollout. Then, For every Lenia step, to update a channel c1, we look at every rule ( kernel, growth function) that has its growth function applied in the channel c1. (which means they are kernels associated with the development of the channel c1, or to use again the analogy with cells, how the type of cell c1 reacts to the disposition of cells at time t). For every pixel c in the grid, we look at it's neighbourhood in the channels perceived by the kernels selected. ( those channels are the type of cells which interact with the type of cell c1 ) We then multiply those neighbourhoods by the kernels filter \(K_k\)associated with each channel to sense it. Then for every kernel, we obtain a scalar which is then passed to the growth function \(G_k\) associated with the kernel. The scalars obtained  after the growth functions are all summed (with a weight) to get the growth at pixel c in the channel c1. We finally add the total growth to the channel c1  and clip the value between 0 and 1. At each time step, we update at the same time every channel and every pixel. </p>
 
@@ -517,6 +438,86 @@ Imgep step. <br> Bottom is inner optimization corresponding to the first IMGEP s
 
 <h3 id='-modeling-agentenvironment-interactions-in-lenia-the-example-of-obstacles-'> Modeling agent-environment interactions in Lenia, the example of obstacles. </h3>
 
+  <div class="l-screen-inset" style="position:relative">
+  <img src="LeniaWall.svg" alt="scheme">
+  <div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
+
+<div style="position:absolute; left:5%; top:0%;border-radius:5px;">
+    <p>
+    $$ A^{t+1}= \left[A^t +\frac{1}{\textcolor{#00c8c8}{T}}  \left(G_{wall}(K_{wall}*A^t_1) +\sum_k \textcolor{#008000}{h^k} G_k(K_k * A^t_0) \right) \right]^1_0 $$
+  </p>
+
+<div class="row">
+
+
+    <div class="column">
+
+     $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(x-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) \right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$
+
+    </div>
+    <div class="column">
+      $$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      $$ G_k= x \rightarrow 2*exp(-\frac{(x-\textcolor{#c80000}{m^k})^2}{2(\textcolor{#c80000}{s^k} )^2})-1  $$
+
+      <!---exp(-\frac{(x-m^k)^2}{2(s^k)^2})\mathcal{N}(\frac{x}{r^kR},m^k,s^k)-->
+    </div>
+    <div class="column">
+      $$ G_{wall}= x \rightarrow -10 max(0,(x-0.001))  $$
+    </div>
+  </div>
+
+
+
+<p style="text-align: center">
+<b>Parameters:</b><br>
+<span style="color:rgba(186,186,40,0.8)">
+R maximum radius of a kernel</span><br>
+<span style="color:rgba(0,175,175,0.8)">
+T time scale </span><br>
+
+<span style="text-decoration:underline">For each kernel:<span>
+<div class="row">
+  <div class="column">
+    <ul>
+    <li style="color:rgba(0,0,175,0.8)">w  \( \in [0,1]^n \) width of the guassian bumps</li>
+    <li style="color:rgba(0,0,175,0.8)">b  \( \in [0,1]^n \) height of the guassian bumps </li>
+  </ul>
+
+  </div>
+  <div class="column">
+    <ul>
+    <li style="color:rgba(0,0,175,0.8)">rk \( \in [0,1]^n \) shift of gaussian bumps from center of kernel </li>
+    <li style="color:rgba(0,0,175,0.8)"> r   \( \in [0,1] \) relative radius  </li>
+  </ul>
+  </div>
+
+
+  <div class="column">
+    <ul>
+    <li style="color:rgba(175,0,0,0.8)">m mean in growth function</li>
+    <li style="color:rgba(175,0,0,0.8)">s variance/size in growth function </li>
+  </ul>
+  </div>
+
+  <div class="column">
+    <ul>
+    <li style="color:rgba(0,128,0,0.8)"> h   \( \in [0,1] \) weight of the kernel </li>
+  </ul>
+  </div>
+</div>
+</p>
+</div>
+</div>
+ <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
+  </div>
+ <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+Update step  in our Lenia System <br>
+ <span style="font-size: 14px;color:#A0A0A0;">(Hover on the Formulas button to see Lenia's equation)</span>
+</p><br>
 
 
 <p>We can handcraft and fix some rules of the environment in order to properly define some of the physics of our system. This way, some parts of the system are fixed corresponding to rules&#x2F;physics we want to have while others stay free so that we can find ones leading to interesting behavior, like emergence of agency. </p>
