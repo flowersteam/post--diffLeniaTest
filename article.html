@@ -152,7 +152,7 @@
 
 <h2 id='the-system'>The system</h2>
 
-<p>Cellular automata are, in their classic form, a grid of "cells" which sequentially update their state based on the states of their neighbours. The dynamic of the CA is thus entirely defined by the initialization (initial state of the cells in the grid) and the update rule (how a cell updates based on its neighbours). But predicting their long term behavior is a difficult challenge even for simple ones  due to their chaotic dynamics. </p>
+<p>Cellular automata are, in their classic form, a grid of "cells" which sequentially update their state based on the states of their neighbours:  \( \) The dynamic of the CA is thus entirely defined by the initialization (initial state of the cells in the grid) and the update rule (how a cell updates based on its neighbours). But predicting their long term behavior is a difficult challenge even for simple ones  due to their chaotic dynamics. </p>
 
 <p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous states. To be more precise, Lenia is a class of cellular automata in which each choice of parameters and functions is a Cellular automaton.  For example, the Game of Life can be seen as a particular choice of those parameters and functions.   Having these update rules parametrized allows  the search for interesting update rules which lead to the emergence of interesting patterns, including moving ones.</p>
 
@@ -451,12 +451,16 @@ Imgep step. <br> Bottom is inner optimization corresponding to the first IMGEP s
 
 
     <div class="column">
-
-     $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(x-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) \right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$
-
+<!--
+     $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) 
+\right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$
+→
+     $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) 
+\right) sigmoid(-10(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-1)) $$
     </div>
     <div class="column">
-      $$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$
+      $$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2})  sigmoid(-10(\frac{x}{2\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-1))$$
+<!--$$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$-->
     </div>
   </div>
   <div class="row">
