@@ -234,7 +234,7 @@ Update step  of channel 1 in the Lenia System <br>
 <h3 id='differentiable-lenia'>Differentiable Lenia</h3>
 
 
-<p>To learn the parameters of the rules we chose to use gradient descent method. However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(\frac{x}{rR}-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
+<p>To learn the parameters of the rules we chose to use gradient descent method. However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(\frac{x}{r_iR}-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
 <img src="freeK.png" alt="schemeK" class='l-body'>
 <p>The "free kernels", in addition to differentiation, allow more flexibility than the vanilla bumps but at the cost of more parameters.</p>
 
