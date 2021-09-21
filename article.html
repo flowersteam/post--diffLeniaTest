@@ -296,7 +296,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>Each cell senses its neighbourhood in some other channels (its neighbourhood in its channel, with cell of the same type but also in other channels with other type of cells)  through kernels which are filters of different shapes and sizes. Every kernel senses a particular channel. These kernels are also associated with  a growth function which will convert this sensing into an update ( whether positive or negative growth or neutral) The couple (kernel,growth function) has therefore a channel to sense \(c_0\), and a channel in which they update \(c_1\). A couple (kernel,growth function) characterize a rule on how a type of cell \(c_1\) reacts to its neighbourhood of cells of type \(c_0\). Note that \(c_0\) and \(c_1\) could be the same, which correspond to interaction of cells of the same type. And we can have several rules characterizing the interaction between \(c_0\) and \(c_1\). </p>
 
-<p>$$ f(a_x, \mathcal{N}(a_x)) &#x3D; \begin{bmatrix}</p>
+<p>$$f(a_x, \mathcal{N}(a_x)) &#x3D; \begin{bmatrix}</p>
 <p>A_{x,c_0}  + \sum_{c_s}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_0)}  G^k_{c_s \rightarrow c_0} ( K^k_{c_s \rightarrow c_0} (a_{x,c_0}, \mathcal{N}_{c_0}(a_x))) \\</p>
 <p>…\\</p>
 <p>A_{x,c_C}  + \sum_{c_s}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_C)}  G^k_{c_s \rightarrow c_C} ( K^k_{c_s \rightarrow c_C} (a_{x,c_C}, \mathcal{N}_{c_C}(a_x)))</p>
