@@ -108,9 +108,9 @@
       <li><a href="#method">Method</a></li>
 <li><a href="#results">Results</a></li>
     </ul>
-    <h5><a href="#generalization-results">Generalization results</a></h5>
+    <h5><a href="#how-well-do-the-creatures-obtained-generalize-">How well do the creatures obtained generalize ?</a></h5>
     <ul>
-      <li><a href="#how-well-do-the-creatures-obtained-generalize-"> How well do the creatures obtained generalize ?</a></li>
+      <li><a href="#single-creature-setting"> Single creature setting</a></li>
       <li><a href="#multi-creature-setting">Multi creature setting</a></li>
     </ul>
     <h5><a href="#related-works">Related works</a></h5>
@@ -130,8 +130,7 @@
 width: calc((1500px - 648px) / 2 - 24px);">
   <img src="mechanistic.svg" alt="scheme">
 </div>
-<p>In the mechanistic view, robots and other virtual agents are referred as &quot;embodied&quot; if they can ground their sensorimotor capabilities in the environment (the external world) via a physical interface (the body) allowing to experience the world directly (sensory inputs) and to act upon it (motor outputs) using internal input-output information processing (the brain).  Embodiment here is opposed to the computational non-embodied perspective where internal representations, either symbolic-based in &quot;good-old fashion AI&#39;&#39; or neural-network-based in the &quot;internet AI&quot;, are decoupled from the external world and lack situatedness <dt-cite key="brooks1991intelligence"></dt-cite>.  Within that modelling framework, the functional <i>sensorimotor coordination</i> is emphasized as a necessary condition to characterize agency. The methodology is traditionally based on a predefined value system where certain sensorimotor skills such as locomotion [cite], object manipulation and tool use [cite] are associated with human-level cognitive processes and data-driven approaches like deep reinforcement learning (DRL) are used as practical tool to find agents capable of such a repertoire of sensorimotor skills.  Yet, that view remains a "weak" modelling of embodiment due to the clear body&#x2F;brain&#x2F;environment distinction it assumes. It does not ask what makes an agent an agent or what makes a body a body <dt-cite key="di2019process"></dt-cite>. It is not clear why the agent behavior should only be instantiated in the brain and not in the body or even in the external world, when this distinction bears little resemblances with the bottom-up self-organization that we observe in living organisms. </p>
-
+<p>In the mechanistic view, robots and other virtual agents are referred as &quot;embodied&quot; if they can ground their sensorimotor capabilities in the environment (the external world) via a physical interface (the body) allowing to experience the world directly (sensory inputs) and to act upon it (motor outputs) using internal input-output information processing (the brain).  Embodiment here is opposed to the computational non-embodied perspective where internal representations, either symbolic-based in &quot;good-old fashion AI&#39;&#39; or neural-network-based in the &quot;internet AI&quot;, are decoupled from the external world and lack situatedness <dt-cite key="brooks1991intelligence"></dt-cite>. Yet, within the mechanistic modelling framework, it is not questioned what makes an agent an agent or even what makes a body a body <dt-cite key="di2019process"></dt-cite>. The agent <i>individuality </i>is clear: it is a separate unity (yellow box on the right figure) whose states and dynamics can be clearly distinguished from the states and dynamics of the rest of the environment. The agent <i>self-maintenance </i>is often not a problem as well as the agent body does not change over time except for rare cases of real world or artificially-induced degradation (e.g. robot damages, battery&#x2F;energy level), and only th. A more central question within that framework is the agent <i>sensorimotor adaptivity</i>: how to find agents capable of a repertoire of sensorimotor behaviors&#x2F;skills such as locomotion [cite], object manipulation or tool use [cite] and capable of adapting the learned behaviors to unseen environmental conditions [cite]? To address that question in practice, a common methodology is the generation of a distribution of environments (tasks and rewards) to train the agent's brain to master and generalize those tasks, typically with learning approaches such as deep reinforcement learning. Hence the focus is here at the agent behavioral level, but it is nevertheless open to criticism why the agent behavior should be instantiated in the brain in the first place, and why not in the body or even in the external world.  </p>
 <def>
 <p> <b>Agent </b> a macro unity we could separate from the rest which regulates/self-maintains </p>
 </def><br>
@@ -657,6 +656,7 @@ In this study, we want the obstacle channel to stay still. To do so, there is no
 
 <p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the initialization. Some initialization make the optimization easy while other easily get stuck. More info on how we solve this in the overcoming "bad initialization" section of the appendix.</p>
 <h3 id='results'>Results</h3>
+<p>From the method, we obtain a wide variety of creatures that seem to easily travel through the obstacles they saw during training. </p>
 <div class="row l-screen-inset">
    
     <div class="column">
