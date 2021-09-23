@@ -475,14 +475,14 @@ Imgep step. <br> Bottom is inner optimization corresponding to the first IMGEP s
     <div class="column">
 <!--
      $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) 
-\right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}  $$
+\right) \mathbb{I}_{x\leq \textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}     sigmoid(-10(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-1))$$
 --->
      $$ K_k= x \rightarrow \left( \sum_i^{n} \textcolor{#0000c8}{b_i^k} exp(-\frac{(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-\textcolor{#0000c8}{rk^k_i})^2}{2(\textcolor{#0000c8}{w^k_{i}})^2}) 
-\right) sigmoid(-10(\frac{x}{\textcolor{#0000c8}{r^k} \textcolor{#baba40}{R}}-1)) $$
+\right)  $$
     </div>
     <div class="column">
-      $$ K_{wall}= x \rightarrow   exp(-\frac{(\frac{x}{2})^2}{2})  sigmoid(-10(\frac{x}{2}-1))$$
-<!--$$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2} $$-->
+      $$ K_{wall}= x \rightarrow   exp(-\frac{(\frac{x}{2})^2}{2})  $$
+<!--$$ K_{wall}= x \rightarrow   exp(-\frac{(x)^2}{2}) \mathbb{I}_{x \leq2}    sigmoid(-10(\frac{x}{2}-1))$$-->
     </div>
   </div>
   <div class="row">
@@ -840,7 +840,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <p>Even if some basic creatures with a more or less good level of sensorimotor capabilities have already been found by random search and basic evolutionary algorithms in Lenia. This work still provides a method able to easily learn the update rule, from scratch in high dimensional parameters space, leading to different robust creatures with sensorimotor capabilities. We also think that the ideas presented here can be useful to learn parameters in other complex systems that can be very sensitive. Especially using curriculum learning which seems to help a lot.</p>
 <p><strong>FUTURE WORK</strong></p>
 <p>In this work, most of the analyses we make are subjective.  Future work might want to have a better definition of agency and sensorimotor capabilities by defining a measure of such behavior. </p>
-<p>One other interesting direction is to add even more constraints in the environment like food&#x2F;energy for example, or even the need to develop some kind of memory. We tried a little bit to add food in Lenia but we're not satisfied with the result. We think that adding food to the environment might be a great leap toward the search for more advanced behavior in Lenia. For example adding competition between individuals&#x2F;species for food. From this competition and new constraints, interesting strategies could emerge as in <dt-cite key="baker2020emergent"></dt-cite> . In fact, we could even wonder if fixing enough environmental rules could allow an open-ended evolution resulting in the emergence of agents with complex behaviors. </p>
+<p>One other interesting direction is to add even more constraints in the environment like food&#x2F;energy for example, or even the need to develop some kind of memory. We tried a little bit to add food in Lenia but we're not satisfied with the result. We think that adding food to the environment might be a great leap toward the search for more advanced behaviors in Lenia. For example adding competition between individuals&#x2F;species for food. From this competition and new constraints, interesting strategies could emerge as in <dt-cite key="baker2020emergent"></dt-cite> . In fact, we could even wonder if fixing enough environmental rules could allow an open-ended evolution resulting in the emergence of agents with complex behaviors. </p>
 
 <p>However at the moment, designing interesting environmental rules in the cellular automata paradigm can be a hard task. Having systematic ways to engineer those environmental rules  would allow rich environment design.</p>
 </dt-article>
