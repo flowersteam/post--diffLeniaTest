@@ -171,7 +171,7 @@ width: calc((1500px - 648px) / 2 - 24px);">
 
 <p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous C-dimensional states (\(a_x \in [0,1]^C\)).  To be more precise, Lenia is a class of cellular automata in which each instance is a Cellular Automaton (CA). A CA instance is defined by a set of parameters \( \theta \) that condition its "physics" such that the update rule \(f\) is parametrized: \( a_x^{t+1}&#x3D; f_{\theta}(a_x^t,\mathcal{N}(a_x^t))\). For example, the Game of Life can be seen as a particular instance in Lenia.  Having these update rules parametrized allows  the search for CA environments with update rules which can lead to the emergence of interesting patterns, including moving ones.</p>
 
-<p>A wide variety of complex patterns has been found in Lenia, using hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. However, as <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite> studies focused on exploration of the morphology space and as moving creatures are hard to find, these studies didn't find much of moving creatures. The work from <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> focused a lot on spatially localized patterns and especially moving ones.</p>
+<p>A wide variety of complex patterns has been found in Lenia, using a combination of hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. However, as <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite> studies focused on exploration of the morphology space and as moving creatures are hard to find, these studies didn't find much of moving creatures. The work from <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> focused a lot on spatially localized patterns and especially moving ones.</p>
 <div class="row l-body">
     <div class="column">
       <video id="robust" width="80%" autoplay loop muted="" class="videoShow">
@@ -506,7 +506,7 @@ Imgep step. <br> Bottom is inner optimization corresponding to the first IMGEP s
       $$ G_{wall}= x \rightarrow -10 max(0,(x-0.001))  $$
     </div>
   </div>
-<p> The sigmoid term is only a smooth version of \( \mathcal{I}_{x\leq r^k R }  \)<p>
+<p style="text-align:center;"> The sigmoid term is only a smooth and differentiable  version of \( \mathcal{1}_{x\leq r^k R }  \)<p>
 
 
 
