@@ -247,19 +247,32 @@ function initWebGL(shaderSources) {
 }
 
 function makeTexture(gl, width, height, data) {
-    var texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, canvasFilter);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, canvasFilter);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, canvasWrap);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, canvasWrap);
+  var texture = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  // Set the parameters so we don't need mips and so we're not filtering
+// and we don't repeat
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-    var framebuffer = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+  // Upload the image into the texture.
+  var mipLevel = 0;               // the largest mip
+  var internalFormat = gl.RGBA;   // format we want in the texture
+  var srcFormat = gl.RGBA;        // format of data we are supplying
+  var srcType = gl.UNSIGNED_BYTE  // type of data we are supplying
+  gl.texImage2D(gl.TEXTURE_2D,
+                mipLevel,
+                internalFormat,
+                srcFormat,
+                srcType,
+                img);
 
-    return [texture, framebuffer];
+  var framebuffer = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, framebuffer);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+
+  return [texture, framebuffer];
 }
 
 function makeRandomArray(rgba) {
