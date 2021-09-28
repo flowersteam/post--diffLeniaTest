@@ -564,6 +564,8 @@ img.onload = function() {
   [textureB, framebufferB] = makeTexture(gl, width, height, img);
   gl.uniform2f(uniforms.iResolution, width, height);
   gl.uniform3fv(uniforms.iChannelResolution, [width,height,ratio, width,height,ratio, width,height,ratio, width,height,ratio]);
+  gen=0
+  gl.uniform1i(uniforms.iFrame, gen);
   gl.useProgram(drawProgram);
   gl.uniform2f(iResolutionLoca, width, height);
 

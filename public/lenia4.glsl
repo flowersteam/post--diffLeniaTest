@@ -300,6 +300,11 @@ growthDst[0]=growthDst[0]-growth[3][3]-growth[3][2] -growth[3][1]-growth[3][0]-g
 }
 rgb = clamp(1./T * growthDst + val, 0., 1.);
 rgb[1]=0.;
+if(iFrame<1){
+  if(rgb[2]<0.2){
+    rgb[2]=0.;
+  }
+}
 //rgb[2]=getVal(fragCoord + vec2(+1, 0)*samplingDist)[3][3];
 
 // debug: uncomment to show list of kernels
