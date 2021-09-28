@@ -518,9 +518,41 @@ buttonAttract.onclick= ()=>{
 }
 
 
+
+var imageLoader = document.getElementById('imageLoader');
+imageLoader.addEventListener('change', handleImage, false);
+function handleImage(e){
+    var reader = new FileReader();
+    reader.onload = function(event){
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
+
 img.onload = function() {
+  /*
   [textureA, framebufferA] = makeTexture(gl, width, height, img);  // makeRandomArray(newArray)
   [textureB, framebufferB] = makeTexture(gl, width, height, img);
+*/
+
+  width=img.width
+  height=img.height
+
+  canvas.width = width;
+  canvas.height = height;
+
+  gl.viewport(0, 0, width, height);
+
+  const ratio = 1.0;
+  gl.useProgram(simProgram);
+  [textureA, framebufferA] = makeTexture(gl, width, height, img);  // makeRandomArray(newArray)
+  [textureB, framebufferB] = makeTexture(gl, width, height, img);
+  gl.uniform2f(uniforms.iResolution, width, height);
+  gl.uniform3fv(uniforms.iChannelResolution, [width,height,ratio, width,height,ratio, width,height,ratio, width,height,ratio]);
+  gl.useProgram(drawProgram);
+  gl.uniform2f(iResolutionLoca, width, height);
+
   }
 
 img.src = 'init1.png';
