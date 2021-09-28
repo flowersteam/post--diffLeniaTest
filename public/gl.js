@@ -41,6 +41,8 @@ var lastFPSTime;
 var actualFPS = 0;
 var speciesName = "";
 
+const img = new Image();
+
 function setSpecies(species) {
   //gl.uniform1f(params.R, 12.);  // space resolution = kernel radius
   console.log(species);
@@ -401,7 +403,7 @@ playButton.onclick= ()=>{
 }
 var resetButton=document.getElementById("reset");
 resetButton.onclick=()=>{
-  gen = 0;
+  gen = -1;
 }
 var isMouseDown = false;
 function set_iMouse(e, sx, sy) {
