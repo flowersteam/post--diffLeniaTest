@@ -416,6 +416,20 @@ playButton.onclick= ()=>{
 }
 var resetButton=document.getElementById("reset");
 resetButton.onclick=()=>{
+
+  width=640
+  height=360
+  canvas.width = width;
+  canvas.height = height;
+
+  gl.viewport(0, 0, width, height);
+
+  const ratio = 1.0;
+  gl.useProgram(simProgram);
+  gl.uniform2f(uniforms.iResolution, width, height);
+  gl.uniform3fv(uniforms.iChannelResolution, [width,height,ratio, width,height,ratio, width,height,ratio, width,height,ratio]);
+  gl.useProgram(drawProgram);
+  gl.uniform2f(iResolutionLoca, width, height);
   gen = -1;
 }
 var isMouseDown = false;
