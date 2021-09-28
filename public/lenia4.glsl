@@ -233,112 +233,108 @@ vec3 drawInit(in vec2 uv)
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
-		vec3 rgb=vec3(0.);
-    fragCoord=fragCoord;
-    vec2 uv = (fragCoord) / iResolution.xy;
+vec3 rgb=vec3(0.);
+fragCoord=fragCoord;
+vec2 uv = (fragCoord) / iResolution.xy;
 
-		if((iMouse.z <= 0. && iFrame !=0) || (color[1]>0.5))
-		{
-		int intR = int(ceil(R));
+if((iMouse.z <= 0. && iFrame !=-1) || (color[1]>0.5))
+{
+int intR = int(ceil(R));
 
-    // loop through the neighborhood, optimized: same weights for all quadrants/octants
-    // calculate the weighted average of neighborhood from source channel
-    mat4 sum = mat4(0.), total = mat4(0.);
-    // self
-    float r = 0.;
-    mat4 weight = getWeight(r, relR);
-    mat4 valSrc = getVal(fragCoord + vec2(0, 0)); sum += mult(valSrc, weight); total += weight;
-    // orthogonal
-    for (int x=1; x<=intR; x++)
-    {
-        r = float(x) / R;
+// loop through the neighborhood, optimized: same weights for all quadrants/octants
+// calculate the weighted average of neighborhood from source channel
+mat4 sum = mat4(0.), total = mat4(0.);
+// self
+float r = 0.;
+mat4 weight = getWeight(r, relR);
+mat4 valSrc = getVal(fragCoord + vec2(0, 0)); sum += mult(valSrc, weight); total += weight;
+// orthogonal
+for (int x=1; x<=intR; x++)
+{
+    r = float(x) / R;
+    weight = getWeight(r, relR);
+    valSrc = getVal(fragCoord + vec2(+x, 0)*samplingDist); sum += mult(valSrc, weight); total += weight;
+    valSrc = getVal(fragCoord + vec2(-x, 0)*samplingDist); sum += mult(valSrc, weight); total += weight;
+    valSrc = getVal(fragCoord + vec2(0, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+    valSrc = getVal(fragCoord + vec2(0, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+}
+// diagonal
+int diagR = int(ceil(float(intR) / sqrt(2.)));
+for (int x=1; x<=diagR; x++)
+{
+    r = sqrt(2.) * float(x) / R;
+    weight = getWeight(r, relR);
+    valSrc = getVal(fragCoord + vec2(+x, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+    valSrc = getVal(fragCoord + vec2(+x, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+    valSrc = getVal(fragCoord + vec2(-x, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+    valSrc = getVal(fragCoord + vec2(-x, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+}
+// others
+for (int y=1; y<=intR-1; y++)
+for (int x=y+1; x<=intR; x++)
+{
+    r = sqrt(float(x*x + y*y)) / R;
+    if (r <= 1.) {
         weight = getWeight(r, relR);
-        valSrc = getVal(fragCoord + vec2(+x, 0)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        valSrc = getVal(fragCoord + vec2(-x, 0)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        valSrc = getVal(fragCoord + vec2(0, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        valSrc = getVal(fragCoord + vec2(0, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(+x, +y)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(+x, -y)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(-x, +y)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(-x, -y)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(+y, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(+y, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(-y, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
+        valSrc = getVal(fragCoord + vec2(-y, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
     }
-    // diagonal
-    int diagR = int(ceil(float(intR) / sqrt(2.)));
-    for (int x=1; x<=diagR; x++)
-    {
-        r = sqrt(2.) * float(x) / R;
-        weight = getWeight(r, relR);
-        valSrc = getVal(fragCoord + vec2(+x, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        valSrc = getVal(fragCoord + vec2(+x, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        valSrc = getVal(fragCoord + vec2(-x, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        valSrc = getVal(fragCoord + vec2(-x, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-    }
-    // others
-    for (int y=1; y<=intR-1; y++)
-    for (int x=y+1; x<=intR; x++)
-    {
-        r = sqrt(float(x*x + y*y)) / R;
-        if (r <= 1.) {
-            weight = getWeight(r, relR);
-            valSrc = getVal(fragCoord + vec2(+x, +y)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(+x, -y)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(-x, +y)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(-x, -y)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(+y, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(+y, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(-y, +x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-            valSrc = getVal(fragCoord + vec2(-y, -x)*samplingDist); sum += mult(valSrc, weight); total += weight;
-        }
-    }
-    mat4 avg = sum / (total + EPSILON);    // avoid divided by zero
+}
+mat4 avg = sum / (total + EPSILON);    // avoid divided by zero
 
-    // calculate growth, add a small portion to destination channel
-    mat4 growth = mult(eta, bell(avg, mu, sigma) * 2. - 1.);
-    vec3 growthDst = vec3( getDst(growth, iv0), getDst(growth, iv1), getDst(growth, iv2) );
-    vec3 val = texture(iChannel0, uv).rgb;
-    //WALL
-		growthDst[0]=growthDst[0]-2.*val[2];
-    //lazy trick for attract /non attract mode
-    if(color[1]<0.5){
-    growthDst[0]=growthDst[0]-growth[3][3]-growth[3][2] -growth[3][1]-growth[3][0]-growth[2][3]-growth[2][2];
-    }
-    rgb = clamp(1./T * growthDst + val, 0., 1.);
-    rgb[1]=0.;
-		//rgb[2]=getVal(fragCoord + vec2(+1, 0)*samplingDist)[3][3];
+// calculate growth, add a small portion to destination channel
+mat4 growth = mult(eta, bell(avg, mu, sigma) * 2. - 1.);
+vec3 growthDst = vec3( getDst(growth, iv0), getDst(growth, iv1), getDst(growth, iv2) );
+vec3 val = texture(iChannel0, uv).rgb;
+//WALL
+growthDst[0]=growthDst[0]-2.*val[2];
+//lazy trick for attract /non attract mode
+if(color[1]<0.5){
+growthDst[0]=growthDst[0]-growth[3][3]-growth[3][2] -growth[3][1]-growth[3][0]-growth[2][3]-growth[2][2];
+}
+rgb = clamp(1./T * growthDst + val, 0., 1.);
+rgb[1]=0.;
+//rgb[2]=getVal(fragCoord + vec2(+1, 0)*samplingDist)[3][3];
 
-    // debug: uncomment to show list of kernels
-    //rgb = drawKernel(fragCoord / iResolution.y);
-		}
-    // randomize at start, or add patch on mouse click
-    if (iFrame == 0 )
-    {
-        vec3 base = drawInit(fragCoord / iResolution.y);
-				rgb=vec3(0.);
-    }
-		if(iMouse.z > 0.)
-		{
-    if(color[1]<0.5){
-		rgb = texture(iChannel0, uv).rgb;
-    }
-		vec2 st = fragCoord.xy/iResolution.xy;
-    float m_x = iMouse.x / iResolution.x;
-    float m_y = iMouse.y / iResolution.y;
-    vec3 m_color = vec3(1.0);
-    vec2 dist = vec2(m_x, m_y) - st.xy;
-    dist.x *= iResolution.x/iResolution.y;
-    float mouse_pct = length(dist);
-    if(color[1]>0.5){
-     mouse_pct = step(0.4/80., mouse_pct);
-     float mask=1.-step(0.05,mouse_pct);
-     //float mask=1.;
-     //mouse_pct=1.-(mask*1./(mouse_pct*60.+1.));
-    }
-    else{
-      mouse_pct = step(radius/10., mouse_pct);
-    }
-		if(color[0]+color[1]+color[2]>0.5)
-		{
-			m_color = (1.0-mouse_pct)*color;
-			rgb = rgb+m_color;
-		}else{
-			rgb=rgb*mouse_pct;
-		}
-		}
-    fragColor = vec4(rgb, 1.);
+// debug: uncomment to show list of kernels
+//rgb = drawKernel(fragCoord / iResolution.y);
+}
+// randomize at start, or add patch on mouse click
+
+if(iMouse.z > 0.)
+{
+if(color[1]<0.5){
+rgb = texture(iChannel0, uv).rgb;
+}
+vec2 st = fragCoord.xy/iResolution.xy;
+float m_x = iMouse.x / iResolution.x;
+float m_y = iMouse.y / iResolution.y;
+vec3 m_color = vec3(1.0);
+vec2 dist = vec2(m_x, m_y) - st.xy;
+dist.x *= iResolution.x/iResolution.y;
+float mouse_pct = length(dist);
+if(color[1]>0.5){
+ mouse_pct = step(0.4/80., mouse_pct);
+ float mask=1.-step(0.05,mouse_pct);
+ //float mask=1.;
+ //mouse_pct=1.-(mask*1./(mouse_pct*60.+1.));
+}
+else{
+  mouse_pct = step(radius/10., mouse_pct);
+}
+if(color[0]+color[1]+color[2]>0.5)
+{
+  m_color = (1.0-mouse_pct)*color;
+  rgb = rgb+m_color;
+}else{
+  rgb=rgb*mouse_pct;
+}
+}
+fragColor = vec4(rgb, 1.);
 }

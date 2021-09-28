@@ -1,6 +1,6 @@
 "use strict";
 
-window.onload = init;
+
 
 const canvas = document.getElementById("glCanvas");
 const textbox = document.getElementById("showText");
@@ -47,6 +47,7 @@ function setSpecies(species) {
   gl.useProgram(simProgram);
   switch (species) {
     case 0:
+    img.src="init1.png"
     speciesName = "VT049W fission";  // Tessellatium (sometimes reproductive)
     gl.uniform1f(params.T,7.25);
     gl.uniformMatrix4fv(params.b0, false, [0.995, 0.675, 0.675, 0.130, 0.090, 0.565, 0.795, 0.725, 0.635, 0.909, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
@@ -64,6 +65,7 @@ function setSpecies(species) {
     gl.uniformMatrix4fv(params.relR,    false, [0.887, 0.516, 0.751, 0.893, 0.870, 0.995, 0.818, 0.326, 0.986, 0.716,1., 1., 1., 1., 0.7687, 0.4324] );  // relative kernel radius
     break;
     case 1:
+    img.src="init2.png"
     speciesName = "Z18A9R reproductive";  // Tessellatium (highly reproductive) (modified for lower reproduction)
     gl.uniform1f(params.T,7.5117);
     gl.uniformMatrix4fv(params.b0, false, [0.3500, 0.8950, 0.6000, 0.5450, 0.9200, 0.7000, 0.8450, 0.4800, 0.9650,0.7650, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
@@ -82,6 +84,7 @@ function setSpecies(species) {
     //gl.uniformMatrix4fv(params.sigma,   false, 0.0682, 0.1568, 0.034, 0.0484, 0.0816, 0.0376, 0.063, 0.1189, 0.1827, 0.1422, 0.1079, 0.0724, 0.0934, 0.1107, 0.0712, 1.] );  // growth width
     break;
     case 2:
+
     speciesName = "G6G6CR ciliates";  // Ciliatium (immune system) (modified for higher cilia production)
     gl.uniform1f(params.T,4.67);
     gl.uniformMatrix4fv(params.b0, false, [0.1250, 0.8150, 0.5050, 0.0900, 0.1300, 0.8250, 0.9750, 0.1400, 0.9000,0.9950, 0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
@@ -99,6 +102,7 @@ function setSpecies(species) {
     gl.uniformMatrix4fv(params.relR,    false, [0.7380, 0.9600, 0.2050, 0.4570, 0.2000, 0.5300, 0.5200, 0.2140, 0.5000,0.6290,1., 1., 1., 1., 0.7687, 0.4324] );  // relative kernel radius
     break;
     case 3:
+    img.src="init3.png"
     speciesName = "tri-color ghosts";
     gl.uniform1f(params.T,4.45);
     gl.uniformMatrix4fv(params.b0, false, [0.7082, 0.8403, 0.0711, 0.0051, 0.9114, 0.6402, 0.1446, 0.7150, 0.6682,0.0029,0.0,0.0 , 0.0, 0.0, 0.1263, 0.0068] );  // kernel ring number
@@ -497,3 +501,13 @@ buttonAttract.onclick= ()=>{
   gl.uniform3f(gl.getUniformLocation(simProgram, "color"),0.0,1.0,0.0)
 
 }
+
+
+img.onload = function() {
+  [textureA, framebufferA] = makeTexture(gl, width, height, img);  // makeRandomArray(newArray)
+  [textureB, framebufferB] = makeTexture(gl, width, height, img);
+  }
+
+img.src = 'init1.png';
+
+init()
