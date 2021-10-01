@@ -123,7 +123,7 @@
 
 
 
-<p>Spatially localized patterns in cellular automata have shown a diversity of  interesting behavior that led to new understanding of self-organizing systems. While the notion of environment is a keypoint in Maturana and Varela biology of cognition, studies on cellular automata rarely introduce a well defined environment in their system. In this paper, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to discover the CA rule leading to the emergence of such creatures. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles in their way.</p>
+<p>Novel classes of CAs have been recently introduced in the ALife community, able to generate a high diversity of complex self-organized patterns from local update rules. These patterns can display certain properties of biological systems such as a spatially localized organization, directional or rotational movements, etc. However, while the notions of embodiment within an environment, individuality and self-maintenance are central in theoretical biology (e.g. M&amp;V biology of cognitiion), it remains unclear how such mechanisms and properties can emerge from a set of local update rules in a CA. In this paper, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning able to discover the CA rule leading to the emergence of such creatures. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles or other creatures in their way. They also show great generalization to unseen environments.</p>
 <h2 id='introduction'>Introduction</h2>
 
 <p>Understanding what has led to the emergence of life, cognition and of natural agency as we observe in living organisms is one of the major scientific quests in a variety of disciplines ranging from biology and chemistry to evolutionary science. The pragmatic complementary question, central in disciplines such as artificial life (ALife) and artificial intelligence (AI), is: <i>can we engineer the necessary ingredients to discover forms of functional life and cognition &quot;as it could be&quot; in an artificial substrata? </i>With respect to this practical goal of building artificial agents, key challenges are the modelling of an artificial agent <i>embodiment</i> and the characterization and identification of <i>robust agency</i> within such embodiment. Approaches in the literature can be divided, based on their modelling framework assumptions and on the central questions that they aim to address, into the <i>mechanistic</i> and the <i>enactive</i> views on embodiment. </p>
@@ -170,7 +170,7 @@ width: calc((1500px - 648px) / 2 - 24px);">
 
 <p>Cellular automata are, in their classic form, a grid of "cells" \( A &#x3D; \{ a_x \} \) that evolve through time \( A^{t&#x3D;1} \rightarrow \dots \rightarrow A^{t&#x3D;T} \) via local "physics-like" laws. More precisely, the cells sequentially update their state based on the states of their neighbours:  \( a_x^{t+1}&#x3D; f(a_x^t,\mathcal{N}(a_x^t))\), where \( x in \mathcal{X}\) is the position of the cell on the grid, \(a_x \) is the state of the cell, and  \(\mathcal{N}(a_x^t)\) is the neighbourhood of the cell. The dynamic of the CA is thus entirely defined by the initialization \( A^{t&#x3D;1} \) (initial state of the cells in the grid) and the update rule \( f \) (how a cell updates based on its neighbours). But predicting their long term behavior is a difficult challenge even for simple ones  due to their chaotic dynamics. </p>
 
-<p>Game of Life is one example of cellular automaton with discrete states (cells can either be at 0 or 1 ). Despite its seemingly simple rule, very complex structure emerged. One main type of pattern studied in the game of life is stable spatially localized patterns: patterns with a boundary (thus unity we could separate from the rest), which periodically get back to their state after some timesteps.  And in this category, there is a very interesting subcategory which is moving agents: patterns that periodically get back to their state after some timesteps but shifted. The most famous one being the glider. </p>
+<p><a href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'>Game of Life</a> is one example of cellular automaton with discrete states (cells can either be at 0 or 1 ). Despite its seemingly simple rule, very complex structure emerged. One main type of pattern studied in the game of life is stable spatially localized patterns: patterns with a boundary (thus unity we could separate from the rest), which periodically get back to their state after some timesteps.  And in this category, there is a very interesting subcategory which is moving agents: patterns that periodically get back to their state after some timesteps but shifted. The most famous one being the glider. </p>
 
 
 <p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous C-dimensional states (\(a_x \in [0,1]^C\)).  To be more precise, Lenia is a class of cellular automata in which each instance is a Cellular Automaton (CA). A CA instance is defined by a set of parameters \( \theta \) that condition its "physics" such that the update rule \(f\) is parametrized: \( a_x^{t+1}&#x3D; f_{\theta}(a_x^t,\mathcal{N}(a_x^t))\). For example, the Game of Life can be seen as a particular instance in Lenia.  Having these update rules parametrized allows  the search for CA environments with update rules which can lead to the emergence of interesting patterns, including moving ones.</p>
@@ -234,13 +234,15 @@ from <a href="https://github.com/3b1b/videos/blob/master/_2020/18S191/convolutio
  https://github.com/3b1b/videos/blob/master/_2020/18S191/convolutions.py </a>
  </span>
  </p><br>
-  <div class="l-screen-inset" style="position:relative">
+ <!--- 
+<div class="l-screen-inset" style="position:relative">
   <img src="LeniaScheme.svg" alt="scheme">
 </div>
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Update step  of channel 1 in the Lenia System <br>
  <span style="font-size: 14px;color:#A0A0A0;"> Update of channel 2 is done similarly, in parallel of update of channel 1</span>
- </p><br>
+ </p><br> 
+--->
 
 
 
