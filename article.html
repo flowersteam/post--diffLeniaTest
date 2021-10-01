@@ -170,7 +170,23 @@ width: calc((1500px - 648px) / 2 - 24px);">
 
 <p>Cellular automata are, in their classic form, a grid of "cells" \( A &#x3D; \{ a_x \} \) that evolve through time \( A^{t&#x3D;1} \rightarrow \dots \rightarrow A^{t&#x3D;T} \) via local "physics-like" laws. More precisely, the cells sequentially update their state based on the states of their neighbours:  \( a_x^{t+1}&#x3D; f(a_x^t,\mathcal{N}(a_x^t))\), where \( x in \mathcal{X}\) is the position of the cell on the grid, \(a_x \) is the state of the cell, and  \(\mathcal{N}(a_x^t)\) is the neighbourhood of the cell. The dynamic of the CA is thus entirely defined by the initialization \( A^{t&#x3D;1} \) (initial state of the cells in the grid) and the update rule \( f \) (how a cell updates based on its neighbours). But predicting their long term behavior is a difficult challenge even for simple ones  due to their chaotic dynamics. </p>
 
-<p><a href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'>Game of Life</a> is one example of cellular automaton with discrete states (cells can either be at 0 or 1 ). Despite its seemingly simple rule, very complex structure emerged. One main type of pattern studied in the game of life is stable spatially localized patterns: patterns with a boundary (thus unity we could separate from the rest), which periodically get back to their state after some timesteps.  And in this category, there is a very interesting subcategory which is moving agents: patterns that periodically get back to their state after some timesteps but shifted. The most famous one being the glider. </p>
+<p><a href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'>Game of Life</a> is one example of cellular automaton with discrete states (cells can either be at 0 or 1 ). Despite its simple rule, very complex structure emerged. One main type of pattern studied in the game of life is stable spatially localized patterns: patterns with a boundary (thus unity we could separate from the rest).  And in this category, there is a very interesting subcategory which is moving agents: patterns that periodically get back to their state after some timesteps but shifted in space. The most famous one being the glider. </p>
+<div style="clear: both;float: right;margin-top: 0;margin-left: 24px;margin-right: calc((100vw - 984px) / 2 + 68px);width: calc((984px - 448px) / 2 - 24px);
+">
+<div class="row" >
+  <div class="column">
+    <video id="robust" width="80%"  autoplay loop muted="" class="videoShow">
+                  <source src="spaceship.gif" type="video/mp4">
+                </video>
+  </div>
+  <div class="column">
+    <video id="robust" width="80%"  autoplay loop muted="" class="videoShow">
+                  <source src="orbiumSolo.mp4" type="video/mp4">
+                </video>
+  </div>
+  </div>
+
+</div>
 
 
 <p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous C-dimensional states (\(a_x \in [0,1]^C\)).  To be more precise, Lenia is a class of cellular automata in which each instance is a Cellular Automaton (CA). A CA instance is defined by a set of parameters \( \theta \) that condition its "physics" such that the update rule \(f\) is parametrized: \( a_x^{t+1}&#x3D; f_{\theta}(a_x^t,\mathcal{N}(a_x^t))\). For example, the Game of Life can be seen as a particular instance in Lenia.  Having these update rules parametrized allows  the search for CA environments with update rules which can lead to the emergence of interesting patterns, including moving ones.</p>
