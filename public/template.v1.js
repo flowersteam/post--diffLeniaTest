@@ -6077,7 +6077,7 @@ var appendix = function(dom, data) {
 
     // If we have some footnotes on the page, render a container for the footnote list.
     if (dom.querySelector("dt-fn")) {
-      newHTML = newHTML + "<h3>Footnotes</h3><dt-fn-list></dt-fn-list>";
+      newHTML = newHTML + "<h3>Glossary </h3><dt-fn-list></dt-fn-list>";
     }
 
     // If we have any citations on the page, render a container for the bibliography.
@@ -6368,7 +6368,7 @@ var footnote = function(dom, data) {
     n = (n+1)+"";
     var key = "fn-"+n;
     var escaped_content = content.replace(/"/g, "&#39;");
-    el.innerHTML = "<sup><span id=\"" + key + "\" data-hover-ref=\"" + ref_id + "\" style=\"cursor:pointer\">" + n + "</span></sup>";
+    el.innerHTML = "<sup style='font-size:larger'><span id=\"" + key + "\" data-hover-ref=\"" + ref_id + "\" style=\"cursor:pointer\">" + n + "</span></sup>";
   });
 
   var fnList = dom.querySelector("dt-fn-list");
