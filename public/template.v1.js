@@ -6368,7 +6368,7 @@ var footnote = function(dom, data) {
     n = (n+1)+"";
     var key = "fn-"+n;
     var escaped_content = content.replace(/"/g, "&#39;");
-    el.innerHTML = "<sup style='font-size:larger'><span id=\"" + key + "\" data-hover-ref=\"" + ref_id + "\" style=\"cursor:pointer\">" + n + "</span></sup>";
+    el.innerHTML = "<sup style='line-height: 1em;font-size:larger'><span id=\"" + key + "\" data-hover-ref=\"" + ref_id + "\" style=\"cursor:pointer\">" + n + "</span></sup>";
   });
 
   var fnList = dom.querySelector("dt-fn-list");
