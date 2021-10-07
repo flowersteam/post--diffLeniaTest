@@ -308,7 +308,9 @@ Update step  of channel 1 in the Lenia System <br>
 <h3 id='differentiable-lenia'>Differentiable Lenia</h3>
 
 
-<p>To learn the parameters of the rules we chose to use gradient descent method. However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use "free kernels", using kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(\frac{x}{r_iR}-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
+<p>To learn the parameters of the rules we chose to use gradient descent method. In fact, we can see a Lenia rollout  as applying a recurrent neural network to an initial state. Differentiating is thus done by unrolling the steps and propagating the gradient through these steps.</p>
+
+<p>However, most of Lenia parameters are not differentiable as they are, we therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of n overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(\frac{x}{r_iR}-rk_i)^2}{2w_i^2}) $$ The parameters are then 3 n dimensional vectors: b for height of the bump, w for the size of the bump and rk for the center of the bump.</p>
 
 
 <img src="freeK.png" alt="schemeK" class='l-body'>
@@ -317,7 +319,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>The parameters of the update rule are thus those controlling the kernel shape (R,r,rk,w,b), those controlling the growth function (m,s,h) and a time controlling parameter (T). (R and T in our experiment are chosen randomly and fixed while all the other parameters will be optimized)</p>
 
-<p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations and each iteration has it's result clipped between 0 and 1. We should thus limit ourselves to a few iterations when training.</p>
+<p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations and each iteration has it's result clipped between 0 and 1 which kills the gradient. We should thus limit ourselves to a few iterations when training.</p>
 <p>.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. This will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
