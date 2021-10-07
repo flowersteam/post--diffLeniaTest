@@ -175,7 +175,7 @@ width: calc((1500px - 648px) / 2 - 24px);">
 <div class="row" >
   <div class="column">
 <p style="font-size: 14px;color:#A0A0A0;"> SLP</p>
-    <img style="width:100%" src="Pulsar.gif">
+    <img style="width:100%" src="Pinwheel.gif">
   </div>
   <div class="column">
 <p style="font-size: 14px;color:#A0A0A0;"> Moving pattern</p>
@@ -207,7 +207,7 @@ width: calc((1500px - 648px) / 2 - 24px);">
 
 <p>The cellular automaton we  study in this work is Lenia <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> which has the particularity of having continuous C-dimensional states (\(a_x \in [0,1]^C\)).  To be more precise, Lenia is a class of cellular automata in which each instance is a Cellular Automaton (CA). A CA instance is defined by a set of parameters \( \theta \) that condition its "physics" such that the update rule \(f\) is parametrized: \( a_x^{t+1}&#x3D; f_{\theta}(a_x^t,\mathcal{N}(a_x^t))\). For example, the Game of Life can be seen as a particular instance in Lenia.  Having these update rules parametrized allows  the search for CA environments with update rules which can lead to the emergence of interesting patterns, including moving ones.</p>
 
-<p>A wide variety of complex patterns has been found in Lenia, using a combination of hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. However, as <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite> studies focused on exploration of the morphology space and as moving creatures are hard to find, these studies didn't find much of moving creatures. The work from <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> focused a lot on spatially localized patterns and especially moving ones.</p>
+<p>A wide variety of complex patterns has been found in Lenia, using a combination of hand made exploration&#x2F;mutation and evolutionary algorithm <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> or exploratory algorithm <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. The work from <dt-cite key="chan2020lenia"></dt-cite><dt-cite key="chan2019lenia"></dt-cite> focused a lot on spatially localized patterns and especially moving ones.</p>
 <div class="row l-body">
     <div class="column">
       <video id="robust" width="80%" autoplay loop muted="" class="videoShow">
@@ -293,6 +293,13 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>For each rule, the shape of the (kernel, growth function) is parametrized.We are thus able to define the physics of the cells, how they interact with each other( with the ones of the same type or with other types of cells), By changing the kernels shape, changing how its neighbourhood is perceived, as well as the growth function, changing the reaction to this perception. </p>
 
+<p>However, finding interesting parameters leading to the emergence of localized patterns or even moving one is not easy. For example here a random search of 100 trials (with 1 channel and 10 rules) gives only 3-5 SLP and no moving creature. Even with more complex exploration searches methods like <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite> moving creatures are hard to find. This motivates our choice to use gradient descent in order to learn these parameters.</p>
+
+<video id="robust" width="95%"  autoplay  controls muted="" class="l-body videoShow">
+                <source src="random.mp4" type="video/mp4">
+              </video>
+
+<p> </p>
 
 
 
@@ -314,10 +321,6 @@ Update step  of channel 1 in the Lenia System <br>
 <p>.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. This will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
-
-
-
-
 
 <p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like gliders in the game of life. Note that moving creatures in cellular automaton differ from other types of movement like motors, muscle contraction or soft robot <dt-cite key="Trivedi2008SoftRB"></dt-cite>. CAs operate on a fixed grid and therefore moving necessarily requires patterns growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this paper, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
 
@@ -433,6 +436,21 @@ IMGEP Step <br>
                   </video>
     </div>
   </div>
+
+<div class="row l-screen-inset">
+   
+    <div class="column">
+      <video id="robust" width="95%" controls  autoplay loop muted="" class="videoShow">
+                    <source src="moveBar.mp4" type="video/mp4">
+                  </video>
+    </div>
+<div class="column">
+      <video id="robust" width="95%" controls  autoplay loop muted="" class="videoShow">
+                    <source src="moveBarDie.mp4" type="video/mp4">
+                  </video>
+    </div>
+  </div>
+
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Creatures obtained <br>
  <span style="font-size: 14px;color:#A0A0A0;"> 50 timesteps approximately corresponds to 1 s of the video.The last creature on the right at timestep 50 (half of the video)
@@ -1093,6 +1111,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 </dt-appendix>
 
 <script type="text/bibliography">
+
   @article{DBLP:journals/corr/abs-1901-01753,
   author    = {Rui Wang and
                Joel Lehman and
