@@ -7,7 +7,7 @@
               </video>
   <dt-byline></dt-byline>
 <d-content>
-<nav style="margin-left:2em">
+<nav id="infoDemo" style="margin-left:2em" style="display:none">
       <li> <b>Press play to begin</b> </li>
       <li>Place creature by clicking on the dark screen ( <b>place creature</b> mode should be selected)</li>
       <li>Now place obstacles by selecting <b>obstacle dot</b> and then clicking or dragging  on the screen  </li>
@@ -35,8 +35,7 @@
   <!--shadertoy at mac 840x472, at win 640x360-->
   <div id="showText" onclick="this.style.display='none';">initializing...</div>
 </div>
-  <p id="instructionDemo"class="l-gutter" style="font-size: 12px;color:#A0A0A0;"> Radius 0.5 is good to spawn creatures<br> Click on screen to spawn </p>
-<div>
+ <div>
  <span id="play-pause">
                 <svg class="icon" id="play" style="display: inline;"><svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></svg>
                 <svg class="icon" id="pause" style="display: none;"> <svg id="pauseIcon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg> </svg>
@@ -46,15 +45,14 @@
  
 <div class="radio-toolbar" id="radioStart" >
  <input type="radio" id="startButton1" name="optionStart" value="1" checked>
- <label for="startButton1" id="labelStartButton1" onclick="document.getElementById('getStarted').style.display='block';document.getElementById('controls').style.display='none'">Getting started</label>
+ <label for="startButton1" id="labelStartButton1" onclick="document.getElementById('infoDemo').style.display='none';document.getElementById('getStarted').style.display='block';document.getElementById('controls').style.display='none'">Getting started</label>
 
  <input type="radio" id="startButton2" name="optionStart" value="2" >
- <label for="startButton2" id="labelStartButton2" onclick="document.getElementById('getStarted').style.display='none';document.getElementById('controls').style.display='block'">Advanced options</label>
+ <label for="startButton2" id="labelStartButton2" onclick="document.getElementById('infoDemo').style.display='block';document.getElementById('getStarted').style.display='none';document.getElementById('controls').style.display='block'">Advanced options</label>
 </div>
 </div>
 
-  <p id="instructionDemo"class="l-gutter" style="font-size: 12px;color:#A0A0A0;"> Radius 0.5 is good to spawn creatures<br> Click on screen to spawn </p>
-
+ 
 
   <div id="getStarted" class="l-body" style="display:block">
 
