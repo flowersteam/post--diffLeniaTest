@@ -20,14 +20,14 @@
     </d-content>
 <div class="radio-toolbar" id="radioCrea" style="float:left;margin-left:calc(50% - 1284px/2);width:50px">
    <input type="radio" id="demoButton1" name="optionCrea" value="1" checked>
-   <label for="demoButton1" id="labelDemoButton1" onclick="setSpecies(0)"><img style="width:80px;height:56px" src="crea1.png"></label><br>
+   <label for="demoButton1" id="labelDemoButton1" onclick="setSpecies(0);document.getElementById('getStarted1').style.display='block';document.getElementById('getStarted2').style.display='none';document.getElementById('getStarted3').style.display='none'"><img style="width:80px;height:56px" src="crea1.png"></label><br>
 
    <input type="radio" id="demoButton2" name="optionCrea" value="2" >
-   <label for="demoButton2" id="labelDemoButton2" onclick="setSpecies(1)"><img style="width:80px;height:56px" src="crea2.png"></label><br>
+   <label for="demoButton2" id="labelDemoButton2" onclick="setSpecies(1);document.getElementById('getStarted1').style.display='none';document.getElementById('getStarted2').style.display='block';document.getElementById('getStarted3').style.display='none'"><img style="width:80px;height:56px" src="crea2.png"></label><br>
 
 
    <input type="radio" id="demoButton4" name="optionCrea" value="4">
-   <label for="demoButton4" id="labelDemoButton4" onclick="setSpecies(3)"><img style="width:80px;height:56px" src="crea4.png"></label>
+   <label for="demoButton4" id="labelDemoButton4" onclick="setSpecies(3);document.getElementById('getStarted1').style.display='none';document.getElementById('getStarted2').style.display='none';document.getElementById('getStarted3').style.display='block'"><img style="width:80px;height:56px" src="crea4.png"></label>
 
 </div>
 <div class='l-body'>
@@ -87,7 +87,7 @@
         </div>
         <div id="mazeCrea2" class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='mazeCrea2.png'">
           <img style="width:100%" src="mazeCrea2.png">
-          <p style="margin-top:0px;margin-bottom:0px;text-align:center"> Maze </p>
+          <p class="titleGetStarted"> Maze </p>
         </div>
       </div>
     </div>
@@ -1794,6 +1794,12 @@ background-color: lightgreen;
   opacity: 0;
   position: fixed;
   width: 0;
+}
+
+.titleGetStarted{
+margin-top:0px;
+margin-bottom:0px;
+text-align:center;
 }
 
 .radio-toolbar label {
