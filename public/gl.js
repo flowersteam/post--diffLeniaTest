@@ -304,7 +304,7 @@ function initUniforms() {
     gl.uniform1f(uniforms.iSampleRate, 44100.0);
     gl.uniform4f(uniforms.iMouse, 0.0, 0.0, 0.0, 0.0);
     gl.uniform1f(params.R, 8.5);
-    gl.uniform3f(uniforms.color, 1.0,0.0,0.0);
+    gl.uniform3f(uniforms.color, 0.0,0.0,1.0);
     gl.uniform1f(uniforms.radius, 0.5);
 
 }
