@@ -9,13 +9,20 @@
 <d-content>
 <nav id="infoDemo" style="margin-left:2em;display:none">
       <li> <b>Press play to begin</b> </li>
-      <li>Place creature by clicking on the dark screen ( <b>place creature</b> mode should be selected)</li>
+      <li>Place creature by clicking on the dark screen with  <b>place creature</b> mode selected)</li>
       <li>Now place obstacles by selecting <b>obstacle dot</b> and then clicking or dragging  on the screen  </li>
       <li>You can erase by selecting the <b>Eraser</b> mode and then clicking or dragging on the screen  </li>
       <li> You can choose the brush size to draw bigger obstacles/ clear bigger areas etc</li>
       <li> To zoom, select zoom mode, select zoom magnitude with the slider and then click where you wan't to zoom<br> keep the click and drag to follow the creature </li>
        <li> You can clear the whole screen by clicking on the again button </li>
  
+  </nav>
+<nav id="infoDemo" style="margin-left:2em;display:block">
+      <li> <b>Press play to begin</b> </li>
+      <li>Choose the creature on the left</li>
+      <li>Choose pre defined environments at the bottom </li>
+      <li>Draw obstacles by clicking on the canvas  </li>
+<li>More complex option available at Advanced Options  </li>
   </nav>
     </d-content>
 <div class="radio-toolbar" id="radioCrea" style="float:left;margin-left:calc(50% - 1284px/2);width:50px">
@@ -898,7 +905,7 @@ In this study, we want the obstacle channel to stay still. To do so, there is no
         The grid is the same size as above to give you an idea of the scale change( kernel radius *0.4)
       </p>
 
-<p>We can change the scale of the creature by changing the radius of the kernels as well as the size of the initialization square (with an approximate resize). This way we can make much smaller creatures that therefore have less pixels to do the computation. This scale reduction has a limit but we can get pretty small creatures. The creatures still seem to be quite robust and be able to sense and react to their environment while having less space to compute. The creatures are even able to reproduce, however they seem to be less robust than the bigger one as we can see some dying from collision with other creatures. We can also do it the other way and have much bigger creatures that therefore have more space to compute.</p>
+<p>We can change the scale of the creature by changing the radius of the kernels as well as the size of the initialization square (with an approximate resize). This is a surprising generalization as it completely changes the number of cells constituting the macro entity. We can make much smaller creatures that therefore have less pixels to do the computation. This scale reduction has a limit but we can get pretty small creatures. The creatures still seem to be quite robust and be able to sense and react to their environment while having less space to compute. The creatures are even able to reproduce, however they seem to be less robust than the bigger one as we can see some dying from collision with other creatures. We can also do it the other way and have much bigger creatures that therefore have more space to compute. (but more cells to organize)</p>
 <h4 id='are-the-creatures-robust-to-change-of-initialization-'><strong>ARE THE CREATURES ROBUST TO CHANGE OF INITIALIZATION ?</strong></h4>
 <video id="model-editing-level-1-video-1"   controls="" muted="" class="videoShow l-middle side">
               <source src="initCircleGrad.mp4" type="video/mp4">
