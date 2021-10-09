@@ -451,10 +451,7 @@ function set_iMouseDraw(e, sx, sy) {
 }
 
 var buttonzoom = document.getElementById("radioZoom");
-buttonzoom.onclick= ()=>{
-  var instructionDisplay = document.getElementById("instructionDemo");
-  instructionDisplay.innerHTML="Click and keep mouse down on screen to zoom. You can move a little bit to follow ";
-}
+
 
 function onMouseDown(e) { isMouseDown = true;  if(buttonzoom.checked){set_iMouseDraw(e, +1, +1)}else{set_iMouse(e,+1,+1)}; }
 function onMouseMove(e) { if (isMouseDown)    if(buttonzoom.checked){set_iMouseDraw(e, +1, -1)}else{set_iMouse(e,+1,-1)}; }
@@ -499,16 +496,12 @@ gl.uniform1f(zoomLoca, 1/this.value);
 
 var buttonCrea = document.getElementById("radioCreature");
 buttonCrea.onclick= ()=>{
-  var instructionDisplay = document.getElementById("instructionDemo");
-  instructionDisplay.innerHTML="Radius 0.5 is good to spawn creatures<br> Click on screen to spawn";
   gl.useProgram(simProgram);
   gl.uniform3f(gl.getUniformLocation(simProgram, "color"),1.0,0.0,0.0)
   //gl.uniform1f(gl.getUniformLocation(simProgram, "radius"), 0.5);
 }
 var buttonCircle = document.getElementById("radioCircle");
 buttonCircle.onclick= ()=>{
-  var instructionDisplay = document.getElementById("instructionDemo");
-  instructionDisplay.innerHTML="Click on screen to add walls";
   gl.useProgram(simProgram);
   gl.uniform3f(gl.getUniformLocation(simProgram, "color"),0.0,0.0,1.0)
 
@@ -516,8 +509,6 @@ buttonCircle.onclick= ()=>{
 
 var buttonErase = document.getElementById("radioErase");
 buttonErase.onclick= ()=>{
-  var instructionDisplay = document.getElementById("instructionDemo");
-  instructionDisplay.innerHTML="Click to erase";
   gl.useProgram(simProgram);
   gl.uniform3f(gl.getUniformLocation(simProgram, "color"),0.0,0.0,0.0)
 
@@ -525,8 +516,6 @@ buttonErase.onclick= ()=>{
 
 var buttonAttract = document.getElementById("radioAttract");
 buttonAttract.onclick= ()=>{
-  var instructionDisplay = document.getElementById("instructionDemo");
-  instructionDisplay.innerHTML="Click and keep mouse down and move (still experimental)";
   gl.useProgram(simProgram);
   gl.uniform3f(gl.getUniformLocation(simProgram, "color"),0.0,1.0,0.0)
 
