@@ -364,7 +364,7 @@ function runOnce() {
 
         var status = width + "x" + height + " " + actualFPS.toFixed(1) + "fps";
         if (filename == "lenia4param") status += "</br>" + speciesName;
-        if(gen!=0){
+        if(gen!=1){
           textbox.innerHTML = status;
         }
     }
