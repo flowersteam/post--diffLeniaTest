@@ -17,7 +17,7 @@
        <li> You can clear the whole screen by clicking on the again button </li>
  
   </nav>
-<nav id="infoDemo" style="margin-left:2em;display:block">
+<nav id="infoDemoAdvanced" style="margin-left:2em;display:block">
       <li> <b>Press play to begin</b> </li>
       <li>Choose the creature on the left</li>
       <li>Choose pre defined environments at the bottom </li>
@@ -52,10 +52,10 @@
  
 <div class="radio-toolbar" id="radioStart" >
  <input type="radio" id="startButton1" name="optionStart" value="1" checked>
- <label for="startButton1" id="labelStartButton1" onclick="document.getElementById('infoDemo').style.display='none';document.getElementById('getStarted').style.display='block';document.getElementById('controls').style.display='none'">Getting started</label>
+ <label for="startButton1" id="labelStartButton1" onclick="document.getElementById('infoDemo').style.display='block';document.getElementById('infoDemoAdvanced').style.display='none';document.getElementById('getStarted').style.display='block';document.getElementById('controls').style.display='none'">Getting started</label>
 
  <input type="radio" id="startButton2" name="optionStart" value="2" >
- <label for="startButton2" id="labelStartButton2" onclick="document.getElementById('infoDemo').style.display='block';document.getElementById('getStarted').style.display='none';document.getElementById('controls').style.display='block'">Advanced options</label>
+ <label for="startButton2" id="labelStartButton2" onclick="document.getElementById('infoDemo').style.display='none';document.getElementById('infoDemoAdvanced').style.display='block';document.getElementById('getStarted').style.display='none';document.getElementById('controls').style.display='block'">Advanced options</label>
 </div>
 </div>
 
