@@ -156,6 +156,7 @@ function init() {
     textbox.innerHTML = "loading shader files...";
     loadShaderFiles(['vertex.glsl', 'fragment_sim.glsl', 'fragment_draw.glsl', shadertoyFilename],
         initWebGL);
+    img.src = 'init1.png';
 }
 
 function initWebGL(shaderSources) {
@@ -571,6 +572,5 @@ img.onload = function() {
 
   }
 
-img.src = 'init1.png';
 
 init()
