@@ -341,7 +341,8 @@ function setUniforms() {
 }
 
 function runOnce() {
-    if (!pause or gen==0) {
+    if (!pause || gen==0) {
+
         gl.useProgram(simProgram);
         setUniforms();
 
