@@ -43,9 +43,75 @@
             </span>
 <svg class="icon" id="reset"><svg id="resetIcon" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"></path></svg></svg> 
 <input type="file" id="imageLoader" name="imageLoader"/>
+ 
+<div class="radio-toolbar" id="radioStart" >
+ <input type="radio" id="startButton1" name="optionStart" value="1" checked>
+ <label for="startButton1" id="labelStartButton1" onclick="document.getElementById('getStarted').style.display='block';document.getElementById('controls').style.display='none'">Getting started</label>
+
+ <input type="radio" id="startButton2" name="optionStart" value="2" >
+ <label for="startButton2" id="labelStartButton2" onclick="document.getElementById('getStarted').style.display='none';document.getElementById('controls').style.display='block'">Advanced options</label>
+</div>
 </div>
 
-  <div class='l-body row'>
+  <p id="instructionDemo"class="l-gutter" style="font-size: 12px;color:#A0A0A0;"> Radius 0.5 is good to spawn creatures<br> Click on screen to spawn </p>
+
+
+  <div id="getStarted" class="l-body" style="display:block">
+
+    <div  id="getStarted1" style="display:block">
+      <div class="row" >
+        <div id="zoomCrea1" class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2); " onclick="img.src='zoomCrea1.png'">
+          <img style="width:100%" src="zoomCrea1.png">
+          <p class="titleGetStarted"> zoomed </p>
+        </div>
+        <div  id="multi1"class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='init1.png'">
+          <img style="width:100%" src="init1.png">
+          <p class="titleGetStarted"> Multi crea</p>
+        </div>
+        <div id="mazeCrea1" class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='mazeCrea1.png'">
+          <img style="width:100%" src="mazeCrea1.png">
+          <p style="margin-top:0px;margin-bottom:0px;text-align:center"> Maze </p>
+        </div>
+      </div>
+    </div>
+
+    <div  id="getStarted2" style="display:none">
+      <div class="row" >
+        <div id="zoomCrea2" class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2); " onclick="img.src='zoomCrea2.png'">
+          <img style="width:100%" src="zoomCrea2.png">
+          <p class="titleGetStarted"> zoomed </p>
+        </div>
+        <div  id="multi2"class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='init2.png'">
+          <img style="width:100%" src="init2.png">
+          <p class="titleGetStarted"> Multi crea</p>
+        </div>
+        <div id="mazeCrea2" class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='mazeCrea2.png'">
+          <img style="width:100%" src="mazeCrea2.png">
+          <p style="margin-top:0px;margin-bottom:0px;text-align:center"> Maze </p>
+        </div>
+      </div>
+    </div>
+
+    <div  id="getStarted3" style="display:none">
+      <div class="row" >
+        <div id="zoomCrea3" class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2); " onclick="img.src='zoomCrea3.png'">
+          <img style="width:100%" src="zoomCrea3.png">
+          <p class="titleGetStarted"> zoomed </p>
+        </div>
+        <div  id="multi3"class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='init3.png'">
+          <img style="width:100%" src="init3.png">
+          <p class="titleGetStarted"> Multi crea</p>
+        </div>
+        <div id="mazeCrea3"class="column" style="background-color: rgba(0,0,0,0.1);border: solid rgba(0, 0, 0, .2);" onclick="img.src='mazeCrea3.png'">
+          <img style="width:100%" src="mazeCrea3.png">
+          <p style="margin-top:0px;margin-bottom:0px;text-align:center"> Maze </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div id="controls" class="l-body" style="display:none">
+  <div class='row'>
     <div class="column">
       <input type="range" min="0.1" max="1"  step="0.1" value="0.5" class="slider" id="rangeRadiusWall" >
       <p> Brush size: <span id="valueRadiusWall"></span></p>
@@ -57,21 +123,24 @@
       <p> Zoom : <span id="valueZoom"></span></p>
     </div>
   </div>
+
+
   <div class="radio-toolbar" id="optionDiv">
     <input type="radio" id="radioErase"  name='option'  value="erase">
     <label for="radioErase">Eraser</label>
 
-    <input type="radio" id="radioCircle"  name='option'  value="circle">
+    <input type="radio" id="radioCircle"  name='option'  value="circle" checked>
     <label for="radioCircle">Wall Dot</label>
 
-    <input type="radio" id="radioCreature" name='option'  value="creature" checked>
+    <input type="radio" id="radioCreature" name='option'  value="creature" >
     <label for="radioCreature">Place Creature</label>
 
     <input type="radio" id="radioZoom" name='option'  value="zoom" >
     <label for="radioZoom">Zoom</label>
 
-    <input type="radio" id="radioAttract" name='option'  value="attract" style="display:none;">
+    <input type="radio" id="radioAttract" name='option'  value="attract" >
     <label for="radioAttract">Attractor</label>
+</div>
 </div>
 
 <p><a href="https://colab.research.google.com/drive/11mYwphZ8I4aur8KuHRR1HEg6ST5TI0RW#scrollTo=l6D-g1Q38yyC" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a></p>
