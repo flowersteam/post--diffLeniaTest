@@ -322,10 +322,10 @@ float m_x = iMouse.x / iResolution.x;
 float m_y = iMouse.y / iResolution.y;
 vec3 m_color = vec3(1.0);
 vec2 dist = vec2(m_x, m_y) - st.xy;
-dist.x *= iResolution.x/iResolution.y;
+dist.x *= 640./360.;
 float mouse_pct = length(dist);
 if(color[1]>0.5){
- mouse_pct = step(0.4/80., mouse_pct);
+ mouse_pct = step(0.4/80.*300./iResolution.y, mouse_pct);
  float mask=1.-step(0.05,mouse_pct);
  //float mask=1.;
  //mouse_pct=1.-(mask*1./(mouse_pct*60.+1.));
