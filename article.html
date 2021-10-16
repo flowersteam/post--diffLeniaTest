@@ -777,11 +777,8 @@ In this study, we want the obstacle channel to stay still. To do so, there is no
 <img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
 
      <p  style="font-size: 13px;color:#A0A0A0;">
-      Initialization is the yellow square  Green dashed line is at the same position in both.; <br>
-
-     Left: reached goal/position library in green, target goal in red. THe policy selected is the one reaching the position in purple circle <br>
-
-      Right:  Blue disks are the obstacles, red the target shape and green the creature at last timestep before optimisation .
+     At every inner step (gradient), we randomly sample the obstacles positions (always the same number and size) and run the Lenia rollout with those
+Obstacles. We then optimize toward the target shape as before.
      </p>
 
 <p>Now that we have an algorithm that is capable of learning moving creatures in Lenia. The next step is to find a way to learn the rules leading to the emergence of a creature that would resist and avoid  various obstacles in its environment<strong> </strong>. In this section, we try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creatures. So we learn a single global rule for multiple functions contrary to <dt-cite key="horibe2021regenerating"></dt-cite> which separates regenerating and building into two different CA.</p>
