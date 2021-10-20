@@ -239,7 +239,7 @@ width: calc((1500px - 648px) / 2 - 24px);">
 
 <p>In the <a href='#can-we-learn-robust-creatures-with-sensorimotor-capabilities-'>third section</a>, we explain how our environment&#39;s physical rules can integrate both predetermined specific properties and learnable properties. That "trick" to control subparts of the environmental physics allows us to build a curriculum of tasks for optimizing the learnable part of the environment, in which we are searching parameters that could self-organize sensorimotor agents robust to stochastic variations in the environmental constraints  Environment-design allows us, by shaping the search process, to discover more advanced forms of sensorimotor capabilities such as self-maintenance and adaptivity to the surroundings. </p>
 
-<p>Finally in the <a href='#how-well-do-the-creatures-obtained-generalize-'>last section</a>, we investigate the (zero-shot) generalization of the discovered sensorimotor agents to several out-of-distribution perturbations that were not encountered during training. Impressively, even though the agents still fail to preserve their integrity in certain configurations, they show very strong robustness to most of the tested variations. The agents are able to navigate in unseen and harder environmental configurations while self-maintaining their individuality. Not only the agents are able to recover their individuality when subjected to external perturbations but also when subjected to internal perturbations: they resist "rewiring" of the morphogenetic processes such that less frequent cell updates, quite drastic changes of scales as well as changes of initializations. Furthermore, when tested in a multi-entity initialization and despite having been trained alone, not only the agents are able to preserve their individuality but they show forms of coordinated interactions (attractiveness and reproduction), interactions that have been coined as <i>communicative interactions</i><dt-fn> <strong>communicative interactions:</strong> "entity-entity perturbations that serve to orient entities within their respective cognitive domains to new possibilities for action" <dt-cite key="PMID:24494612"></dt-cite></dt-fn> . Our results suggest that, contrary to the (still predominant) mechanistic view on embodiment, biologically-inspired enactive embodiment could pave the way toward agents with strong coherence and generalization to out-of-distribution changes, mimicking the remarkable robustness of living systems to maintain specific functions despite environmental and body perturbations <dt-cite key="kitano2004biological"></dt-cite>. Searching for rules at the cell-level in order to give rise to higher-level cognitive processes at the level of the organism and at the level of the group of organisms opens many exciting opportunities to the development of embodied approaches in AI in general.</p>
+<p>Finally in the <a href='#how-well-do-the-creatures-obtained-generalize-'>last section</a>, we investigate the (zero-shot) generalization of the discovered sensorimotor agents to several out-of-distribution perturbations that were not encountered during training. Impressively, even though the agents still fail to preserve their integrity in certain configurations, they show very strong robustness to most of the tested variations. The agents are able to navigate in unseen and harder environmental configurations while self-maintaining their individuality. Not only the agents are able to recover their individuality when subjected to external perturbations but also when subjected to internal perturbations: they resist variations of the morphogenetic processes such that less frequent cell updates, quite drastic changes of scales as well as changes of initializations. Furthermore, when tested in a multi-entity initialization and despite having been trained alone, not only the agents are able to preserve their individuality but they show forms of coordinated interactions (attractiveness and reproduction), interactions that have been coined as <i>communicative interactions</i><dt-fn> <strong>communicative interactions:</strong> "entity-entity perturbations that serve to orient entities within their respective cognitive domains to new possibilities for action" <dt-cite key="PMID:24494612"></dt-cite></dt-fn> . Our results suggest that, contrary to the (still predominant) mechanistic view on embodiment, biologically-inspired enactive embodiment could pave the way toward agents with strong coherence and generalization to out-of-distribution changes, mimicking the remarkable robustness of living systems to maintain specific functions despite environmental and body perturbations <dt-cite key="kitano2004biological"></dt-cite>. Searching for rules at the cell-level in order to give rise to higher-level cognitive processes at the level of the organism and at the level of the group of organisms opens many exciting opportunities to the development of embodied approaches in AI in general.</p>
 
 
 
@@ -402,7 +402,7 @@ Random initializations in Lenia <br>
 
 <p>To summarize, the parameters of the update rule are thus those controlling the kernel shape (\(R,r,rk,w,b\)), those controlling the growth function (\(\mu,\sigma,h\)) and a time controlling parameter (\(T\)). For a total of \(n\) rules (all channels included), the number of parameters is \( 8n + 1 \). In our experiments, R and T are chosen randomly and fixed while all the other parameters are optimized, and we use a total of \(n&#x3D;10\) rules. </p>
 
-<p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has it's result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
+<p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. This will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
 
@@ -415,10 +415,10 @@ Random initializations in Lenia <br>
 
 
 
-<p> The first target shape we tried was a single disk with the idea of getting a spatially localized agent as the target shape is finite. However, after seeing that the robust creature obtained seemed to have a "core" and a shallow envelope, we informally chose to move to two superposed discs, a large shallow one with a thick smaller one on top. The target shape has the formula \(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 because as we clip the pixels to 1 after each update it&#39;s better to have pixels below 1 than pixel saturated if you want to have gradients.</p>
+<p> The first target shape we tried was a single disk with the idea of getting a spatially localized agent contained within the disk as the target shape is finite. However, after seeing that the robust creature obtained seemed to have a "core" and a shallow envelope, we informally chose to move to two superposed discs, a large shallow one with a thick smaller one on top. The resulting target shape has the formula \(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 because as we clip the pixels to 1 after each update it&#39;s better to have pixels below 1 than saturated at 1 in order to not kill the gradients.</p>
 
 
-<p>However simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1. Moreover, if the target is far, as it needs several steps to go to the target and the system is complex&#x2F;chaotic, the optimization landscape will be very hard. To tackle these challenges, we propose to use curriculum learning exploiting the fact that we can shape optimization to aim for near-enough (feasible) target shapes.</p>
+<p>Despite the choice of the target shape, the choice of the target location is crucial  for the success of the optimization. Simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1. Moreover, if the target is far, as it needs several steps to go to the target and the system is complex&#x2F;chaotic, the optimization landscape will be very hard. To tackle these challenges, we propose to use curriculum learning exploiting the fact that we can shape optimization to aim for near-enough (and increasingly further) target shapes.</p>
 
 <div class="l-body">
   <img id="schemeCuri" src="curriculum.svg" alt="CurriculumScheme" width="100%" >
@@ -434,12 +434,11 @@ location but to make it clearer we separated both). . </span>
 <h3 id='curriculumdriven-goal-exploration-process'><i>Curriculum-driven goal exploration process</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
 
-<p>The effectiveness of curriculum with complex tasks has already been shown in <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1901-01753"></dt-cite> where they made an agent design increasingly complex tasks trying to make it both not too hard and not too easy for another learning agent. And in complex self organizing systems in <dt-cite key="variengien2021selforganized"></dt-cite> where they needed to first make it learn easy computation in order to stabilize it.</p>
+<p>The effectiveness of curriculum with complex tasks has already been shown in Wang et al. <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1901-01753"></dt-cite> where a teacher agent was created to design increasingly complex tasks for another learning agent, such that  the learning tasks were neither too hard nor too easy. Recent work by Variengien et al. showed the need of curriculum to stabilize learning and avoid local minima in complex self organizing systems <dt-cite key="variengien2021selforganized"></dt-cite>.</p>
 
-<p>However, knowing how far  and in which direction the target should be pushed can be a hard problem. In fact, some location can lead to hard optimization landscape with a danger to get stuck while some other locations by luck  can make the optimization easy. And these spots would change for every random initialization.  This motivates the need for a stochastic exploration of the target position.    </p>
+<p>However, defining a learning curriculum knowing (in our case defining how far  and in which direction the target should be pushed at each optimization phase) is not trivial. can be a hard problem. In fact, some locationslocation can lead to a hard optimization landscape than other easier locations (e.g. with a danger to get  trapped in local minima)stuck while some other locations by luck can make the optimization easy. And these "easy" targetsspots would change for every random initialization. This motivates the need for a stochastic exploration of the target position.    </p>
 
-<p>One modular way we introduced it was using IMGEP <dt-cite key="Forestier2017IntrinsicallyMG"></dt-cite> which has already been used as an explorative tool in Lenia to explore the morphological space <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>.</p>
-<p>The general idea of IMGEP is to iteratively set new goals to achieve and for each of these goals try to learn a policy (here a policy is simply an initial state and the CA rule) that would suit this goal. This way an IMGEP needs an interesting way to sample new goals for example based on intrinsic reward. It also needs a way to track the progress on this goal, and a way to optimize toward this goal. It also might use the knowledge acquired on other goals to learn new goals or attain them more quickly.</p>
+<p>To tackle these challenges, we propose to rely on intrinsically-motivated goal exploration processes (IMGEPs), an algorithmic process which was shown successful at generating a learning curriculum for complex exploration spaces in robotics One modular way we introduced it was using IMGEP <dt-cite key="Forestier2017IntrinsicallyMG"></dt-cite> and which has already been used in Lenia as a diversity searchn explorative tool in Lenia to explore the morphological space <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. The general idea of IMGEP is to iteratively set new goals to achieve and for each of these goals try to learn a policy (here a policy is simply an initial state and the CA rule) that would suit this goal. To do so, an IMGEP integrates several key mechanisms: a goal-sampling policy (that decides how to sample interesting new goalsThis way an IMGEP needs an interesting way to sample new goals, for example based on intrinsic reward), a goal-achievement criterion (that. It also needs a way to  tracks the progress on athis goal), and a goal-achievement policy (thatway to optimizes  toward a targetthis goal). Importantly, an IMGEP can reuseIt also might use the knowledge acquired on other goals to learn new goals or attain them more quickly.</p>
 
 <div class="l-middle-outset" style="position:relative">
   <img id="schemeIMGEP" src="IMGEP.svg" alt="IMGEPscheme" width="100%" >
@@ -457,33 +456,34 @@ location but to make it clearer we separated both). . </span>
 IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
  </p><br>
-<p>In our case, the goal space will simply be a 2 dimensional vector representing the position of the center of mass of the creature at the last timestep. The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we randomly sample position in the grid biasing the sampling toward one edge of the grid.(while still taking care that the goals are not too far from attained positions). To attain this new position&#x2F;goal, the inner loop  uses gradient descent with  MSE error between the last state and our target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that will apply several steps of gradient descent toward this goal.  The way we reuse knowledge acquired is by initializing the parameters by the one that achieved the closest goal.</p>
+<p>In our case, the goal space iswill simply be a 2- dimensional vector space representing the position of the center of mass of the target shape. Hence, a policy in Lenia (controlling the CA initialization and rules) achieves a target goal when it emerges a creature whose position at the last timestep (here t&#x3D;50) is within an accepted range from the target onecreature at the last timestep. While there exist many goal-sampling strategies in the IMGEP literature, we use here a simple version that The way we sample the goals depends on the task but to have a moving creature that goes far in the grid, we randomly samples positions in the grid but that biasesbiasing the sampling (i) toward one edge of the grid in order to obtain moving creatures of the grid.(while still and (ii) taking care that the sampled goals are not too far from already-attained positions). To attain athis new target position&#x2F;goal, the goal-achievement policy relies on (i) the history of previously-tried policies to select the parameters that performed best (achieved the closest position); and (ii) an inner loop that uses gradient descent with  MSE error between the selected policy's last state and theour target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that applieswill apply several steps of gradient descent toward this goal. While not a central contribution of this paper, it is the first time that gradient descent is used as a local optimizer within the IMGEP loop. The way we reuse knowledge acquired is by initializing the parameters by the one that achieved the closest goal.</p>
 
 <p>The overall method can be summarized as such:</p>
 <div class=l-body>
 <pre>
 <code  style="line-height:0.4">
-    <p>Initialize randomly the history with random parameters saving (parameters, outcomes/reached goals)   \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
-    <p>loop (number of Imgep step) </p>
+    <p> PerformInitialize randomly the history with random policies in Leniaparameters saving the obtained (parameters, outcomes/reached goals) tuples in history  \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
+    <p>Loop (number of IMGEP step) </p>
     <div style="margin:25px">
-    <p >   sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
+    <p >   Sample target position/goal (not too far from reached positions in the history \(\mathcal{H} \)  )</p>
     <p >   Select, from the history , the parameters that achieved the closest position/goal </p>
-    <p > initialize  the system with those parameters p  </p>
-    <p>   loop (number of optimisation steps)</p>
+    <p > Initialize  the system with those parameters p  </p>
+    <p>   Loop (number of optimisation steps)</p>
     <div style="margin:25px">
     <p>       Run lenia </p>
-    <p>       Gradient descent toward the disk at target position to optimize the parameters</p>
+    <p>       Gradient descent toward the target shapedisk at target position to optimize the parameters</p>
+    <p>        Initialize the system with those optimized parameters </p>
   </div>
 <br>
 <br>
-    <p> Run lenia one more time to see what is the position(ie goal) achieved </p>
-<p> if the creature died or exploded, don't save</p>
-<p> else add to the history the parameters resulting from optimization and the outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p^\star,rg )\) </p>
+    <p> Run lenia one more time to see what is the position (i.e. goal) achieved </p>
+<p> If the creature died or exploded, don't save</p>
+<p> Else, add to history the parameters resulting from optimization and the outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p^\star,rg )\) </p>
   </div>
 </code>
 </pre>
 </div>
-<p>Other advantages of IMGEP is that the information collected when a step "fails", e.g. reaching a position  far from the selected target, can be useful later on for reaching other positions: it might still make a small improvement or it might go in a completely different area which we might want to explore. The fact that we don't alway select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" which may help to avoid being stuck.</p>
+<p>AnOther advantages of IMGEPs is that the information collected when a policy step "fails", e.g. reaching a position  far from the selected target, can be useful later on for reaching other positions: it might still make a small improvement or it might go in a completely different area which we might want to explore. The fact that we don't always select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" which may help to avoid being stuck.</p>
 
 <p>si IMGEP also allows modularity. In this work we only have a simple goal space, encoding  the rollout as the position of the center of mass at the last timestep but further studies could add to that goal space extra objective like size or number of obstacles. We could even  take inspiration from <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>  and add some extra dimension for a morphological encoding of the creature.</p>
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
@@ -542,7 +542,7 @@ Creatures obtained <br>
  <span style="font-size: 14px;color:#A0A0A0;"> 50 timesteps approximately corresponds to 1 s of the video.The last creature on the right at 
  last timestep seen (step where loss was applied during training) tries as much as possible to fit the target resulting in a death few steps after </span>
  </p><br>
-<p>The method proposed above gives us  rules( the physics) and an initialization that lead to the emergence of a moving creature. The rules and initialization are different every time we run the method as the initialization of the method is random. This results in different creatures emerging with every new rule.  Some creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for  longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified in loss.</p>
+<p>The method proposed above gives us a set of rules (the physics) and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the searchmethod as the method's initialization of the method (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtainednew rules (different seeds of the method).  Interestingly, sSome of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified&#x2F;penalized in the training loss.</p>
 <!---
 <div class=' l-screen-inset'>
 <div class='row'>
@@ -709,7 +709,7 @@ Update step  in our Lenia System <br>
 <p>We can handcraft and fix some rules of the environment in order to properly define some of the physics of our system. This way, some parts of the system are fixed corresponding to rules&#x2F;physics we want to have while others stay free so that we can find ones leading to interesting behavior, like emergence of agency. </p>
 
 
-<p> In this work we'll focus on obstacles in the environment as navigating between obstacles requires sensorimotor capabilities </p>
+<p> In this work we'll focus on modeling obstacles in the environment as navigating between obstacles requires sensorimotor capabilities </p>
 <p>To implement obstacles in Lenia we added a separate obstacle channel with a kernel from this channel to the learnable  channel. This kernel has a huge negative growth where there are obstacles and no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels where there are obstacles. This is similar to <dt-cite key="PhysRevE.101.012407"></dt-cite> where they put an antibiotic zone as an obstacle where the bacteria can't live. The learnable channel cells  can only sense the obstacles through the changes&#x2F;deformations it implies on it or its neighbours. In fact, the only kernel that goes from the obstacle channel to the learnable channel is the fixed kernel that we impose. And as this kernel is localized, if a macro agent emerges, it has to "touch" the obstacle to sense it. To be precise the agent can only sense an obstacle    because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it).</p>
 <div class="row l-page side">
     <div class="column">
@@ -962,7 +962,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <p>Another interesting interaction we observed during collision was "reproduction". In fact, for some collision, we could observe the birth of a 3rd entity. This kind of interaction seemed to happen when one of the two entities colliding was in a certain "mode" like when it just hit a wall. Our intuition is that when it hits a wall, it has to have a growth response in order to recover. And during this growth response if we add some perturbation of another entity it might separate this growth from the entity and then this separated mass from strong self-organization grows into a complete individual.</p>
 
-<h2 id='related-works'>Related works</h2>
+<h2 id='related-work'>Related work</h2>
 <h4 id='classic-ca-cognition'><strong>CLASSIC CA COGNITION</strong></h4>
 
 <p>Studies have been focusing on the theoretical&#x2F;philosophical part of cellular automata, using it as a  concrete testbed&#x2F;showcase for theories on cognition ,identity and life <dt-cite key="autopoiesisBeer1754"></dt-cite><dt-cite key="PMID:24494612"></dt-cite>  (like what are the necessary parts needed for "life") .</p>
@@ -1000,7 +1000,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <p>Yet, most of the analyzes we make in this work are subjective.  Future work might want to have a better definition of agency and sensorimotor capabilities by defining a measure of such behavior. <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite> </p>
 <p>Also, engineering subparts of the environmental dynamics with functional constraints (through predefined channels and kernels) has been crucial in this work to shape the search process <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1901-01753"></dt-cite> towards the emergence of sensorimotor capabilities, as well as used as a tool to analyze more easily these emergent sensorimotor capabilities. An interesting direction for future work is to add even more constraints in the environment such as the need for food&#x2F;energy to survive (see Appendix for early attempts in that direction), the principle of mass conservation, or even the need to develop some kind of memory to anticipate future perturbations. We believe that richer environmental constraints and opportunities might be a great leap forward in the search for more advanced agent behaviors. For example, behaviors like competition between individuals&#x2F;species for food, foraging or even basic forms of learning might emerge. From this competition and new constraints, interesting strategies could emerge as in <dt-cite key="baker2020emergent"></dt-cite> <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1710-03748"></dt-cite>. In fact, beyond individual capabilities, we could even wonder under what conditions one could observe the emergence of  an open-ended evolutionary process <dt-cite key="stanley2017open"></dt-cite> directly in the environment, without any outer algorithm, resulting in the emergence of agents with increasingly complex behaviors. Like building the physical rules of an "Universe" and letting agency and evolution emerge from the interactions between parts. To achieve this, we might need to use an optimization process similar to the one presented in this paper to evolve all the environmental rules instead of pre-specifying some of them by hand. Indeed, while the engineering of specific environmental rules facilitates the understanding&#x2F;studying of the results (e.g. talking of "creature" and "wall" channels), having more systematic ways to engineer them could take us closer to the fundamental scientific quest of designing open-ended artificial systems with forms of functional life and agency "as it could be &#39;&#39;. </p>
 
-<p>Despite those fundamental scientific questions, future work might also consider the biological implications and applications of this work. Inferring low-level rules to control complex system-level behaviors is a key problem in regenerative medicine <dt-cite key="cite"></dt-cite> and synthetic bioengineering <dt-cite key="cite"></dt-cite>. In this regard, cellular automata offer an interesting framework to model, understand and control the emergence of growth, form and function in self-organizing systems. However, they remain abstract toy models: entities in the CA exist on a predefined grid topology whereas physical entities have continuous position and speed ; states in the CA are well-defined whereas it is not clear where and how information is processed in living organisms; rules in the CA operate at a predetermined scale whereas real-world processes operate at nested and interconnected scales. Far from trivial, transferring insights from artificial systems to real physical and biological systems is an exciting area of research with a potential broad range of medical, environmental and societal applications <dt-cite key="cite"></dt-cite>.</p>
+<p>Despite those fundamental scientific questions, future work might also consider the biological implications and applications of this work. Inferring low-level rules to control complex system-level behaviors is a key problem in regenerative medicine and synthetic bioengineering <dt-cite key="pezzulo2015re,pezzulo2016top"></dt-cite>. In this regard, cellular automata offer an interesting framework to model, understand and control the emergence of growth, form and function in self-organizing systems. However, they remain abstract toy models: entities in the CA exist on a predefined grid topology whereas physical entities have continuous position and speed ; states in the CA are well-defined whereas it is not clear where and how information is processed in living organisms; rules in the CA operate at a predetermined scale whereas real-world processes operate at nested and interconnected scales. Far from trivial, transferring insights from artificial systems to real physical and biological systems is an exciting area of research with a potential broad range of medical, environmental and societal applications <dt-cite key="kriegman2020scalable,ebrahimkhani2021synthetic"></dt-cite>.</p>
 <p> </p>
 
 
@@ -1811,6 +1811,48 @@ title = {Self-Organized Coordinated Motion in Groups of Physically Connected Rob
 volume = {37},
 journal = {IEEE transactions on systems, man, and cybernetics. Part B, Cybernetics : a publication of the IEEE Systems, Man, and Cybernetics Society},
 doi = {10.1109/TSMCB.2006.881299}
+}
+
+@article{pezzulo2015re,
+  title={Re-membering the body: applications of computational neuroscience to the top-down control of regeneration of limbs and other complex organs},
+  author={Pezzulo, Giovanni and Levin, Michael},
+  journal={Integrative Biology},
+  volume={7},
+  number={12},
+  pages={1487--1517},
+  year={2015},
+  publisher={Oxford University Press}
+}
+
+@article{pezzulo2016top,
+  title={Top-down models in biology: explanation and control of complex living systems above the molecular level},
+  author={Pezzulo, Giovanni and Levin, Michael},
+  journal={Journal of The Royal Society Interface},
+  volume={13},
+  number={124},
+  pages={20160555},
+  year={2016},
+  publisher={The Royal Society}
+}
+
+@article{kriegman2020scalable,
+  title={A scalable pipeline for designing reconfigurable organisms},
+  author={Kriegman, Sam and Blackiston, Douglas and Levin, Michael and Bongard, Josh},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={117},
+  number={4},
+  pages={1853--1859},
+  year={2020},
+  publisher={National Acad Sciences}
+}
+
+@article{ebrahimkhani2021synthetic,
+  title={Synthetic living machines: A new window on life},
+  author={Ebrahimkhani, Mo R and Levin, Michael},
+  journal={Iscience},
+  pages={102505},
+  year={2021},
+  publisher={Elsevier}
 }
 
 
