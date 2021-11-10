@@ -312,7 +312,7 @@ width: calc((1500px - 648px) / 2 - 24px);">
   </div>
   </div>
   <p class="l-body" style="font-size: 12px;color:#A0A0A0;">
-    Videos from Bert Chan's twitter : <a href="https://twitter.com/BertChakovsky/status/1219332395456815104">https://twitter.com/BertChakovsky/status/1219332395456815104</a>   <a href="https://twitter.com/BertChakovsky/status/1265861527829004288">https://twitter.com/BertChakovsky/status/1265861527829004288</a><br>
+    Videos from Bert Chan's twitter found by handmade random exploration : <a href="https://twitter.com/BertChakovsky/status/1219332395456815104">https://twitter.com/BertChakovsky/status/1219332395456815104</a>   <a href="https://twitter.com/BertChakovsky/status/1265861527829004288">https://twitter.com/BertChakovsky/status/1265861527829004288</a><br>
   </p>
 <p style="font-size: 12px;color:#A0A0A0;">You can find a library of creatures found in the first version of Lenia (<dt-cite key="chan2019lenia"><span id="citation-30" data-hover-ref="dt-cite-hover-box-30"><span class="citation-number">[21]</span></span></dt-cite>) at this <a href="https://chakazul.github.io/Lenia/JavaScript/Lenia.html">link</a>.</p>
 
@@ -402,7 +402,7 @@ Random exploration of the parameter space rarely results in moving creature.<br>
 
 
 <img src="freeK.png" alt="schemeK" class="l-body">
-<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
+<p  style="font-size: 14px;color:#A0A0A0;"  class="l-body">
 Differences between original kernels and kernel used in this blogpost.
  </p>
 
@@ -422,6 +422,11 @@ Differences between original kernels and kernel used in this blogpost.
 <p>In this section, we only work with 1 channel (only 1 type of cells interacting). In this channel we want to learn the several rules (parameters of the kernel+growth functions encoding the interactions of those cells within the channel) that will result in the emergence of moving creatures when given the proper initialization. At the same time we also aim to learn an initialization that will be adapted to these rules i.e. lead to the emergence of the creature.</p>
 <p>We start by randomly initializing the parameters and initialization until we get a localized pattern, meaning it doesn't spread to the whole grid and doesn't die . This obtained pattern will most of the time stay at the same position. What we want is to change the parameters and initialization such that this pattern ends further in the grid, meaning that it survived and stayed localized but moved to a different location in a few timesteps. Because our system is differentiable, we're able to backpropagate through the timesteps by "unfolding" the roll-out. We therefore need a loss applied on the roll-out which will encourage movement to a new position z.</p>
 <img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
+ <p style="font-size: 14px;color:#A0A0A0;">
+Optimization step. Optimization of the system with MSE error between target image and system state at last timestep
+ </p>
+
+
 <p>Target image with MSE error applied at the last timestep of a rollout seems effective to learn CA rule leading to a certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem, made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass. We apply the MSE loss between  the pattern at the last timestep of the roll out  and a target shape put at a target location further in the grid.</p>
 
 
