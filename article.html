@@ -725,7 +725,7 @@ Update step  in our Lenia System <br>
 
 <p> In this work we'll focus on modeling <i>obstacles</i> in the environment as navigating between obstacles requires sensorimotor capabilities </p>
 <p>To implement obstacles in Lenia we added a separate obstacle channel with a kernel from this channel to the learnable  channel. This kernel has a huge negative growth where there are obstacles and no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels of the learnable channel where there are obstacles. This is similar to <dt-cite key="PhysRevE.101.012407"></dt-cite> where they put an antibiotic zone as an obstacle where the bacteria can't live. The learnable channel cells  can only sense the obstacles through the changes&#x2F;deformations it implies on it or its neighbours. In fact, the only kernel that goes from the obstacle channel to the learnable channel is the fixed kernel that we impose. And as this kernel is localized, if a macro agent emerges, it has to "touch" the obstacle to sense it. To be precise the agent can only sense an obstacle  because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it).</p>
-<div class="l-page side">
+<div class="l-page side" id="orbicol">
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -741,7 +741,7 @@ Update step  in our Lenia System <br>
   </div>
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-Orbium (glider like in Lenia ) perturbed by obstacles
+a ) Orbium (glider like in Lenia ) perturbed by obstacles
 </p>
 </div>
 
@@ -751,7 +751,7 @@ In this study, we want the obstacle channel to stay still. To do so, there is no
  with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
 
 <p>Now that we've defined some rules in the environment, we'll test how the moving creatures found with seemingly self-maintenance will react to this environment.</p>
-<div class="l-page side">
+<div class="l-page side" id ="complexCol">
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -766,12 +766,12 @@ In this study, we want the obstacle channel to stay still. To do so, there is no
   </div>
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-Creatures, found by handmade random exploration,  perturbed by obstacles
+b) Creatures, found by handmade random exploration,  perturbed by obstacles
 </p>
 </div>
 
 
-<div class="l-page side">
+<div class="l-page side" id="gradientWall">
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -800,15 +800,15 @@ Creatures, found by handmade random exploration,  perturbed by obstacles
 </div>
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-Creatures, learned by the method of previous section,  perturbed by obstacles
+c) Creatures, learned by the method of previous section,  perturbed by obstacles
 </p>  
 </div>
 
-<p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown below. The multi-channel creature (bottom left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
+<p>As said before, glider type of creature has been found in 1 channel lenia. However, they're not very robust to collisions with external elements as shown <a href='#orbicol'>a)</a>. The multi-channel creature ( <a href='#complexCol'>b)</a> left) dies from special collisions with the wall. The multi kernel one is able to sense the wall and resist perturbation but only if we slow time so that it can make more small updates. Also its movements are kind of erratic.</p>
 <p>The creatures found by hand are not that robust to this environment physics. This motivated our search for methods which, given this environmental physics  in the CA paradigm, are able to learn the parameters leading to the emergence of "agency" and "sensorimotor capabilities", with better robustness and resilience to this environment.</p>
 
 
-<p>As you can see on the videos, the moving creatures obtained with gradient descent and curriculum do not necessarily display robustness to our obstacles. (some by luck already have some level of robustness ). This motivates our choice to go further and add obstacles in the training process.</p>
+<p>As you can see on the videos <a href='#gradientWall'>c)</a>, the moving creatures obtained with gradient descent and curriculum do not necessarily display robustness to our obstacles. (some by luck already have some level of robustness ). This motivates our choice to go further and add obstacles in the training process.</p>
 
 <h3 id='method'>Method</h3>
 <img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
