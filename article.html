@@ -391,7 +391,7 @@ Random exploration of the parameter space rarely results in moving creature.<br>
 
 <h3 id='differentiable-lenia'>Differentiable Lenia</h3>
 
-<p>Due to the locality and recurrence of the update rule, there is a close relationship between cellular automata and recurrent convolutional networks <dt-cite key="gilpin2019cellular"></dt-cite>. In fact, we can see a rollout in Lenia as applying a recurrent neural network to an initial state. If (some of) the network parameters are differentiable, backpropagation can be done by "unfolding" the Lenia rollout and applying a loss at certain time step(s) like in [[mordvintsev2020growing]] .</p>
+<p>Due to the locality and recurrence of the update rule, there is a close relationship between cellular automata and recurrent convolutional networks <dt-cite key="gilpin2019cellular"></dt-cite>. In fact, we can see a rollout in Lenia as applying a recurrent neural network to an initial state. If (some of) the network parameters are differentiable, backpropagation can be done by "unfolding" the Lenia rollout and applying a loss at certain time step(s) like in <dt-cite key="mordvintsev2020growing"></dt-cite> .</p>
 
 <p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, fixing the number of bumps restricts a lot the shape of the kernels compared to the original paper.</p>
 
@@ -1026,7 +1026,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 
 <h4 id='swarm-robotics'><strong>SWARM ROBOTICS</strong></h4>
-<p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in their environment.<dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Work in swarm robotics is inspired by nature and  covers various areas of navigation like collective exploration, Coordinated motion [[Baldassarre2007selfOrga]] , or even Collective decision-making.</p>
+<p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in their environment.<dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Work in swarm robotics is inspired by nature and  covers various areas of navigation like collective exploration, Coordinated motion <dt-cite key="Baldassarre2007selfOrga"></dt-cite> , or even Collective decision-making.</p>
 
 
 <h4 id='open-ended-exploration-'><strong>OPEN ENDED </strong><strong>EXPLORATION </strong></h4>
