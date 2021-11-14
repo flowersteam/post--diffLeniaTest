@@ -553,8 +553,9 @@ IMGEP Step <br>
 
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Creatures obtained <br>
- <span style="font-size: 14px;color:#A0A0A0;"> 50 timesteps approximately corresponds to 1 s of the video.The last creature on the right at 
- last timestep seen (step where loss was applied during training) tries as much as possible to fit the target resulting in a death few steps after </span>
+ <span style="font-size: 14px;color:#A0A0A0;"> Each square is the result of 1 trial of the method. Some of the creatures are long term stable 
+Like the ones displayed on the left  While the others die few steps after the number of timesteps it has been trained on like the ones displayed on the right
+The last creature on the right at  last timestep seen (step where loss was applied during training) tries as much as possible to fit the target resulting in a death few steps after </span>
  </p><br>
 <p>The method proposed above gives us a set of rules (the physics) and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified&#x2F;penalized in the training loss.</p>
 <!---
