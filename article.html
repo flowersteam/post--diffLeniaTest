@@ -476,13 +476,13 @@ IMGEP Step <br>
 <div class=l-body>
 <pre>
 <code  style="line-height:0.4">
-    <p> Perform random policies in Lenia saving the obtained (parameters,reached goal) tuples in history  \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
-    <p>Loop (number of IMGEP step) </p>
+    <p> <b>Perform random policies in Lenia saving the obtained (parameters,reached goal) tuples in history</b>  \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
+    <p> <b>Loop</b> (number of <b>IMGEP steps</b>) </p>
     <div style="margin:25px">
-    <p >   Sample target position/goal (not too far from reached positions in the history \(\mathcal{H} \)  )</p>
-    <p >   Select, from the history , the parameters that achieved the closest position/goal </p>
-    <p > Initialize  the system with those parameters </p>
-    <p>   Loop (number of optimisation steps)</p>
+    <p >   <b>Sample target position/goal </b> (not too far from reached positions in the history \(\mathcal{H} \)  )</p>
+    <p >   <b>Select, from the history , the parameters that achieved the closest position/goal</b> </p>
+    <p > <b>Initialize  the system with those parameters</b> </p>
+    <p>   <b>Loo</b> (number of <b>optimisation steps</b>)</p>
     <div style="margin:25px">
     <p>       Run lenia </p>
     <p>       Gradient descent toward the target shape at target position to optimize the parameters</p>
@@ -490,7 +490,7 @@ IMGEP Step <br>
   </div>
 <br>
 <br>
-    <p> Run lenia one more time to see what is the position (i.e. goal) achieved </p>
+    <p> Run lenia one more time to see <b>what is the position (i.e. goal) achieved </b> </p>
 <p> If the creature died or exploded, don't save</p>
 <p> Else, add to history the parameters resulting from optimization and the outcome/goal reached   \(\mathcal{H} =\mathcal{H} \cup (p^\star,rg )\) </p>
   </div>
