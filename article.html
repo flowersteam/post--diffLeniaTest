@@ -1224,20 +1224,53 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h2 id='experimental-details'>Experimental details</h2>
 
+<p>You can reproduce the main results of this paper using  this <a href='https://colab.research.google.com/drive/11mYwphZ8I4aur8KuHRR1HEg6ST5TI0RW?usp=sharing'>colab notebook </p>
+<h4 id='lenia-system'>Lenia system</h4>
 
-<p>Total timesteps : 160 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
+<ul><li>Grid 256x256</li>
+<li>Size of initialization : 40x40</li>
+<li>Timesteps in a Lenia Rollout 50</li>
+<li>Number of kernels in Lenia: 10</li></ul>
 
-<p>1 out of five timesteps has no mutation and is optimized with 115 optimization steps. The rest have mutation before optimization and only 15 optimization steps.</p>
 
 
-<p>Grid 256x256</p>
-<p>Size of initialization : 40x40 </p>
-<p>Timesteps  in a Lenia Rollout 50</p>
-<p>Number of kernels in Lenia: 10</p>
 
-<p>Optimizer : Adam learning rate : for Lenia param &#x3D;0.8e-3 , for initialization &#x3D; 0.8 e-2 (on purpose order of magnitude higher in order to "stabilize" it fast so that both don't change at the same time)</p>
 
-<p>Number of obstacles disks : 8</p>
+<h4 id='parameters-of-the-method'>Parameters of the method</h4>
+<ul><li>Radius of obstacle:10</li>
+<li>Number of obstacles : 8</li>
+<li>Optimizer : Adam learning rate : for Lenia param &#x3D;0.8e-3 , for initialization &#x3D; 0.8 e-2 (on purpose order of magnitude higher in order to "stabilize" it fast so that both don't change at the same time)</li>
+<li>Radius of the target 35 for shallow one 18 for thick one</li></ul>
+
+
+
+
+
+
+<h4 id='optimization'>Optimization</h4>
+
+<p>Total IMGEP timesteps : 160 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
+<p>The first IMGEP steps are deterministic to try to go as far as possible at the beginning. Then all steps sample randomly the target. All the deteministic step don&#39;t mutate the parameters when taking them from history and 115 gradient descent steps are applied. Then 1 out of five timesteps has no mutation and is optimized with 115 optimization steps. The rest have mutation before optimization and are only 15 optimization steps.</p>
+
+
+
+
+
+
+
+<h4 id='initialization-selection'>Initialization selection</h4>
+<p> At the first deterministic steps we stop and start over if the loss isn&#39;t under a certain threshold meaning that the optimization is hard with this initialization even at the beginning.  </p>
+<p> Threshold used is 0.19 for the previous parameters.</p>
+
+
+<h4 id='detection-of-explosion-dying'>Detection of explosion dying</h4>
+
+<p>In practice, to detect explosion or dying, we apply MSE error between the target shape centered at the center of mass of the learnable channel and the learnable channel. If the error is bigger than a threshold we don&#39;t save it to history&#x2F; don&#39;t use it in next steps. </p>
+
+
+
+<h4 id='result'>Result</h4>
+
 
 
 <p>With this configuration, over 10 trials, we obtained :</p>
