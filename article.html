@@ -1236,6 +1236,15 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 
 
+
+
+
+
+<h4 id='optimization'>Optimization</h4>
+
+<p>Total IMGEP timesteps : 160 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
+<p>The first IMGEP steps are deterministic to try to go as far as possible at the beginning. Then all steps sample randomly the target. All the deteministic step don&#39;t mutate the parameters when taking them from history and 115 gradient descent steps are applied. Then 1 out of five timesteps has no mutation and is optimized with 115 optimization steps. The rest have mutation before optimization and are only 15 optimization steps.</p>
+
 <h4 id='parameters-of-the-method'>Parameters of the method</h4>
 <ul><li>Radius of obstacle:10</li>
 <li>Number of obstacles : 8</li>
@@ -1247,21 +1256,12 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 
 
-<h4 id='optimization'>Optimization</h4>
-
-<p>Total IMGEP timesteps : 160 (but fewer can be sufficient) from which 40 are random ones to initialize.</p>
-<p>The first IMGEP steps are deterministic to try to go as far as possible at the beginning. Then all steps sample randomly the target. All the deteministic step don&#39;t mutate the parameters when taking them from history and 115 gradient descent steps are applied. Then 1 out of five timesteps has no mutation and is optimized with 115 optimization steps. The rest have mutation before optimization and are only 15 optimization steps.</p>
-
-
-
 
 
 
 
 <h4 id='initialization-selection'>Initialization selection</h4>
 <p> At the first deterministic steps we stop and start over if the loss isn&#39;t under a certain threshold meaning that the optimization is hard with this initialization even at the beginning.  </p>
-<p> Threshold used is 0.19 for the previous parameters.</p>
-
 
 <h4 id='detection-of-explosion-dying'>Detection of explosion dying</h4>
 
