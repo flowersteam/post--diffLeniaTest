@@ -402,7 +402,7 @@ Random exploration of the parameter space rarely results in moving creature.<br>
 
 
 <img src="freeK.png" alt="schemeK" class="l-body">
-<p  style="font-size: 14px;color:#A0A0A0;"  class="l-body">
+<p  style="font-size: 14px;color:#A0A0A0;text-align:center"  class="l-body">
 Differences between original kernels and kernel used in this blogpost.
  </p>
 
@@ -1187,14 +1187,27 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h2 id='-food-attraction-'> Food attraction </h2>
       
-<p>      Tests of food attraction implementation. We added kernels from food to the creature. To learn the kernels that will make the creature be attracted by the food. </p>
-<p>      ATM: Random search looking only at the kernel that leads to a superposition creature food during a long time using a moving food with simple trajectory (straight line ). However fragilize the creature.</p>
-<p>      NEXT : Evolutionary algorithm or gradient descent with target shape displaced on food  orthogonal to base trajectory.</p>
       <video id="robust" width="100%" autoplay loop muted="" class="videoShow">
                     <source src="attractLive.mp4" type="video/mp4">
                   </video>
 
-    
+<p>    Another direction that we started exploring during the internship is to try to learn creatures with the (sensorimotor) capacity of being attracted to some elements in their environment like in nature organisms being attracted to certain chemicals &#x2F; light &#x2F; temperatures; and use this attraction to guide the macro entity. To do this the idea is again to add a channel (the channel where the attractive element is) and rules from the attractive element channel to the learnable creature channel.</p>
+
+<p>However it&#39;s hard to handcraft the rule leading to such behavior. Thus instead of handcrafting the rule like we did before for the environmental elements, we try to learn them as we did for the unity&#x2F;moving&#x2F;sensorimotor capabilities.</p>
+
+
+<p>To find the rules, we used random exploration of the parameters looking at rule leading to attraction. To do this in practice, we initialize the creature channel with rules leading to the emergence of a creature and   added a moving disk(going in straight line) in the attractive element channel, we then add the new rules from the attractive element channel to the learnable channel. Finally the rules leading to some overlapping of the creature and the disk are selected and are tested by hand to other configurations (other movement of the attractive disk). </p>
+
+<p>However adding extra rule also fragilize equilibrium that existed in the creature rules. The boost of growth that is added with this attraction can easily lead to explosion or death or the negative growth added on some part can also lead to death or explosion (again it creates perturbations it has no been trained to withstand). And in fact some &quot;creature&quot; rules might be better suited for this.  In fact an iterative optimization process might be useful to refine the intra-channel creature rules as well in order to co-adapt and improve both.</p>
+<p> </p>
+
+<p>Finally, we obtain interesting rules like the one displayed here : \ref{fig:attractC} with the creature being clearly attracted to the dot without being unstable. We can clearly guide the creature and the creature still has it&#39;s sensory-motor capabilities and won&#39;t die if we guide it towards a wall.</p>
+
+<p>Interestingly this attraction rule also works on some other creatures without changing anything (you can test it in the web demo). However it&#39;s not that effective, sometimes it seems like we lose the attraction and also the perturbation can easily lead to explosion or death of the creatures.</p>
+
+<p>We think that a more sophisticated evolutionary algorithm or gradient descent could be used for this task or other environmental element implementation. We tried a little bit gradient descent with target shape which follow the attractive element but didn&#39;t succeed in getting something as good as the random search.</p>
+
+
 <h2 id='kernels-activity-visualization'>Kernels activity visualization</h2>
 
 <p>We can visualize the growth induced by each kernel (all square at the exterior of the figure). The square at the bottom center is the weighted sum of all those growth (+ the growth of the wall) i.e. the total growth of the step. The center top square is the creature channel after the update.</p>
