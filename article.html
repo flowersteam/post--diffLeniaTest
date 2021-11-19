@@ -442,7 +442,7 @@ Optimization step. Optimization of the system with MSE error between target imag
 
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Result of Optimization step<br>
- <span style="font-size: 14px;color:#A0A0A0;"> Red is target, yellow is initialization and green is agent at last timestep. 
+ <span style="font-size: 14px;color:#A0A0A0;"> Red : target, yellow : initialization and green : agent at last timestep. 
 Left to right is one optimization step. The agent learns to go a little bit further in the same amount of time.<br>
 . </span>
  </p><br>
@@ -716,7 +716,7 @@ T time scale </span><br>
  <div style="position:absolute; left:65em; top:10%;border-radius:5px; background-color: rgba(0, 0, 0, .25);z-index:5;" onmouseover="document.getElementById('formulasDisplay').style.display='block';" onmouseout="document.getElementById('formulasDisplay').style.display='none';"> Formulas </div>
   </div>
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-Update step  in our Lenia System <br>
+Update step  in our Lenia System with obstacle channel<br>
  <span style="font-size: 14px;color:#A0A0A0;">(Hover on the Formulas button to see Lenia's equation)</span>
 </p><br>
 
@@ -813,11 +813,15 @@ c)  Creatures, learned by the method of previous section,  perturbed by obstacle
 
 <h3 id='method'>Method</h3>
 <img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
-
-     <p  style="font-size: 13px;color:#A0A0A0;">
-     At every inner step (optimization/gradient), we randomly sample the obstacles positions (always the same number and size) and run the Lenia rollout with those
-Obstacles. We then optimize toward the target shape as before.
-     </p>
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+Different configurations of obstacles during training<br>
+ <span style="font-size: 14px;color:#A0A0A0;">
+Blue: Obstacles ; Yellow: Initialization ; Red: Target ; Green : creature at last timestep.
+At every inner step (optimization/gradient), we randomly sample the obstacles positions (always the same number and size) and run the Lenia 
+rollout with thoseObstacles. We then optimize toward the target shape as before.
+</span>
+</p>
+     
 
 <p>Now that we have described in the previous section  an algorithm that is capable of learning moving creatures in Lenia. The next step is to find a way to learn the rules leading to the emergence of a creature that would resist and avoid  various obstacles in its environment<strong> </strong>. In this section, we try from scratch to learn a single CA rule and initialization that lead to building, moving and regenerating creatures. So we learn a single global rule for multiple functions contrary to <dt-cite key="horibe2021regenerating"></dt-cite> which separates regenerating and building into two different CA.</p>
 <p>What we want to obtain is a creature that is able to sense and be robust to different obstacles. To do so, we train the creatures using the method from the previous section but adding randomly generated obstacles. This way our gradient descent  is<strong> stochastic gradient descent with the stochasticity coming from the sampling of the obstacles</strong>. The learning process will thus encounter a lot of different obstacle configurations and may find a general behavior.  In practice, we only put obstacles in half the lattice grid. This way, there is half of the grid free from obstacles where we first learn a creature that is able to move without any perturbation as in previous section and then <strong>as we push the target further and further the creature starts to encounter obstacles</strong>. And the deeper the target position is, the more it encounters obstacles and so the more robust it should be. In fact at the beginning the creature is just a little perturbed by one obstacle and the target circle will optimize the creature to get past the obstacle and recover. Then when we incentivize the creature to go further it will have to encounter more obstacles and still be able to resist the second one even if the first one perturbed it. So the curriculum is made by going further and further because the further you go the more you will have to resist obstacles. See appendix for more details on the obstacles.</p>
