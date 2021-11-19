@@ -403,7 +403,7 @@ Random exploration of the parameter space rarely results in moving creature.<br>
 
 <img src="freeK.png" alt="schemeK" class="l-body">
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center"  class="l-body">
-Differences between original kernels and kernel used in this blogpost.
+Comparison between original kernels (left) and kernel used in this blogpost (right).
  </p>
 
 <p>The symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility but at the cost of more parameters.</p>
@@ -441,11 +441,10 @@ Optimization step. Optimization of the system with MSE error between target imag
  </div>
 
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-Optimization step<br>
+Result of Optimization step<br>
  <span style="font-size: 14px;color:#A0A0A0;"> Red is target, yellow is initialization and green is agent at last timestep. 
-Left to right is one optimization step. <br>
- (most of the time for the first optimization steps agent at last time step will be at initialization 
-location but to make it clearer we separated both). . </span>
+Left to right is one optimization step. The agent learns to go a little bit further in the same amount of time.<br>
+. </span>
  </p><br>
 <h3 id='curriculumdriven-goal-exploration-process'><i>Curriculum-driven goal exploration process</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
@@ -619,8 +618,8 @@ Run 2
 </div>
 </div>
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-Optimization steps <br>
- <span style="font-size: 14px;color:#A0A0A0;"> Top is the result of IMGEP steps from initialization (left) then successive steps and final video is best
+Results of successive optimization steps in practice <br>
+ <span style="font-size: 14px;color:#A0A0A0;"> Top is the result of IMGEP steps(outer loop) from initialization (left) then successive steps and final video is best
 Imgep step. <br>As shown by the red lines,  Bottom is inner optimization corresponding to the first IMGEP step (from top first video to top second video), gradient descent step (1,20,60,70,80,90,100,110,120) </span>
  </p><br>
 </div>
