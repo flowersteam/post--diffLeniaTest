@@ -1059,9 +1059,14 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <span id="appendix"><span>
 <h2 id='overcoming-bad-initialization-problem'>Overcoming "bad initialization" problem</h2>
 <img src="dependencies.svg" alt="schemeLearn" width="100%" >
-<p  style="font-size: 13px;color:#A0A0A0;">
- The arrows show the dependencies between the creatures, the back of the arrow is the creature which initializes the optimization and the head of the arrow is the creature obtained after optimization. The arrows are only to show how much initialization and first optimisation steps mattter but dependencies is not used.
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+Dependencies in the population ( between IMGEP steps (outer loop) )<br>
+ <span style="font-size: 14px;color:#A0A0A0;">
+ The arrows show the dependencies between the creatures, the back of the arrow is the creature which initializes the optimization and the head of the arrow is the creature obtained after optimization. The arrows are only to show how much initialization and first optimization steps matter but dependencies is not used.
+</span>
 </p>
+
+
 
 <p>Note that the random initialization of the history using random parameters and the first steps have a huge impact on the performance of the method. Because it will be the basis on which most of the next optimization will be made. In fact, at the beginning of the method, we select one random initialization and do the first optimization step on top of it. And as it leads to a creature that goes a little bit further, when we sample a new goal we will most of the time select this creature as the basis for the new optimization. Which will lead to a creature going further which in consequence will also be sampled after. And so in most of the runs, most of the creatures are based more or less closely on the random initialization selected and also the first steps. However, if the initialization is "bad" (on a difficult optimization area) or the first IMGEP steps, on which the next will be based, go in the "wrong" optimization direction, optimization problems can arise.</p>
 <p>While training with this algorithm sometimes the optimisation could not get creatures getting past the obstacles, and would diverge to exploding or dying creatures. This can be mitigated by adding random mutations before optimizing that could lead to better optimization spots by luck. It may unstuck the situation but the creatures after mutation are often not that good and most of the time far from the previously achieved goal (because mutations often make "suboptimal" creatures that may be slower than the one before mutation) which prevent learning. So mutation can help unstuck the situation but also slows the training. This is why we apply less optimization steps for the mutated one, see appendix for more details.</p>
