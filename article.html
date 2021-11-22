@@ -181,8 +181,8 @@
     <ul>
       <li><a href="#-modeling-agentenvironment-interactions-in-lenia-the-example-of-obstacles-">Modeling agent-environment interactions in Lenia,
  the example of obstacles</a></li>
-      <li><a href="#method">Method</a></li>
-<li><a href="#results">Results</a></li>
+      <li><a href="#training-method-with-stochastic-environmental-perturbations">Training method with stochastic environmental perturbations</a></li>
+<li><a href="#robust-moving-creatures-obtained">Robust moving creatures obtained</a></li>
     </ul>
     <h5><a href="#how-well-do-the-creatures-obtained-generalize-">How well do the creatures obtained generalize ?</a></h5>
     <ul>
@@ -822,7 +822,7 @@ c)  Creatures, learned by the method of previous section,  perturbed by obstacle
 
 <p>As you can see on the videos <a href='#gradientWall'>c)</a>, the moving creatures obtained with gradient descent and curriculum do not necessarily display robustness to our obstacles. (some by luck already have some level of robustness ). This motivates our choice to go further and add obstacles in the training process.</p>
 
-<h3 id='method'>Method</h3>
+<h3 id='training-method-with-stochastic-environmental-perturbations'>Training method with stochastic environmental perturbations</h3>
 <img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Different configurations of obstacles during training<br>
@@ -872,7 +872,7 @@ rollout with thoseObstacles. We then optimize toward the target shape as before.
 
 
 <p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the initialization. Some initializations make the optimization easy while others easily get stuck. More info on how we solve this in the overcoming "bad initialization" section of the appendix.</p>
-<h3 id='results'>Results</h3>
+<h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
 <p>From the method, we obtain a wide variety of creatures that seem to easily travel through the obstacles they saw during training. </p>
 <div class="row l-screen-inset">
    
