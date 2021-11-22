@@ -206,7 +206,7 @@
 width: calc((1500px - 648px) / 2 - 24px);">
   <img src="mechanistic.svg" alt="scheme">
 </div>
-<p>In the mechanistic view, robots and other virtual agents are referred as &quot;embodied&quot; if they can ground their sensorimotor capabilities in the environment (the external world) via a physical interface (the body) allowing to experience the world directly (sensory inputs) and to act upon it (motor outputs) using internal input-output information processing (the brain).  Embodiment here is opposed to the computational non-embodied perspective where internal representations, either symbolic-based in "good-old fashion AI" or neural-network-based in the "internet AI", are decoupled from the external world and lack situatedness <dt-cite key="brooks1991intelligence"></dt-cite>. Yet, within the mechanistic modeling framework, it is not questioned what makes an agent an agent or even what makes a body a body <dt-cite key="di2019process"></dt-cite>. The agent <i>individuality </i>is clear: it is a separate unity (yellow box on the right figure) whose states and dynamics can be clearly distinguished from the states and dynamics of the rest of the environment. The agent <i>self-maintenance </i>is often not a problem as the agent body does not change over time except for rare cases of real world or artificially-induced degradations (e.g. robot damages, battery&#x2F;energy level), and only the brain (white box on the right figure) adjusts to the environment. A more central question within that framework is the agent <i>sensorimotor adaptivity</i>: how to find agents capable of a repertoire of sensorimotor behaviors&#x2F;skills such as locomotion [cite], object manipulation <dt-cite key="akkaya2019solving"></dt-cite> or tool use <dt-cite key="guerin2012survey"></dt-cite> and capable of adapting the learned behaviors to unseen environmental conditions [cite]? To address that question in practice, a common methodology is the generation of a distribution of environments (tasks and rewards) to train the agent's brain to master and generalize those tasks, typically with learning approaches such as deep reinforcement learning. Whereas the focus is at the agent behavioral level, it remains open to criticism why the agent behavior should be instantiated in the brain in the first place, and why not in the body or even in the external world.  </p>
+<p>In the mechanistic view, robots and other virtual agents are referred as &quot;embodied&quot; if they can ground their sensorimotor capabilities in the environment (the external world) via a physical interface (the body) allowing to experience the world directly (sensory inputs) and to act upon it (motor outputs) using internal input-output information processing (the brain).  Embodiment here is opposed to the computational non-embodied perspective where internal representations, either symbolic-based in "good-old fashion AI" or neural-network-based in the "internet AI", are decoupled from the external world and lack situatedness <dt-cite key="brooks1991intelligence"></dt-cite>. Yet, within the mechanistic modeling framework, it is not questioned what makes an agent an agent or even what makes a body a body <dt-cite key="di2019process"></dt-cite>. The agent <i>individuality </i>is clear: it is a separate unity (yellow box on the right figure) whose states and dynamics can be clearly distinguished from the states and dynamics of the rest of the environment. The agent <i>self-maintenance </i>is often not a problem as the agent body does not change over time except for rare cases of real world or artificially-induced degradations (e.g. robot damages, battery&#x2F;energy level), and only the brain (white box on the right figure) adjusts to the environment. A more central question within that framework is the agent <i>sensorimotor adaptivity</i>: how to find agents capable of a repertoire of sensorimotor behaviors&#x2F;skills such as locomotion, object manipulation <dt-cite key="akkaya2019solving"></dt-cite> or tool use <dt-cite key="guerin2012survey"></dt-cite> and capable of adapting the learned behaviors to unseen environmental conditions [[team2021open]cite]? To address that question in practice, a common methodology is the generation of a distribution of environments (tasks and rewards) to train the agent's brain to master and generalize those tasks, typically with learning approaches such as deep reinforcement learning. Whereas the focus is at the agent behavioral level, it remains open to criticism why the agent behavior should be instantiated in the brain in the first place, and why not in the body or even in the external world.  </p>
 
 <p>The clear body&#x2F;brain&#x2F;environment distinction of the mechanistic framework bears little resemblances with biological examples of brainless organisms using their body both for sensing and computing the decision. Plants move to get more sun, slime molds use mechanical cues of their environment to choose in which direction to expand  <dt-cite key="murugan2021mechano"></dt-cite>, and swarm of bacterias can make group decisions to avoid a wall of antibiotics  <dt-cite key="PhysRevE.101.012407"></dt-cite>. Pfeifer and colleagues <dt-cite key="pfeifer2006body"></dt-cite> introduced the concept of m<i>orphological computation</i>, arguing that all physical processes of the body (not only electrical circuitry in the brain but also morphological growth and body reconfiguration) are integral parts of cognition. A famous example of (artificial) morphological computation is the passive bipedal walker <dt-cite key="collins2001three"></dt-cite> <dt-cite key="muller2017morphological"></dt-cite> which manages sensorimotor coordination and life-like locomotion behavior by simply exploiting the natural dynamics of the robot mechanical system.</p>
 
@@ -409,7 +409,7 @@ Each 100 squares are random parameters trials (each  1 channel and  10 rules so 
 
 
 <img src="freeK.png" alt="schemeK" class="l-body">
-<p  style="font-size: 14px;color:#A0A0A0;text-align:center"  class="l-body">
+<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
 Comparison between original kernels (left) and kernel used in this blogpost (right).
  </p>
 
@@ -429,9 +429,12 @@ Comparison between original kernels (left) and kernel used in this blogpost (rig
 <p>In this section, we only work with 1 channel (only 1 type of cells interacting). In this channel we want to learn the several rules (parameters of the kernel+growth functions encoding the interactions of those cells within the channel) that will result in the emergence of moving creatures when given the proper initialization. At the same time we also aim to learn an initialization that will be adapted to these rules i.e. lead to the emergence of the creature.</p>
 <p>We start by randomly initializing the parameters and initialization until we get a localized pattern, meaning it doesn't spread to the whole grid and doesn't die . This obtained pattern will most of the time stay at the same position. What we want is to change the parameters and initialization such that this pattern ends further in the grid, meaning that it survived and stayed localized but moved to a different location in a few timesteps. Because our system is differentiable, we're able to backpropagate through the timesteps by "unfolding" the roll-out. We therefore need a loss applied on the roll-out which will encourage movement to a new position z.</p>
 <img src="OptimStep.svg" alt="optimScheme" class='l-middle-outset' >
- <p style="font-size: 14px;color:#A0A0A0;">
-Optimization step. Optimization of the system with MSE error between target image and system state at last timestep
+ <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-body">
+Schematic view of optimization step<br>
+ <span style="font-size: 14px;color:#A0A0A0;">Optimization of the system with MSE error between target image and system state at last timestep
+. </span>
  </p>
+
 
 
 <p>Target image with MSE error applied at the last timestep of a rollout seems effective to learn CA rule leading to a certain pattern <dt-cite key="mordvintsev2020growing"></dt-cite>. And the fact that it's a very informative loss, thus helping with vanishing gradient problem, made us choose this loss for our problem over other losses such as maximizing the coordinate of the center of mass. We apply the MSE loss between  the pattern at the last timestep of the roll out  and a target shape put at a target location further in the grid.</p>
@@ -452,7 +455,7 @@ Result of Optimization step<br>
  <span style="font-size: 14px;color:#A0A0A0;"> Red : target, yellow : initialization and green : agent at last timestep. 
 Left to right is one optimization step. The agent learns to go a little bit further in the same amount of time.<br>
 . </span>
- </p><br>
+ </p>
 <h3 id='curriculumdriven-goal-exploration-process'><i>Curriculum-driven goal exploration process</i></h3>
 <p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
 
@@ -460,6 +463,7 @@ Left to right is one optimization step. The agent learns to go a little bit furt
 
 <p>However, defining a learning curriculum  (in our case defining how far and in which direction the target should be pushed at each optimization phase) is not trivial. In fact, some locations can lead to a hard optimization landscape (e.g. with a danger to get  trapped in local minima or to diverge) while some other locations by luck can make the optimization easy. And these "easy" targets would change for every random initialization. </p>
 <p>To tackle these challenges, we propose to rely on intrinsically-motivated goal exploration processes (IMGEPs), an algorithmic process which was shown successful at generating a learning curriculum for complex exploration spaces in robotics  <dt-cite key="Forestier2017IntrinsicallyMG"></dt-cite> and which has already been used in Lenia as a diversity search tool <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. The general idea of IMGEP is to iteratively set new goals to achieve and for each of these goals try to learn a policy (here a policy is simply an initial state and the CA rule) that would suit this goal. To do so, an IMGEP integrates several key mechanisms: a <i>goal-sampling policy</i> (that decides how to sample interesting new goals, for example based on intrinsic reward), a <i>goal-achievement criterion</i> (that tracks the progress on a goal), and a <i>goal-achievement policy</i> (that optimizes  toward a target goal). Importantly, an IMGEP can reuse the knowledge acquired on other goals to learn new goals or attain them more quickly.</p>
+
 
 <div class="l-middle-outset" style="position:relative">
   <img id="schemeIMGEP" src="IMGEP.svg" alt="IMGEPscheme" width="100%" >
@@ -477,7 +481,7 @@ Left to right is one optimization step. The agent learns to go a little bit furt
 IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
  </p><br>
-<p>In our case, the goal space is simply a 2-dimensional vector space representing the position of the center of mass of the creature. Hence, a policy in Lenia (controlling the CA initialization and rules) achieves a target goal when it emerges a creature whose position at the last timestep (here t&#x3D;50) is within an accepted range from the target one. While there exist many goal-sampling strategies in the IMGEP literature, we use here a simple version that randomly samples positions in the grid but that biases the sampling (i) toward one edge of the grid in order to obtain moving creatures  and (ii) taking care that the sampled goals are not too far from already-attained positions. To attain a new target position&#x2F;goal, the goal-achievement policy relies on (i) the history of previously-tried policies to select the parameters that performed best (achieved the closest position); and (ii) an inner loop that uses gradient descent with  MSE error between the selected policy's last state and the target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that applies several steps of gradient descent toward this goal. While not a central contribution of this paper, it is the first time that gradient descent is used as a local optimizer within the IMGEP loop. </p>
+<p>In our case, the goal space is simply a 2-dimensional vector space representing the position of the center of mass of the creature. Hence, a policy in Lenia (controlling the CA initialization and rules) achieves a target goal when it emerges a creature whose position at the last timestep (here t&#x3D;50) is within an accepted range from the target one. While there exist many goal-sampling strategies in the IMGEP literature, we use here a simple version that randomly samples positions in the grid but that biases the sampling both toward one edge of the grid in order to obtain moving creatures  and taking care that the sampled goals are not too far from already-attained positions. To attain a new target position&#x2F;goal, the goal-achievement policy relies on (i) the history of previously-tried policies to select the parameters that performed best (achieved the closest position); and (ii) an inner loop that uses gradient descent with  MSE error between the selected policy's last state and the target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that applies several steps of gradient descent toward this goal. While not a central contribution of this paper, it is the first time that gradient descent is used as a local optimizer within the IMGEP loop. </p>
 <p>The overall method can be summarized as such:</p>
 <div class=l-body>
 <pre>
@@ -503,7 +507,7 @@ IMGEP Step <br>
 </code>
 </pre>
 </div>
-<p>An advantage of IMGEPs is that the information collected when a policy "fails", e.g. reaching a position  far from the selected target, can be useful later on for reaching other positions: it might still make a small improvement or it might go in a completely different area which we might want to explore. The fact that we don't always select the last checkpoint as in classic curriculum learning also allows us to have different "lineage" which may help to avoid being stuck.</p>
+<p>An advantage of IMGEPs is that the information collected when a policy "fails", e.g. reaching a position  far from the selected target, can be useful later on for reaching other positions: it might still make a small improvement or it might go in a completely different area which we might want to explore. The fact that we don't always select the last checkpoint as in classic curriculum learning also allows us to have different "lineages" which may help to avoid being stuck.</p>
 
 
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
@@ -1040,6 +1044,9 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <h4 id='swarm-robotics'><strong>SWARM ROBOTICS</strong></h4>
 <p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in their environment.<dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Work in swarm robotics is inspired by nature and  covers various areas of navigation like collective exploration, Coordinated motion <dt-cite key="Baldassarre2007selfOrga"></dt-cite> , or even Collective decision-making.</p>
 
+<p> Pathak &amp; al <dt-cite key="pathak19assemblies"></dt-cite> worked on the dynamical self assemblies of simple entities in order to build a bigger modular agent able to move in space. In this work, each tiny entity (limb) has a motor and is capable of linking to other close entities leading to the assembly of complex morphologies. </p>
+
+<h4 id='coevolving-the-morphology-and-the-controller'><strong>CO-EVOLVING THE MORPHOLOGY AND THE CONTROLLER</strong></h4>
 
 <h4 id='open-ended-exploration-'><strong>OPEN ENDED </strong><strong>EXPLORATION </strong></h4>
 
@@ -2025,6 +2032,14 @@ url={https://doi.org/10.1016/j.isci.2021.102505}
   journal={arXiv preprint arXiv:1910.07113},
   year={2019},
 url={https://arxiv.org/abs/1910.07113}
+}
+
+@article{team2021open,
+  title={Open-ended learning leads to generally capable agents},
+  author={Team, Open Ended Learning and Stooke, Adam and Mahajan, Anuj and Barros, Catarina and Deck, Charlie and Bauer, Jakob and Sygnowski, Jakub and Trebacz, Maja and Jaderberg, Max and Mathieu, Michael and others},
+  journal={arXiv preprint arXiv:2107.12808},
+  year={2021},
+url={https://deepmind.com/blog/article/generally-capable-agents-emerge-from-open-ended-play}
 }
 
 
