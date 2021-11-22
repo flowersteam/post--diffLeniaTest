@@ -422,9 +422,9 @@ Comparison between original kernels (left) and kernel used in this blogpost (rig
 
 <p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
-<p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. Finding gliders-like creaturesThis will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
+<p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. Finding gliders-like creatures will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
 
-<p>Before trying to find sensorimotor capabilities in our system a first step would be to find moving creatures like gliders in the game of life. Note that moving creatures in cellular automaton differ from other types of movement like motors, muscle contraction or soft robot <dt-cite key="Trivedi2008SoftRB"></dt-cite>. CAs operate on a fixed grid and therefore moving necessarily requires patterns growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this study, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
+<p>Note that moving creatures in cellular automaton differ from other types of movement like motors, muscle contraction or soft robot <dt-cite key="Trivedi2008SoftRB"></dt-cite>. CAs operate on a fixed grid and therefore moving necessarily requires patterns growing at the front and dying at the back. This should imply that creatures that move are more fragile because they are in a fragile equilibrium between growth (to move forward) and dying (because otherwise we would have infinite growth). In this study, we learn to develop morphology and motricity at the same time. The CA rule will both be applied to grow the creature from an initial state and be the "physic" that makes it move.</p>
 
 <p>In this section, we only work with 1 channel (only 1 type of cells interacting). In this channel we want to learn the several rules (parameters of the kernel+growth functions encoding the interactions of those cells within the channel) that will result in the emergence of moving creatures when given the proper initialization. At the same time we also aim to learn an initialization that will be adapted to these rules i.e. lead to the emergence of the creature.</p>
 <p>We start by randomly initializing the parameters and initialization until we get a localized pattern, meaning it doesn't spread to the whole grid and doesn't die . This obtained pattern will most of the time stay at the same position. What we want is to change the parameters and initialization such that this pattern ends further in the grid, meaning that it survived and stayed localized but moved to a different location in a few timesteps. Because our system is differentiable, we're able to backpropagate through the timesteps by "unfolding" the roll-out. We therefore need a loss applied on the roll-out which will encourage movement to a new position z.</p>
@@ -481,8 +481,7 @@ Left to right is one optimization step. The agent learns to go a little bit furt
 IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;">(hover over gray area to show step by step)</span>
  </p><br>
-<p>In our case, the goal space is simply a 2-dimensional vector space representing the position of the center of mass of the creature. Hence, a policy in Lenia (controlling the CA initialization and rules) achieves a target goal when it emerges a creature whose position at the last timestep (here t&#x3D;50) is within an accepted range from the target one. While there exist many goal-sampling strategies in the IMGEP literature, we use here a simple version that randomly samples positions in the grid but that biases the sampling both toward one edge of the grid in order to obtain moving creatures  and taking care that the sampled goals are not too far from already-attained positions. To attain a new target position&#x2F;goal, the goal-achievement policy relies on (i) the history of previously-tried policies to select the parameters that performed best (achieved the closest position); and (ii) an inner loop that uses gradient descent with  MSE error between the selected policy's last state and the target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that applies several steps of gradient descent toward this goal. While not a central contribution of this paper, it is the first time that gradient descent is used as a local optimizer within the IMGEP loop. </p>
-<p>The overall method can be summarized as such:</p>
+<p>In our case, the goal space is simply a 2-dimensional vector space representing the position of the center of mass of the creature. Hence, a policy in Lenia (controlling the CA initialization and rules) achieves a target goal when it emerges a creature whose position at the last timestep (here t&#x3D;50) is within an accepted range from the target one. While there exist many goal-sampling strategies in the IMGEP literature, we use here a simple version that randomly samples positions in the grid but that biases the sampling both toward one edge of the grid in order to obtain moving creatures  and taking care that the sampled goals are not too far from already-attained positions. To attain a new target position&#x2F;goal, the goal-achievement policy relies on (i) the history of previously-tried policies to select the parameters that performed best (achieved the closest position); and (ii) an inner loop that uses gradient descent with  MSE error between the selected policy's last state and the target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that applies several steps of gradient descent toward this goal. The overall method can be summarized as such:</p>
 <div class=l-body>
 <pre>
 <code  style="line-height:0.4">
@@ -568,7 +567,7 @@ where the creatures obtained are long term stable. The video on the right displa
  number of timesteps it has been trained on. The last creature on the right at  last timestep seen (step where loss was applied during training)
  tries as much as possible to fit the target resulting in a death few steps after </span>
  </p><br>
-<p>The method proposed above gives us a set of rules (the physics) and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified&#x2F;penalized in the training loss.</p>
+<p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified&#x2F;penalized in the training loss.</p>
 <!---
 <div class=' l-screen-inset'>
 <div class='row'>
@@ -645,7 +644,7 @@ Imgep step. <br>As shown by the red lines,  Bottom is inner optimization corresp
 
 <h3 id='-modeling-agentenvironment-interactions-in-lenia-the-example-of-obstacles-'> Modeling agent-environment interactions in Lenia, the example of obstacles. </h3>
 
-  <div class="l-screen-inset" style="position:relative">
+  <div id="schemeLeniaWall" class="l-screen-inset" style="position:relative">
   <img src="LeniaWall.svg" alt="scheme">
   <div id="formulasDisplay" style="position:absolute;display:none;left:0%; top:0%;width:100%;height:100%;background-color: rgba(255,255, 255, 0.9);z-index:4;">
 
@@ -759,7 +758,7 @@ a )  Orbium (glider like in Lenia ) perturbed by obstacles
 
 <p>
 In this study, we want the obstacle channel to stay still. To do so, there is no rule that goes toward the obstacle channel,
- this way the obstacle channel is never updated. The final system is thus summed up in <a href="#differentiable-lenia">figure system</a> 
+ this way the obstacle channel is never updated. The final system is thus summed up in <a href="#schemeLeniaWall">figure system</a> 
  with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
 
 <p>Now that we've defined some rules in the environment, we'll test how the moving creatures found with seemingly self-maintenance will react to this environment.</p>
@@ -871,7 +870,7 @@ rollout with thoseObstacles. We then optimize toward the target shape as before.
  </div>
 
 
-<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the initialization. Some initializations make the optimization easy while others easily get stuck. More info on how we solve this in the overcoming "bad initialization" section of the appendix.</p>
+<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the initialization. Some initializations make the optimization easy while others easily get stuck. More info on how we solve this in the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix.</p>
 <h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
 <p>From the method, we obtain a wide variety of creatures that seem to easily travel through the obstacles they saw during training. </p>
 <div class="row l-screen-inset">
@@ -1077,7 +1076,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <h2 id='acknowledgements'>Acknowledgements</h2>
 <p>We would like to thank INRIA Bordeaux for funding this work. As well as Alexander Mordvintsev and his team for providing an <a href='https://github.com/znah/gdocs_distill_template'>easy tool for collaborative writing</a> of this article. </p>
 <h2 id='overcoming-bad-initialization-problem'>Overcoming "bad initialization" problem</h2>
-<img src="dependencies.svg" alt="schemeLearn" width="100%" >
+<img id="badInit" src="dependencies.svg" alt="schemeLearn" width="100%" >
 <p  style="font-size: 19px;color:#000000;" class="l-body">
 Dependencies in the population ( between IMGEP steps (outer loop) )<br>
  <span style="font-size: 14px;color:#A0A0A0;">
