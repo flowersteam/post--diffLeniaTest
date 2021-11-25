@@ -820,7 +820,7 @@ c)  Creatures, learned by the method of previous section,  perturbed by obstacle
 
 <p>Similarly, the moving creatures obtained with gradient descent and curriculum in the previous section do not display much robustness to collision with obstacles: only few by luck already have some level of robustness (<a href='http://gradientWall'>figure c</a>). This motivated the need for training methods which, given this environmental physics in the CA paradigm, are able to learn the parameters leading to the emergence of agency and sensorimotor capabilities with better resilience to perturbations. </p>
 <h3 id='training-method-with-stochastic-environmental-perturbations'>Training method with stochastic environmental perturbations</h3>
-<img src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
+<img id="figConfigOb" src="Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Different configurations of obstacles during training<br>
  <span style="font-size: 14px;color:#A0A0A0;">
@@ -831,12 +831,12 @@ rollout with those obstacles. We then optimize toward the target shape as before
 </p>
      
 
-<p>To learn the rules leading to the emergence of a creature that would resist and avoid various obstacles in its environment, we simply introduce (randomly generated) obstacle configurations within the training process, as shown in red in the training pseudocode. This way, the inner loop (goal-directed gradient descent) becomes <strong>stochastic gradient descent with the stochasticity coming from the sampling of the obstacles</strong>. The learning process will thus encounter a lot of different obstacle configurations and may find a general behavior.  In practice, we only put obstacles in half the lattice grid. This way, as shown in the <a href='#'>above figure</a>, the first half of the grid is free from obstacles which allows to first learn a creature that is able to move without any perturbation, as it was done in the previous section. Then, as we push the target further and further, the creature starts to encounter obstacles. And the deeper the target position is, the more it encounters obstacles and so the more robust it should be. In fact at the beginning the creature is just a little perturbed by one obstacle and the target circle will optimize the creature to get past the obstacle and recover. Then when we incentivize the creature to go further it will have to encounter more obstacles and still be able to resist the second one even if the first one perturbed it. So the curriculum is made by going further and further because the further you go the more you will have to resist obstacles. In the IMGEP, at the end of each goal-directed inner optimization, the goal achievement is measured as the distance between the target position and the average position attained on different configurations of obstacles.</p>
+<p>To learn the rules leading to the emergence of a creature that would resist and avoid various obstacles in its environment, we simply introduce (randomly generated) obstacle configurations within the training process, as shown in red in the training pseudocode. This way, the inner loop (goal-directed gradient descent) becomes <strong>stochastic gradient descent with the stochasticity coming from the sampling of the obstacles</strong>. The learning process will thus encounter a lot of different obstacle configurations and may find a general behavior.  In practice, we only put obstacles in half the lattice grid. This way, as shown in the <a href='#figConfigOb'>above figure</a>, the first half of the grid is free from obstacles which allows to first learn a creature that is able to move without any perturbation, as it was done in the previous section. Then, as we push the target further and further, the creature starts to encounter obstacles. And the deeper the target position is, the more it encounters obstacles and so the more robust it should be. The curriculum is made by going further and further because the further you go the more you will have to resist obstacles. In the IMGEP, at the end of each goal-directed inner optimization, the goal achievement is measured as the distance between the target position and the average position attained on different other random configurations of obstacles.</p>
 <div clas=l-body>
  <pre>
  <code  style="line-height:0.4">
-      <p>Perform random policies in Lenia saving the obtained (parameters, outcomes/reached goals) tuples in history  \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
-     <p>Loop (number of Imgep step) </p>
+      <p>Perform random policies in Lenia saving the obtained (parameters, reached goal) tuples in history  \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
+     <p>Loop (number of IMGEP step) </p>
      <div style="margin:25px">
      <p >   Sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
     <p >   Select, from the history , the parameters that achieved the closest position/goal </p>
@@ -858,7 +858,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
    <p style="color:rgba(255,0,0,0.5)">       Add reached goal to the mean </p>
 </div>
 <p> If the creature died or exploded during one of the tests, don't save </p>
-<p> Else add to the history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean </span> outcome/goal
+<p> Else, add to history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean </span> outcome/goal
  reached   \(\mathcal{H} =\mathcal{H} \cup (p^\star,rg )\) </p>
    </div>
  </code>
@@ -866,7 +866,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
  </div>
 
 
-<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). Some initializations make the optimization easy while others easily get stuck. We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#'>experimental details</a> are also provided in the appendix.</p>
+<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). Some initializations make the optimization easy while others easily get stuck. We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#experimentalDetails'>experimental details</a> are also provided in the appendix.</p>
 <h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
 <p>From the method, we obtain a wide variety of creatures that seem to easily travel through the obstacles they saw during training. </p>
 <div class="row l-screen-inset">
@@ -898,7 +898,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 <p>In this section, we investigate the generalization of the discovered sensorimotor agents to several out-of-distribution perturbations that were not encountered during training. While the creatures were trained on a diversity of obstacle positions (but with fixed number, shape and size), we can imagine a much larger and challenging set of evaluation tasks to assess the agent's general sensorimotor capabilities. Below we show a sample of such possible test tasks, while many more could be envisaged. To better display the versatility of some of the creatures obtained, we keep the same creature for all the demo below except stated otherwise.</p>
 <h3 id='single-creature-setting'><i>Single creature setting</i></h3>
 <h4 id='are-the-creature-long-term-stable-'><strong>ARE THE CREATURE LONG TERM STABLE ?</strong></h4>
-<p>Even if we can not know if the creature is indefinitely stable, we can test for a reasonable number of timesteps. The result is that the creature obtained with IMGEP with obstacles seems stable for 2000 timesteps while it has only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, training a creature only for movement (without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in <dt-cite key="mordvintsev2020growing"></dt-cite> where training to grow a creature from the same initialization (a pixel) led to patterns that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability by making the target shape a stronger attractor.</p>
+<p>Even if we can not know if the creature is indefinitely stable, we can test for a reasonable number of timesteps. The result is that the successful creatures that were obtained with IMGEP with obstacles seem stable for 2000 timesteps while they have only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, training a creature only for movement (without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in <dt-cite key="mordvintsev2020growing"></dt-cite> where training to grow a creature from the same initialization (a pixel) led to patterns that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability by making the target shape a stronger attractor.</p>
 
 <h4 id='are-the-creatures-robust-to-new-obstacles-'><strong>ARE THE CREATURES ROBUST TO NEW OBSTACLES ?</strong></h4>
 
@@ -937,7 +937,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
  </div> 
 </div>
 
-<p>The resulting creatures are very robust to wall perturbations and able to navigate in difficult environments. The resulting creature seems to be able to recover from perturbation induced by various shapes of obstacles including vertical walls (see interactive demo). One very surprising emerging behavior is that the creature is sometimes able to come out of dead ends showing how well this technique generalizes. There are still some failure cases, with creatures obtained that can get unstable after some perturbations, but the creatures are most of the time robust to a lot of different obstacles. The generalization is due to the large diversity of obstacles encountered by the creature during the learning because 8 circles randomly placed can lead to a very diverse set of obstacles. Moreover as it learns to go further, the creature has to learn to collide with several obstacles one after the other and so be able to recover fast but also still be able to resist&#x2F;sense a second obstacle while not having fully recovered.</p>
+<p>The resulting creatures are very robust to wall perturbations and able to navigate in difficult environments. The resulting creature seems to be able to recover from perturbation induced by various shapes of obstacles including vertical walls (see <a href='#glCanvas'>interactive demo</a>). One very surprising emerging behavior is that the creature is sometimes able to come out of dead ends showing how well this technique generalizes. There are still some failure cases, with creatures obtained that can get unstable after some perturbations, but the creatures are most of the time robust to a lot of different obstacles. The generalization is due to the large diversity of obstacles encountered by the creature during the learning. Moreover as it learns to go further, the creature has to learn to collide with several obstacles one after the other and so be able to recover fast but also still be able to resist&#x2F;sense a second obstacle while not having fully recovered.</p>
 <h4 id='are-the-creatures-robust-to-moving-obstacles-'><strong>ARE THE CREATURES ROBUST TO MOVING OBSTACLES ?</strong></h4>
 <video id="model-editing-level-1-video-1"  autoplay loop muted="" class="videoShow l-middle side">
               <source src="harderEnv.mp4" type="video/mp4">
@@ -958,7 +958,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
         The grid is the same size as above giving an idea of the scale change (kernel radius*0.4)
       </p>
 
-<p>We can change the scale of the creature by changing the radius of the kernels as well as the size of the initialization square (with an approximate resize). This is a surprising generalization as it completely changes the number of cells constituting the macro entity. We can make much smaller creatures that therefore have less pixels to do the computation. This scale reduction has a limit but we can get pretty small creatures. The creatures still seem to be quite robust and be able to sense and react to their environment while having less space to compute. The creatures are even able to reproduce, however they seem to be less robust than the bigger one as we can see some dying from collision with other creatures. We can also do it the other way around, and have much bigger creatures that therefore have more space to compute (but also more cells to organize).</p>
+<p>We can change the scale of the creature by changing the radius of the kernels as well as the size of the initialization square (with an approximate resize). This is a surprising generalization as it completely changes the number of cells constituting the macro entity. We can make much smaller creatures that therefore have less pixels to do the computation. This scale reduction has a limit but we can get pretty small creatures. The creatures still seem to be quite robust and be able to sense and react to their environment while having less space to compute. We can also do it the other way around, and have much bigger creatures that therefore have more space to compute (but also more cells to organize).</p>
 <h4 id='are-the-creatures-robust-to-change-of-initialization-'><strong>ARE THE CREATURES ROBUST TO CHANGE OF INITIALIZATION ?</strong></h4>
 <video id="model-editing-level-1-video-1"   controls="" muted="" class="videoShow l-middle side">
               <source src="initCircleGrad.mp4" type="video/mp4">
@@ -978,7 +978,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
                <source src="damageHand.mp4" type="video/mp4">
              </video>
 
-<p>In order to navigate,<strong> the creature first needs to sense the wall through a deformation of the macro structure</strong>. Then after this deformation it has to make a <strong>collective "decision" </strong>on where to grow next and then move and regrow its shape. We can even do the deformation ourselves by suppressing a part of the creature, the result is that the creature is effectively changing direction as if an obstacle was present. This confirms that the perturbation of the macro structure is what leads to the direct change of direction.  It's not clear looking at the kernels activity which ones (of the kernels) are responsible for these decisions if not all. How the decision is made remains a mystery. Moreover some cells don't even see the deformation because they're too far away, meaning that some messages from the one sensing it have to be transmitted.</p>
+<p>In order to navigate,<strong> the creature first needs to sense the wall through a deformation of the macro structure</strong>. Then after this deformation it has to make a <strong>collective "decision" </strong>on where to grow next and then move and regrow its shape. We can even do the deformation ourselves by suppressing a part of the creature, the result is that the creature is effectively changing direction as if an obstacle was present. This confirms that the perturbation of the macro structure is what leads to the direct change of direction.  It's not clear <a href='#kernelsVis'>looking at the kernels activity</a> which ones (of the kernels) are responsible for these decisions if not all. How the decision is made remains a mystery. Moreover some cells don't even see the deformation because they're too far away, meaning that some messages from the one sensing it have to be transmitted.</p>
 
 <h3 id='multi-creature-setting'><i>Multi creature setting</i></h3>
 <p>By adding more initialization squares in the grid, we can add several macro creatures with the same update rule letting us observe multiple creatures . As pointed out by R.D. Beer <dt-cite key="PMID:24494612"></dt-cite> , other entities are also part of the environment for the creature and can give rise to nice interactions. Maturana and Varela even refer to this kind of interaction as communication. Note that the creature never encountered any other creature during its training and was always alone.</p>
@@ -1018,7 +1018,7 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h4 id='neural-ca'><strong>NEURAL CA</strong></h4>
 
-<p>Neural cellular automata (NCA) use the flexibility and differentiability of neural networks to express and learn the update rule for a variety of tasks <dt-cite key="mordvintsev2020thread:"></dt-cite>. NCA have been used to learn cells to grow and regenerate a desired shape in case of damage <dt-cite key="mordvintsev2020growing"></dt-cite>, self-organize in a texture <dt-cite key="niklasson2021self-organising"></dt-cite>, classify handwritten digit in a decentralized way <dt-cite key="randazzo2020self-classifying"></dt-cite>, perform complex image segmentation tasks <dt-cite key="sandler2020image"></dt-cite> or even be the circuits computing the action from inputs in a task <dt-cite key="variengien2021selforganized"></dt-cite>. Taking advantage of the shared local learning rules, NCA are able to perform complex tasks with very little number of parameters (few thousands) in comparison to current deep learning models. For comparison, the Lenia rule in this work only has 130 parameters and yet is able to produce relatively advanced sensorimotor-like behaviors.  Another NCA study <dt-cite key="randazzo2021adversarial"></dt-cite> explores how we can perturb the cohesive communication between cells in order to change the behavior of the whole "entity", using adversarial attack either with transformation of some cell states or with rogue cells. More details comparing the NCA model <dt-cite key="mordvintsev2020growing"></dt-cite> with our Lenia system can be found in the appendix. </p>
+<p>Neural cellular automata (NCA) use the flexibility and differentiability of neural networks to express and learn the update rule for a variety of tasks <dt-cite key="mordvintsev2020thread:"></dt-cite>. NCA have been used to learn cells to grow and regenerate a desired shape in case of damage <dt-cite key="mordvintsev2020growing"></dt-cite>, self-organize in a texture <dt-cite key="niklasson2021self-organising"></dt-cite>, classify handwritten digit in a decentralized way <dt-cite key="randazzo2020self-classifying"></dt-cite>, perform complex image segmentation tasks <dt-cite key="sandler2020image"></dt-cite> or even be the circuits computing the action from inputs in a task <dt-cite key="variengien2021selforganized"></dt-cite>. Taking advantage of the shared local learning rules, NCA are able to perform complex tasks with very little number of parameters (few thousands) in comparison to current deep learning models. For comparison, the Lenia rule in this work only has 130 parameters and yet is able to produce relatively advanced sensorimotor-like behaviors.  Another NCA study <dt-cite key="randazzo2021adversarial"></dt-cite> explores how we can perturb the cohesive communication between cells in order to change the behavior of the whole "entity", using adversarial attack either with transformation of some cell states or with rogue cells. More details comparing the NCA model <dt-cite key="mordvintsev2020growing"></dt-cite> with our Lenia system can be found <a href='#receptiveField'>in the appendix</a>. </p>
 
 <h4 id='soft-robots'><strong>SOFT ROBOTS</strong></h4>
 
@@ -1233,7 +1233,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
 
 <p>We can visualize the growth induced by each kernel (all square at the exterior of the figure). The square at the bottom center is the weighted sum of all those growth (+ the growth of the wall) i.e. the total growth of the step. The center top square is the creature channel after the update.</p>
 
-      <video id="kernels" width=85% controls="" muted="" class="videoShow" >
+      <video id="kernelsVis" width=85% controls="" muted="" class="videoShow" >
                     <source src="kernels.mp4" type="video/mp4">
                   </video>
 
@@ -1244,6 +1244,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
                   </video>
 
 <h2 id='experimental-details'>Experimental details</h2>
+<span id="experimentalDetails"></span>
 
 <p>You can reproduce the main results of this paper using  this <a href='https://colab.research.google.com/drive/11mYwphZ8I4aur8KuHRR1HEg6ST5TI0RW?usp=sharing'>colab notebook </a> .</p>
 <h4 id='lenia-system'>Lenia system</h4>
@@ -1300,6 +1301,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
 
 
 <h2 id='receptive-field-'>Receptive field </h2>
+<span id="receptiveField"></span>
 <p>One major difference between the neural CA model used in <dt-cite key="mordvintsev2020growing"></dt-cite> and Lenia is that the radius of the neighbourhood of each cell that we used is quite big. In fact, in <dt-cite key="mordvintsev2020growing"></dt-cite> they use a Moore neighbourhood (direct neighbours and diagonal) while we use a kernel of large size. The creature displayed in the results has a radius of 38 and we try  radius between 15 and 40 or so during training (but that's an arbitrary choice, even if large radius helps to train fast as creature overlap more easily and from larger distance with the target shape and so we can make larger curriculum steps, having larger target area may also help the MSE optimization ) . However, we can downscale our creature to have a radius of approximately 6. Maybe using a message passing like model, we can get something equivalent with moore neighbourhood of small size. One interesting experiment would be to try to fit a Neural CA on the creature obtained here and see if it can make approximately the same creature with moore neighbourhood. We also think that hidden channels could help in this case maybe by storing some value. One other difference from <dt-cite key="mordvintsev2020growing"></dt-cite> is that our kernels are totally symmetric while theirs have the notion of up and down, right and left which might be helpful if we want the creature to have a prefered direction and know in which direction it is pointing.</p>
 
 
@@ -2126,6 +2128,13 @@ isbn="978-4-431-65941-9"
   timestamp = {Mon, 24 Jun 2019 17:28:45 +0200},
   biburl    = {https://dblp.org/rec/journals/corr/abs-1906-05370.bib},
   bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+@article{sandler2020image,
+title={Image segmentation via Cellular Automata},
+author={Sandler, Mark and Zhmoginov, Andrey and Luo, Liangcheng and Mordvintsev, Alexander and Randazzo, Ettore and others},
+journal={arXiv preprint arXiv:2008.04965},
+year={2020},
+url={https://arxiv.org/pdf/2008.04965.pdf}
 }
 
 
