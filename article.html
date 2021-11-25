@@ -835,30 +835,30 @@ rollout with those obstacles. We then optimize toward the target shape as before
 <div clas=l-body>
  <pre>
  <code  style="line-height:0.4">
-      <p>Initialize randomly the history with random parameters saving (parameters, outcomes/reached goals)   \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
-     <p>loop (number of Imgep step) </p>
+      <p>Perform random policies in Lenia saving the obtained (parameters, outcomes/reached goals) tuples in history  \(\mathcal{H} = (p_i,rg_i)_{i=1,..s}\)</p>
+     <p>Loop (number of Imgep step) </p>
      <div style="margin:25px">
-     <p >   sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
+     <p >   Sample target position/goal(not too far from reached positions in the history \(\mathcal{H} \)  )</p>
     <p >   Select, from the history , the parameters that achieved the closest position/goal </p>
-    <p > initialize  the system with those parameters p  </p>
-     <p>   loop (number of optimisation steps)</p>
+    <p > Initialize  the system with those parameters   </p>
+     <p>   Loop (number of optimisation steps)</p>
      <div style="margin:25px">
      <p style="color:rgba(255,0,0,0.5)">       Sample random obstacles  </p>
      <p>       Run lenia </p>
-     <p>       Gradient descent toward the disk at target position to optimize the parameters</p>
+     <p>       Gradient descent toward the target shape at target position to optimize the parameters</p>
 	<p> Initialize the system with those optimized parameters</p>
    </div>
 <br>
 <p>   See what is  the <span style="color:rgba(255,0,0,0.5)"> mean <span> position(ie goal) achieved 
 <span style="color:rgba(255,0,0,0.5)"> over several random obstacles runs <span></p>
-<p style="color:rgba(255,0,0,0.5)"> loop (number of random run)</p>
+<p style="color:rgba(255,0,0,0.5)"> Loop (number of random run)</p>
 <div style="margin:25px">
 <p style="color:rgba(255,0,0,0.5)">       Sample random obstacles  </p>
      <p>       Run lenia </p>
-   <p style="color:rgba(255,0,0,0.5)">       add reached goal to the mean </p>
+   <p style="color:rgba(255,0,0,0.5)">       Add reached goal to the mean </p>
 </div>
-<p> if the creature died or exploded during one of the tests, don't save </p>
-<p> else add to the history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean </span> outcome/goal
+<p> If the creature died or exploded during one of the tests, don't save </p>
+<p> Else add to the history the parameters resulting from optimization and the <span style="color:rgba(255,0,0,0.5)"> mean </span> outcome/goal
  reached   \(\mathcal{H} =\mathcal{H} \cup (p^\star,rg )\) </p>
    </div>
  </code>
