@@ -505,7 +505,7 @@ IMGEP Step <br>
 </code>
 </pre>
 </div>
-<p>An advantage of IMGEPs is that the information collected when a policy "fails", e.g. reaching a position  far from the selected target, can be useful later on for reaching other positions: it might still make a small improvement or it might go in a completely different area which we might want to explore. The fact that we don't always select the last checkpoint as in classic curriculum learning also allows us to have different "lineages" which may help to avoid being stuck.</p>
+<p>An advantage of IMGEPs is that the information collected when a policy "fails", e.g. reaching a position  far from the selected target, can be useful later on for reaching other positions: it might still make a small improvement or it might go in a completely different area which we might want to explore. The fact that we don't always select the last checkpoint as in classic curriculum learning also allows us to have different "lineages" which may help to avoid being stuck in local minima or in an optimization area where the optimization can easily diverge.</p>
 
 
 <h3 id='moving-creatures-obtained'><i>Moving creatures obtained</i></h3>
@@ -566,7 +566,7 @@ where the creatures obtained are long term stable. The video on the right displa
  number of timesteps it has been trained on. The last creature on the right at  last timestep seen (step where loss was applied during training)
  tries as much as possible to fit the target resulting in a death few steps after </span>
  </p><br>
-<p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors.  Seeing that some agents that emerge are long term stable is surprising as it is not specified&#x2F;penalized in the training loss.</p>
+<p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors. Seeing that the majority of creatures that emerge from training are long term stable (8 over 10 trials), whereas it is not specified&#x2F;penalized in the training loss, is a first hint of the generalization capabilities of self-organizing agents.</p>
 <!---
 <div class=' l-screen-inset'>
 <div class='row'>
@@ -629,7 +629,7 @@ Run 2
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Results of successive optimization steps in practice <br>
  <span style="font-size: 14px;color:#A0A0A0;"> Top is the result of IMGEP steps(outer loop) from initialization (left) then successive steps and final video is best
-Imgep step. <br>As shown by the red lines,  Bottom is inner optimization corresponding to the first IMGEP step (from top first video to top second video), gradient descent step (1,20,60,70,80,90,100,110,120) </span>
+Imgep step. <br>As shown by the red lines,  the Bottom line is the inner optimization corresponding to the first IMGEP step (from top first video to top second video), gradient descent step (1,20,60,70,80,90,100,110,120) </span>
  </p><br>
 </div>
 
@@ -867,7 +867,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 
 <p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#experimentalDetails'>experimental details</a> are also provided in the appendix.</p>
 <h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
-<p>From the method, we obtain a wide variety of creatures that seem to easily travel through the obstacles they saw during training. </p>
+<p>From the method, we obtain a wide variety of creatures that seem to easily travel through configuration of obstacles like the ones they saw during training. Over 10 trials of the method, 7 led to the emergence of moving creatures with this robustness. </p>
 <div class="row l-screen-inset">
    
     <div class="column">
@@ -894,7 +894,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 
 <h2 id='how-well-do-the-creatures-obtained-generalize-'>How well do the creatures obtained generalize ?</h2>
 
-<p>In this section, we investigate the generalization of the discovered sensorimotor agents to several out-of-distribution perturbations that were not encountered during training. While the creatures were trained on a diversity of obstacle positions (but with fixed number, shape and size), we can imagine a much larger and challenging set of evaluation tasks to assess the agent's general sensorimotor capabilities. Below we show a sample of such possible test tasks, while many more could be envisaged. To better display the versatility of some of the creatures obtained, we keep the same creature for all the demo below except stated otherwise.</p>
+<p>In this section, we investigate the generalization of the discovered sensorimotor agents to several out-of-distribution perturbations that were not encountered during training. While the creatures were trained on a diversity of obstacle positions (but with fixed number, shape and size), we can imagine a much larger and challenging set of evaluation tasks to assess the agent's general sensorimotor capabilities. Below we show a sample of such possible test tasks, while many more could be envisaged. To better display the versatility of some of the creatures obtained, we keep the same creature for all the demo below except stated otherwise. In the first part of this section, we look at the capabilities of the obtained creatures "alone", without paying attention to creature-creature interactions. In the second part, we test the capabilities of the obtained creatures to interact with each other in the multi creature setting.</p>
 <h3 id='single-creature-setting'><i>Single creature setting</i></h3>
 <h4 id='are-the-creature-long-term-stable-'><strong>ARE THE CREATURE LONG TERM STABLE ?</strong></h4>
 <p>Even if we can not know if the creature is indefinitely stable, we can test for a reasonable number of timesteps. The result is that the successful creatures that were obtained with IMGEP with obstacles seem stable for 2000 timesteps while they have only been trained to be stable for 50 timesteps. This might be because as it learned to be robust to deformation it has learned a strong preservation of the structure to prevent any explosion or dying when perturbed a little bit. And so when there is no perturbation this layer of "security" strongly preserves the structure. However, training a creature only for movement (without obstacles so no perturbation during training) sometimes led to non long term stable creatures. This is similar to what has been observed in <dt-cite key="mordvintsev2020growing"></dt-cite> where training to grow a creature from the same initialization (a pixel) led to patterns that were not long term stable. But adding incomplete&#x2F;perturbed patterns as initialization to learn to recover from them led to long term stability by making the target shape a stronger attractor.</p>
@@ -988,7 +988,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 <p class="l-gutter"  style="font-size: 13px;color:#A0A0A0;  "> 
 For this creature displayed here, we had to tune by hand the kernel after the training in order to get individuality. But we sometimes obtain individuality directly from the training.
 </p>
-<p>Some creatures obtained show strong individuality preservation. In fact, creatures go in non destructive interactions most of the time without merging. If individuality isn't obtained during training, we can tune the weight of the growth (especially the limiting growth one) to make the merge of two creatures harder. By increasing those limiting growth kernels, the repeal of two entities gets stronger and they will simply change direction. Individuality has also been observed in the "orbium" creature found by hand in Lenia for example, but it was much more fragile with a lot of collisions that led to destruction or explosion. It&#39;s interesting to notice that  individuality was obtained as a byproduct of training the agent towards robustness alone. In fact our intuition is that by trying to prevent too much growth, it learned to prevent any living cell that would make it "too big", including in the multi creature case living cells from other creatures.   </p>
+<p>Some creatures obtained show strong individuality preservation. In fact, creatures go in non destructive interactions most of the time without merging. If individuality isn't obtained during training, we can tune the weight of the growth (especially the limiting growth one) to make the merge of two creatures harder. By increasing those limiting growth kernels, the repeal of two entities gets stronger and they will simply change direction. Individuality has also been observed in the "orbium" creature found by hand in Lenia for example, but it was much more fragile with a lot of collisions that led to destruction or explosion. It&#39;s interesting to notice that  individuality was obtained as a byproduct of training the agent towards robustness alone. In fact our intuition is that by trying to prevent too much growth, it learned to prevent any living cell that would make it "too big", including in the multi creature case living cells from other creatures.   Over the 10 random trials, 4 of them led to the emergence of creatures with strong individuality preservation.</p>
 <h4 id='attraction'><strong>ATTRACTION</strong></h4>
 <video id="robust" width="95%"  autoplay controls="" loop muted="" class="l-middle side videoShow">
                  <source src="stick.mp4" type="video/mp4">
@@ -1012,10 +1012,11 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h2 id='related-work'>Related work</h2>
 <h4 id='theoretical-foundations-of-cognition'><strong>THEORETICAL</strong><strong> FOUNDATIONS OF COGNITION</strong></h4>
+<p>Cellular automata has been used as a testbed&#x2F; showcase for theories on cognition, identity and life (like what are the basic necessary parts needed for "life"). The game of life was particularly studied <dt-cite key="autopoiesisBeer1754"></dt-cite> and in particular the glider. In fact, R.D.Beer looked at the cognitive domain of the glider <dt-cite key="PMID:24494612"></dt-cite><dt-cite key="beer2020bittorio"></dt-cite>  by looking at its reaction to environmental perturbations. Taking inspiration from those works, we tried to learn, using modern ML tools,  rules of a cellular automaton leading to the emergence of a structure&#x2F;an agent with the capability to resist a maximum of perturbations hence with cognition at a certain level.</p>
 
 
+<p>Information theory but not stuited for big systems like Ca</p>
 
-<p>Studies have been focusing on the theoretical&#x2F;philosophical part of cellular automata, using it as a  concrete testbed&#x2F;showcase for theories on cognition ,identity and life <dt-cite key="autopoiesisBeer1754"></dt-cite><dt-cite key="PMID:24494612"></dt-cite>  (like what are the necessary parts needed for "life") .</p>
 
 <p>Self organization in biology is an important topic studied at different scales, from cells to individuals in a society. Those groups of entities have to navigate in their environment in order to find food. Navigating in a group allows one to more efficiently and safely move in a hostile environment taking advantage of the information gathered from an individual to benefit the group through communication. <dt-cite key="couzin2005Effective"></dt-cite></p>
 <p>Some swarms of bacteria avoid antibiotics making group decisions on where to go using surfactant and fluid dynamics to guid the group.<dt-cite key="PhysRevE.101.012407"></dt-cite>  Slime molds  explore their surroundings in every direction.And once a ramification finds cues of food, the growth will be directed to that food.  <dt-cite key="murugan2021mechano"></dt-cite>. Ants from few individuals having information, make group decisions on where to go <dt-cite key="Detrain2006SelforganizedSI"></dt-cite>.</p>
@@ -1093,7 +1094,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
 <p>This does not solve the problem 100% of the time and that's why we also apply initialization selection. We run the first steps of the method (random initialization and few steps of optimization), until we find an initialization which gives a "good" loss  for the 3 first deterministic targets (placed before the obstacles). Because the first steps will be the basis of most of the creatures and so if it struggles to make a moving creature, it will be hard for it to learn the sensorimotor capabilities on top .This way we only keep the initializations and first steps that learn quickly and seem to have room for improvement. The loss threshold is a hyperparameter.</p>
 
 <h2 id='still-failure-cases'>Still failure cases</h2>
-<p>Even with the initialization selection and small mutations, sometimes the algorithm doesn't seem able to learn to go past obstacles and we can't reach goal position beyond a certain limit near the beginning of obstacles.</p>
+<p>Even with the initialization selection and small mutations, sometimes the algorithm still gets stuck in local optima zones or in zones where it's easy to diverge. When it happens, most of the time the algorithm  can't reach goal position beyond a certain limit near the beginning of obstacles.</p>
 <video id="robust" width="100%" controls="" autoplay loop muted="" class="videoShow">
               <source src="unstable.mp4" type="video/mp4">
             </video>
@@ -1102,7 +1103,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
               <source src="strange210.mp4" type="video/mp4">
             </video>
 
-<p>The main creature used in most of the demo&#x2F;test above is very robust but with different configurations it's possible to kill or explode other creatures. However they were only trained for 50 timesteps (2seconds in the clips above) and with always 8 obstacles of the same type (even if their position induced diversity). Further training of the parameters for more robustness should be achievable. </p>
+<p>Most of the time, the failure cases still display some level of robustness&#x2F;sensorimotor capabilities but are still unstable to specific configurations. However they were only trained for 50 timesteps (2seconds in the clips above) and with always 8 obstacles of the same type (even if their position induced diversity). Further training of the parameters for more robustness should be achievable.  </p>
 <p>In the multi creature case, death and explosion can happen, especially when there are a lot of creatures but the rules  have not been trained in the multi creature setting.</p>
 
 <h2 id='different-target-shape'>Different Target shape.</h2>
