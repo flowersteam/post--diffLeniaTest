@@ -444,20 +444,19 @@ Schematic view of optimization step<br>
 <p> The first target shape we tried was a single disk with the idea of getting a spatially localized agent contained within the disk as the target shape is finite. However, after seeing that the robust creature obtained seemed to have a "core" and a shallow envelope, we informally chose to move to two superposed discs, a large shallow one with a thick smaller one on top. The resulting target shape has the formula \(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 to avoid killing the gradient due to the clip operation.</p>
 
 
-<p>Despite the choice of the target shape, the choice of the target location is crucial  for the success of the optimization. Simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far (overlap a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1. Moreover, if the target is far, as it needs several steps to go to the target and the system is complex&#x2F;chaotic, the optimization landscape will be very hard. To tackle these challenges, we propose to use curriculum learning exploiting the fact that we can shape optimization to aim for near-enough (and increasingly further) target shapes.</p>
+<p>Despite the choice of the target shape, the choice of the target location is crucial  for the success of the optimization. Simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far ( more precisely overlaps a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1 and so, for example, if at last timestep the target shape is on an area where the cell states are clipped at 0 no gradient will be propagated. Moreover, as the system is complex&#x2F;chaotic, the optimization landscape will be very hard and changing some parameters too much can easily break the dynamic leading to completely different outcome (loosing all the progress and making further optimization very hard). And so putting the target at a close position should lead to easier optimization landscape as well as more gradient information (because more non clipped pixel will overlap the target), leading to better optimization steps with less chances to diverge. To tackle these challenges, we propose to use curriculum learning exploiting the fact that we can shape optimization to aim for near-enough (and increasingly further) target shapes.</p>
 
-<div class="l-body">
+<div class="l-middle">
   <img id="schemeCuri" src="curriculum.svg" alt="CurriculumScheme" width="100%" >
  </div>
 
- <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-body">
+ <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle">
 Result of Optimization step<br>
  <span style="font-size: 14px;color:#A0A0A0;"> Red : target, yellow : initialization and green : agent at last timestep. 
 Left to right is one optimization step. The agent learns to go a little bit further in the same amount of time.<br>
 . </span>
  </p>
 <h3 id='curriculumdriven-goal-exploration-process'><i>Curriculum-driven goal exploration process</i></h3>
-<p>In fact, once we obtain a creature able to go a little further than the initialisation, we can push the target a little bit and learn to attain it. This time the new target needs to overlap where the creature is able to go after the first optimization. Then we just need to iterate this process, pushing the target further and further.</p>
 
 <p>The effectiveness of curriculum with complex tasks has already been shown in Wang et al. <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1901-01753"></dt-cite> where a teacher agent was created to design increasingly complex tasks for another learning agent, such that  the learning tasks were neither too hard nor too easy. Recent work by Variengien et al. showed the need of curriculum to stabilize learning and avoid local minima in complex self organizing systems <dt-cite key="variengien2021selforganized"></dt-cite>.</p>
 
@@ -866,7 +865,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
  </div>
 
 
-<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). Some initializations make the optimization easy while others easily get stuck. We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#experimentalDetails'>experimental details</a> are also provided in the appendix.</p>
+<p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#experimentalDetails'>experimental details</a> are also provided in the appendix.</p>
 <h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
 <p>From the method, we obtain a wide variety of creatures that seem to easily travel through the obstacles they saw during training. </p>
 <div class="row l-screen-inset">
