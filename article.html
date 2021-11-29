@@ -444,7 +444,7 @@ Schematic view of optimization step<br>
 <p> The first target shape we tried was a single disk with the idea of getting a spatially localized agent contained within the disk as the target shape is finite. However, after seeing that the robust creature obtained seemed to have a "core" and a shallow envelope, we informally chose to move to two superposed discs, a large shallow one with a thick smaller one on top. The resulting target shape has the formula \(0.1*(R&lt;1)+0.8*(R&lt;0.5)\). We chose on purpose to have the sum to be smaller than 1 to avoid killing the gradient due to the clip operation.</p>
 
 
-<p>Despite the choice of the target shape, the choice of the target location is crucial  for the success of the optimization. Simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far ( more precisely overlaps a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1 and so, for example, if at last timestep the target shape is on an area where the cell states are clipped at 0 no gradient will be propagated. Moreover, as the system is complex&#x2F;chaotic, the optimization landscape will be very hard and changing some parameters too much can easily break the dynamic leading to completely different outcome (loosing all the progress and making further optimization very hard). And so putting the target at a close position should lead to easier optimization landscape as well as more gradient information (because more non clipped pixel will overlap the target), leading to better optimization steps with less chances to diverge. To tackle these challenges, we propose to use curriculum learning exploiting the fact that we can shape optimization to aim for near-enough (and increasingly further) target shapes.</p>
+<p>Despite the choice of the target shape, the choice of the target location is crucial  for the success of the optimization. Simply putting a target shape far from initialization and optimizing towards it does not work most of the time. In fact, it works only when the target is not too far ( more precisely overlaps a little bit) from where the creature ended before optimization. This comes from the fact that cells at 0 do not give gradients as we clip between 0 and 1 and so, for example, if at last timestep the target shape is on an area where the cell states are clipped at 0 no gradient will be propagated. Moreover, as the system is complex&#x2F;chaotic, the optimization landscape will be very hard and changing some parameters too much can easily break the dynamic leading to completely different outcomes (loosing all the progress and making further optimization very hard). And so putting the target at a close position should lead to easier optimization landscape as well as more gradient information (because more non clipped pixel will overlap the target), leading to better optimization steps with less chances to diverge. To use these small steps, we propose to use curriculum learning exploiting the fact that we can shape optimization to aim for near-enough (and increasingly further) target shapes.</p>
 
 <div class="l-middle">
   <img id="schemeCuri" src="curriculum.svg" alt="CurriculumScheme" width="100%" >
@@ -830,7 +830,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 </p>
      
 
-<p>To learn the rules leading to the emergence of a creature that would resist and avoid various obstacles in its environment, we simply introduce (randomly generated) obstacle configurations within the training process, as shown in red in the training pseudocode. This way, the inner loop (goal-directed gradient descent) becomes <strong>stochastic gradient descent with the stochasticity coming from the sampling of the obstacles</strong>. The learning process will thus encounter a lot of different obstacle configurations and may find a general behavior.  In practice, we only put obstacles in half the lattice grid. This way, as shown in the <a href='#figConfigOb'>above figure</a>, the first half of the grid is free from obstacles which allows to first learn a creature that is able to move without any perturbation, as it was done in the previous section. Then, as we push the target further and further, the creature starts to encounter obstacles. And the deeper the target position is, the more it encounters obstacles and so the more robust it should be. The curriculum is made by going further and further because the further you go the more you will have to resist obstacles. In the IMGEP, at the end of each goal-directed inner optimization, the goal achievement is measured as the distance between the target position and the average position attained on different other random configurations of obstacles.</p>
+<p>To learn the rules leading to the emergence of a creature that would resist and avoid various obstacles in its environment, we simply introduce (randomly generated) obstacle configurations within the training process, as shown in red in the training pseudocode. This way, the inner loop (goal-directed gradient descent) becomes stochastic gradient descent with the stochasticity coming from the sampling of the obstacles. The learning process will thus encounter a lot of different obstacle configurations and may find a general behavior.  In practice, we only put obstacles in half the lattice grid. This way, as shown in the <a href='#figConfigOb'>above figure</a>, the first half of the grid is free from obstacles which allows to first learn a creature that is able to move without any perturbation, as it was done in the previous section. Then, as we push the target further and further, the creature starts to encounter obstacles. And the deeper the target position is, the more it encounters obstacles and so the more robust it should be. The curriculum is made by going further and further because the further you go the more you will have to resist obstacles. In the IMGEP, at the end of each goal-directed inner optimization, the goal achievement is measured as the distance between the target position and the average position attained on different other random configurations of obstacles.</p>
 <div clas=l-body>
  <pre>
  <code  style="line-height:0.4">
@@ -867,7 +867,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 
 <p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#experimentalDetails'>experimental details</a> are also provided in the appendix.</p>
 <h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
-<p>From the method, we obtain a wide variety of creatures that seem to easily travel through configuration of obstacles like the ones they saw during training. Over 10 trials of the method, 7 led to the emergence of moving creatures with this robustness. </p>
+<p>From the method, we obtain a wide variety of creatures that seem to easily travel through random configurations of obstacles like the ones they saw during training. Over 10 trials of the method, 7 succeeded leading to such creatures. You can find the failure cases in the <a href='#failureCases'>failures cases section</a> of the appendix.</p>
 <div class="row l-screen-inset">
    
     <div class="column">
@@ -891,6 +891,12 @@ rollout with those obstacles. We then optimize toward the target shape as before
                   </video>
     </div>
 </div>
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+Obtained emerging creatures robust to perturbation by obstacles<br>
+ <span style="font-size: 14px;color:#A0A0A0;">
+In the 3 first videos, yellow corresponds to the learnable channel (where we want the creature to emerge), and blue to obstacles in the system.
+</span>
+</p>
 
 <h2 id='how-well-do-the-creatures-obtained-generalize-'>How well do the creatures obtained generalize ?</h2>
 
@@ -1012,14 +1018,13 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 <h2 id='related-work'>Related work</h2>
 <h4 id='theoretical-foundations-of-cognition'><strong>THEORETICAL</strong><strong> FOUNDATIONS OF COGNITION</strong></h4>
+
+
 <p>Cellular automata has been used as a testbed&#x2F; showcase for theories on cognition, identity and life (like what are the basic necessary parts needed for "life"). The game of life was particularly studied <dt-cite key="autopoiesisBeer1754"></dt-cite> and in particular the glider. In fact, R.D.Beer looked at the cognitive domain of the glider <dt-cite key="PMID:24494612"></dt-cite><dt-cite key="beer2020bittorio"></dt-cite>  by looking at its reaction to environmental perturbations. Taking inspiration from those works, we tried to learn, using modern ML tools,  rules of a cellular automaton leading to the emergence of a structure&#x2F;an agent with the capability to resist a maximum of perturbations hence with cognition at a certain level.</p>
-<p>Other works use information theory to try to define concepts such as individuality <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite> </p>
-
-<p>Information theory but not stuited for big systems like Ca</p>
+<p>Information theory can be used to define more clearly concepts such as individuality, agency and cognition by giving a measure of such concepts in the system <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite>. However, those theories&#x2F;measures are often very hard to apply to big complex systems such as cellular automata. Even more for continuous cellular automata such as Lenia with often large grids.</p>
 
 
-<p>Self organization in biology is an important topic studied at different scales, from cells to individuals in a society. Those groups of entities have to navigate in their environment in order to find food. Navigating in a group allows one to more efficiently and safely move in a hostile environment taking advantage of the information gathered from an individual to benefit the group through communication. <dt-cite key="couzin2005Effective"></dt-cite></p>
-<p>Some swarms of bacteria avoid antibiotics making group decisions on where to go using surfactant and fluid dynamics to guid the group.<dt-cite key="PhysRevE.101.012407"></dt-cite>  Slime molds  explore their surroundings in every direction.And once a ramification finds cues of food, the growth will be directed to that food.  <dt-cite key="murugan2021mechano"></dt-cite>. Ants from few individuals having information, make group decisions on where to go <dt-cite key="Detrain2006SelforganizedSI"></dt-cite>.</p>
+
 
 <h4 id='neural-ca'><strong>NEURAL CA</strong></h4>
 
@@ -1094,6 +1099,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
 <p>This does not solve the problem 100% of the time and that's why we also apply initialization selection. We run the first steps of the method (random initialization and few steps of optimization), until we find an initialization which gives a "good" loss  for the 3 first deterministic targets (placed before the obstacles). Because the first steps will be the basis of most of the creatures and so if it struggles to make a moving creature, it will be hard for it to learn the sensorimotor capabilities on top .This way we only keep the initializations and first steps that learn quickly and seem to have room for improvement. The loss threshold is a hyperparameter.</p>
 
 <h2 id='still-failure-cases'>Still failure cases</h2>
+<span id="failureCases"> </span>
 <p>Even with the initialization selection and small mutations, sometimes the algorithm still gets stuck in local optima zones or in zones where it's easy to diverge. When it happens, most of the time the algorithm  can't reach goal position beyond a certain limit near the beginning of obstacles.</p>
 <video id="robust" width="100%" controls="" autoplay loop muted="" class="videoShow">
               <source src="unstable.mp4" type="video/mp4">
