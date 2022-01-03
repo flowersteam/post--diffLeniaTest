@@ -566,7 +566,7 @@ where the creatures obtained are long term stable. The video on the right displa
  number of timesteps it has been trained on. The last creature on the right at  last timestep seen (step where loss was applied during training)
  tries as much as possible to fit the target resulting in a death few steps after </span>
  </p><br>
-<p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors. Seeing that the majority of creatures that emerge from training are long term stable (8 over 10 trials), whereas it is not specified&#x2F;penalized in the training loss, is a first hint of the generalization capabilities of self-organizing agents.</p>
+<p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors. Seeing that the majority of creatures that emerge from training are long term stable (8 over 10 trials with initialization selection, see <a href='#badInit'>appendix</a> for more info on initialization selection), whereas it is not specified&#x2F;penalized in the training loss, is a first hint of the generalization capabilities of self-organizing agents.</p>
 <!---
 <div class=' l-screen-inset'>
 <div class='row'>
@@ -867,7 +867,7 @@ rollout with those obstacles. We then optimize toward the target shape as before
 
 <p>The success of the method to produce rules that lead to the emergence of sensorimotor agents highly depends on the IMGEP initialization (first line of the pseudocode). We refer to the <a href='#badInit'>overcoming "bad initialization"</a> section of the appendix for more information on how we solve this problem. Additional <a href='#experimentalDetails'>experimental details</a> are also provided in the appendix.</p>
 <h3 id='robust-moving-creatures-obtained'>Robust moving creatures obtained</h3>
-<p>From the method, we obtain a wide variety of creatures that seem to easily travel through random configurations of obstacles like the ones they saw during training. Over 10 trials of the method, 7 succeeded leading to such creatures. You can find the failure cases in the <a href='#failureCases'>failures cases section</a> of the appendix.</p>
+<p>From the method, we obtain a wide variety of creatures that seem to easily travel through random configurations of obstacles like the ones they saw during training. Over 10 trials of the method with initialization selection (see <a href='#badInit'>appendix</a> for more info on initialization selection), 7 succeeded leading to such creatures. You can find the failure cases in the <a href='#failureCases'>failures cases section</a> of the appendix.</p>
 <div class="row l-screen-inset">
    
     <div class="column">
@@ -1020,8 +1020,9 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <h4 id='theoretical-foundations-of-cognition'><strong>THEORETICAL</strong><strong> FOUNDATIONS OF COGNITION</strong></h4>
 
 
-<p>Cellular automata has been used as a testbed&#x2F; showcase for theories on cognition, identity and life (like what are the basic necessary parts needed for "life"). The game of life was particularly studied <dt-cite key="autopoiesisBeer1754"></dt-cite> and in particular the glider. In fact, R.D.Beer looked at the cognitive domain of the glider <dt-cite key="PMID:24494612"></dt-cite><dt-cite key="beer2020bittorio"></dt-cite>  by looking at its reaction to environmental perturbations. Taking inspiration from those works, we tried to learn, using modern ML tools,  rules of a cellular automaton leading to the emergence of a structure&#x2F;an agent with the capability to resist a maximum of perturbations hence with cognition at a certain level.</p>
-<p>Information theory can be used to define more clearly concepts such as individuality, agency and cognition by giving a measure of such concepts in the system <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite>. However, those theories&#x2F;measures are often very hard to apply to big complex systems such as cellular automata. Even more for continuous cellular automata such as Lenia with often large grids.</p>
+<p>Cellular automata have been used as a testbed&#x2F;showcase for theories on cognition, identity and life (like what are the necessary parts needed for "life" ?). The game of life was particularly studied <dt-cite key="autopoiesisBeer1754"></dt-cite> and in particular the glider. In fact, to test the cognitive domain of a glider  R.D.Beer looked at all the environmental perturbations a glider in the game of l<dt-cite key="PMID:24494612"></dt-cite><dt-cite key="beer2020bittorio"></dt-cite> can take without dying. Taking inspiration from those works, we tried to learn, using modern ML tools, rules of a cellular automaton leading to the emergence of a structure&#x2F;an agent with the capability to resist a maximum of perturbations hence with cognition (according to Maturana and Varela) at a certain level.</p>
+
+<p>On the other hand, Information theory can be used to define more clearly concepts such as individuality, agency and cognition by giving a measure of such concepts <dt-cite key="krakauer2020information"></dt-cite> <dt-cite key="biehlInformationBasedSpatiotemporal2016"></dt-cite>. However, those measures are often very hard to apply in practice to big complex systems such as cellular automata. Even more for continuous cellular automata such as Lenia with often large grids, a lot of steps and large neighborhoods (so a lot of interconnected dependencies).</p>
 
 
 
@@ -1042,22 +1043,24 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 
 <h4 id='swarm-robotics'><strong>SWARM ROBOTICS</strong></h4>
-<p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in their environment.<dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Work in swarm robotics is inspired by nature and  covers various areas of navigation like collective exploration <dt-cite key="10.1007&#x2F;978-4-431-65941-9_30"></dt-cite> <dt-cite key="6094454"></dt-cite>, Coordinated motion <dt-cite key="Baldassarre2007selfOrga"></dt-cite>,<dt-cite key="5175366"></dt-cite>, or even Collective decision-making <dt-cite key="10.1371&#x2F;journal.pone.0151834"></dt-cite> . </p>
-
+<p>We can draw parallels with swarm robotics which dictates how several agents should sense and communicate locally in order to arrange themselves in the group and  in their environment <dt-cite key="Brambilla2012SwarmRA"></dt-cite>. Work in swarm robotics is inspired by nature (ants, bees, fish, birds etc) and  covers various areas of navigation like collective exploration <dt-cite key="10.1007&#x2F;978-4-431-65941-9_30"></dt-cite> <dt-cite key="6094454"></dt-cite>, Coordinated motion <dt-cite key="Baldassarre2007selfOrga"></dt-cite>,<dt-cite key="5175366"></dt-cite>, or even Collective decision-making <dt-cite key="10.1371&#x2F;journal.pone.0151834"></dt-cite> .  In those works, the swarm is composed of entities that already have a quite high level of cognition. This differs from our work where the entities composing the agent (the pixels ) are more abstract and on a lower level of cognition. However, the multi agents setting we present in this work could be seen as a swarm of higher cognition agents. </p>
 
 <h4 id='voxel-based-soft-robots'><strong>VOXEL BASED SOFT ROBOTS</strong></h4>
 
-<p>Work has focused on designing the morphology of soft robots using cellular automata  as builders of the morphology, as well as responsible for regeneration <dt-cite key="horibe2021regenerating"></dt-cite>. Whereas they separate building and regenerating into two different CA, our work learns a single global CA rule for multiple functions (building, moving and regenerating creatures).</p>
+<p>Voxel based soft robots are composed of several tiny blocks&#x2F;entities glued together that can contract (actuator). The contractions are either automatic contractions <dt-cite key="horibe2021regenerating"></dt-cite> <dt-cite key="10.1145&#x2F;2739480.2754662"></dt-cite> or with independent controller in every block using feedback from the environment <dt-cite key="10.1162&#x2F;isal_a_00223"></dt-cite>. Other studies on automatic contraction robots focused on  shapeshift to recover from injury <dt-cite key="Kriegman2019AutomatedSF"></dt-cite>. </p>
+
+<p>Works on soft robotics have focused on designing the morphology of soft robots using cellular automata  as builders of the morphology, as well as responsible for regeneration <dt-cite key="horibe2021regenerating"></dt-cite>. Whereas they separate building and regenerating into two different CA, our work learns a single global CA rule for everything (every function :building, moving, regenerating creatures and changing direction in response to perturbation ).</p>
 
 
-<p>Voxel based soft robots are composed of several tiny blocks&#x2F;entities that can contract (actuator). The contractions are either automatic contractions <dt-cite key="horibe2021regenerating"></dt-cite> <dt-cite key="10.1145&#x2F;2739480.2754662"></dt-cite> or with a controller using feedback from the environment <dt-cite key="10.1162&#x2F;isal_a_00223"></dt-cite>. Other studies on automatic contraction robots focused on  shapeshift to recover from injury <dt-cite key="Kriegman2019AutomatedSF"></dt-cite>. </p>
+
 
 
 <h4 id='coevolving-the-morphology-and-the-controller'><strong>CO-EVOLVING THE MORPHOLOGY AND THE CONTROLLER</strong></h4>
-<p>Evolving the morphology to find good (and diverse) morphology for a task (with the associated controller) has been studied in <dt-cite key="zhao2020robogrammar"></dt-cite>, <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1906-05370"></dt-cite>. However, in those work the morphology is fixed during the simulation.</p>
+<p>Evolving the morphology to find good (and diverse) morphology for a task (with the associated global controller) has been studied in <dt-cite key="zhao2020robogrammar"></dt-cite>, <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1906-05370"></dt-cite>. However, in those works the morphology is fixed during the simulation, which is not the case in our system.</p>
 
 
-<p> Pathak &amp; al <dt-cite key="pathak19assemblies"></dt-cite> worked on the dynamical self assemblies of simple entities in order to build a bigger modular agent able to move in space. In this work, each tiny entity (limb) has a motor and is capable of linking to other close entities (during simulation) leading to the assembly of complex morphologies. Each limb is independent and acts using its own information as well as the information from its neighbors.</p>
+<p> Pathak &amp; al <dt-cite key="pathak19assemblies"></dt-cite> worked on the dynamical self assemblies of simple entities in order to build a bigger modular agent able to move in space. In this work, each tiny entity (limb) has a motor and is capable of linking to other close entities (during simulation) leading to the assembly of complex morphologies during the simulation. Each limb is independent and acts using its own information as well as the information from its neighbors. Each entity (limb) in this work is at a "good" level of cognition with concrete action such as linking or contracting.</p>
+
 
 <h4 id='open-ended-exploration-'><strong>OPEN ENDED </strong><strong>EXPLORATION </strong></h4>
 
@@ -1305,7 +1308,7 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
 
 
 
-<h4 id='result'>Result</h4>
+<h4 id='statistical-results'>Statistical results</h4>
 
 
 
