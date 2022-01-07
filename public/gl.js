@@ -154,7 +154,7 @@ function init() {
         window.onresize = onResize;
 
     textbox.innerHTML = "loading shader files...";
-    loadShaderFiles(['vertex.glsl', 'fragment_sim.glsl', 'fragment_draw.glsl', shadertoyFilename],
+    loadShaderFiles(['public/vertex.glsl', 'public/fragment_sim.glsl', 'public/fragment_draw.glsl', shadertoyFilename],
         initWebGL);
     img.src = 'init1.png';
 }
