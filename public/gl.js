@@ -384,8 +384,8 @@ function onResize(e) {
     } else {
         width = canvas.width;
         height = canvas.height;
-        canvas.style.width = "640px";
-        canvas.style.height = "640px";
+        canvas.style.width = "648px";
+        canvas.style.height = "360px";
     }
 
     //var newArray = new Uint8Array(width * height * 4);
