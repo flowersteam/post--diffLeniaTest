@@ -246,10 +246,12 @@ tab-size: 4;
 
 .site-nav {
   padding-top: 1rem;
+  float:right
 }
 
 .site-header nav a {
   color: #777;
+  border-bottom:none;
 }
 
 .site-header nav a:hover,
@@ -276,6 +278,15 @@ tab-size: 4;
 .posts .post a:hover .post-title,
 .posts .post a:hover .post-summary {
   opacity: 0.88;
+}
+
+.clearfix:before, .clearfix:after {
+content: ' ';
+display: table;
+}
+
+.clearfix:after {
+  clear: both;
 }
 
 
