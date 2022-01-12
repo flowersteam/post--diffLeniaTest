@@ -156,7 +156,7 @@ function init() {
     textbox.innerHTML = "loading shader files...";
     loadShaderFiles(['public/vertex.glsl', 'public/fragment_sim.glsl', 'public/fragment_draw.glsl', shadertoyFilename],
         initWebGL);
-    img.src = 'public/init1.png';
+    
 }
 
 function initWebGL(shaderSources) {
@@ -207,7 +207,7 @@ function initWebGL(shaderSources) {
     eta:                gl.getUniformLocation(simProgram, "eta"),
     relR:               gl.getUniformLocation(simProgram, "relR")
   };
-
+    img.src = 'public/init1.png';
     textbox.innerHTML = "initializing vertex shader...";
     var vertexArray = new Float32Array([
         -1,-1, +1,-1, -1,+1,  // first triangle
