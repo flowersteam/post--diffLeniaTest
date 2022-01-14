@@ -1318,20 +1318,27 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
 <span id="differentiableLeniaShift"></span>
 
 
-<p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, fixing the number of bumps restricts a lot the shape of the kernels compared to the original paper.</p>
-
-<p>We therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of k overlapping gaussian bumps: $$x \rightarrow \sum_i^{k} b_i exp(-\frac{(\frac{x}{rR}-a_i)^2}{2w_i^2}) $$ The parameters controlling the shape are then \(3 k\)-dimensional vectors: \(b\) for height of the bump, \(w\) for the size of the bump and \(a\) for the center of the bump. </p>
-
-<p>We also have, as in the original paper, the same parameters controlling the size of the kernels:  \(R \in \mathbb{N}\) common to the kernels of all rules controlling the maximum size of a kernel (what is the maximum sensing distance). As well as, for each rule,  \(r \in [0,1]\) giving the relative size of the kernel compared to \(R\).</p>
+<p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. For example, \(R \in \mathbb{N}\) common to the kernels of all rules controlls the maximum size of a kernel (what is the maximum sensing distance), while for each rule,  \(r \in [0,1]\) gives the relative size of the kernel compared to \(R\).</p>
 
 
 
-<img src="public/freeK.png" alt="schemeK" class="l-body">
-<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
+<p> However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel (see <a href='#kernelsCompa'>figure below</a> ) is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, with a 3 bumps kernels parametrization as in the original paper, you can't recover 2 bumps kernels by putting the height of a bump to 0 (unless you allow to change the maximus sensing radius R which seems unnatural). And thus fixing the number of bumps in the base version restricts a lot the shape of the kernels compared to the original paper where various number of bumps are used.</p>
+
+<img id="kernelsCompa" src="public/freeK.png" alt="schemeK" style="width:95%">
+<p  style="font-size: 14px;color:#A0A0A0;text-align:center;" >
 Comparison between original kernels (left) and kernel used in this blogpost (right).
  </p>
 
-<p>These symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility but at the cost of more parameters. </p>
+<p>We therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of k overlapping gaussian bumps: $$x \rightarrow \sum_i^{k} b_i exp(-\frac{(\frac{x}{rR}-a_i)^2}{2w_i^2}) $$ The parameters controlling the shape are then \(3 k\)-dimensional vectors: \(b\) for height of the bump, \(w\) for the size of the bump and \(a\) for the center of the bump. </p>
+
+<p> </p>
+
+<p>These symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility&#x2F;expressibility but at the cost of more parameters. In fact, for example an interesting feature of those "free kernels" is that for a fixed k you can easily have the free kernels with \(\leq k\) bumps by putting some heights of bumps close to 0 (And you can even have this happening through gradient descent). </p>
+
+
+
+
+
 
 <p>In Lenia, a growth function \( G: [0,1] \rightarrow [-1,1] \) is any unimodal non-monotonic function that satisfies \( G(\mu)&#x3D;1 \). In this work, we use the continuous exponential growth function \( G(x) &#x3D; 2 \exp \left( - \frac{(x - \mu )^2}{2 \sigma^2} \right) - 1 \) which is differentiable with respect to \(\mu\) and \(\sigma\). </p>
 
