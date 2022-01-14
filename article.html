@@ -240,6 +240,8 @@
     <h5><a href="#the-system">The System</a></h5>
     <ul>
       <li><a href="#lenia">Lenia</a></li>
+    
+      <li><a href="#differentiable-lenia">Differentiable Lenia</a></li>
     </ul>
     <h5><a href="#how-to-discover-spatially-localized--and-moving-agents-in-lenia-">How to discover spatially localized and moving creatures in Lenia ? </a></h5>
     <ul>
@@ -459,9 +461,11 @@ Random exploration of the parameter space rarely results in moving creature.<br>
 Each 100 squares are random parameters trials (each  1 channel and  10 rules so \(\sim \)  130 parameters for the kernels)
  </span>
  </p>
+<h3 id='differentiable-lenia'>Differentiable Lenia</h3>
+
 <p>Due to the locality and recurrence of the update rule, there is a close relationship between cellular automata and recurrent convolutional networks <dt-cite key="gilpin2019cellular"></dt-cite>. In fact, we can see a rollout in Lenia as applying a recurrent neural network to an initial state. If (some of) the network parameters are differentiable, backpropagation can be done by "unfolding" the Lenia rollout and applying a loss at certain time step(s) like in <dt-cite key="mordvintsev2020growing"></dt-cite> .</p>
 
-<p>To allow easier differentiation of the Lenia system,  we intoduce some changes to the kernel parametrization. You can find these changes in the <a href='#differentiableLenia'>Differentiable Lenia</a> section of the appendix. However even doing so, Differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
+<p>However, in the classic version of Lenia <dt-cite key="chan2020lenia"></dt-cite> <dt-cite key="chan2019lenia"></dt-cite>, the shape of the kernels are not totally differentiable and not very flexible. To allow easier optimization of the Lenia system,  we introduce some changes to the kernel parametrization. You can find these changes in the <a href='#differentiableLeniaShift'>Differentiable Lenia Shift</a> section of the appendix. However even doing so, Differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. Finding gliders-like creatures will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
 
@@ -1139,28 +1143,6 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <p>The authors acknowledge support from the INRIA Bordeaux center for funding this work. We would like to thank Alexander Mordvintsev and his team for providing an <a href='https://github.com/znah/gdocs_distill_template'>easy tool for collaborative writing</a> of this article, as well as for inspiration for our work. We would also like to thank Michael Levin and his team for useful inputs and interesting discussions for future work.</p>
 
 
-<h2 id='differentiable-lenia'>Differentiable Lenia</h2>
-<span id="differentiableLenia"></span>
-
-
-<p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, fixing the number of bumps restricts a lot the shape of the kernels compared to the original paper.</p>
-
-<p>We therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of k overlapping gaussian bumps: $$x \rightarrow \sum_i^{k} b_i exp(-\frac{(\frac{x}{rR}-a_i)^2}{2w_i^2}) $$ The parameters controlling the shape are then \(3 k\)-dimensional vectors: \(b\) for height of the bump, \(w\) for the size of the bump and \(a\) for the center of the bump. </p>
-
-<p>We also have, as in the original paper, the same parameters controlling the size of the kernels:  \(R \in \mathbb{N}\) common to the kernels of all rules controlling the maximum size of a kernel (what is the maximum sensing distance). As well as, for each rule,  \(r \in [0,1]\) giving the relative size of the kernel compared to \(R\).</p>
-
-
-
-<img src="public/freeK.png" alt="schemeK" class="l-body">
-<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
-Comparison between original kernels (left) and kernel used in this blogpost (right).
- </p>
-
-<p>These symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility but at the cost of more parameters. </p>
-
-<p>In Lenia, a growth function \( G: [0,1] \rightarrow [-1,1] \) is any unimodal non-monotonic function that satisfies \( G(\mu)&#x3D;1 \). In this work, we use the continuous exponential growth function \( G(x) &#x3D; 2 \exp \left( - \frac{(x - \mu )^2}{2 \sigma^2} \right) - 1 \) which is differentiable with respect to \(\mu\) and \(\sigma\). </p>
-
-<p>To summarize, the parameters of the update rule are thus those controlling the kernel shape (\(R,r,a,w,b\)), those controlling the growth function (\(\mu,\sigma,h\)) and a time controlling parameter (\(T\)). For a total of \(n\) rules (all channels included) with \(k\) bumps kernels, the number of parameters is \( (3k+4)n + 2 \). In our experiments, R and T are chosen randomly and fixed while all the other parameters are optimized, and we use a total of \(n&#x3D;10\) rules with \(k&#x3D;3\) bumps kernels . So in total we have 132 parameters for the rules from which 130 are optimized.</p>
 
 <h2 id='overcoming-bad-initialization-problem'>Overcoming "bad initialization" problem</h2>
 <img id="badInit" src="public/dependencies.svg" alt="schemeLearn" width="100%" >
@@ -1329,6 +1311,29 @@ Dependencies in the population ( between IMGEP steps (outer loop) )<br>
       <video id="kernelsVis" width=85% controls="" muted="" class="videoShow" >
                     <source src="public/kernels.mp4" type="video/mp4">
                   </video>
+
+<h2 id='differentiable-lenia-shift'>Differentiable Lenia shift</h2>
+<span id="differentiableLeniaShift"></span>
+
+
+<p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, fixing the number of bumps restricts a lot the shape of the kernels compared to the original paper.</p>
+
+<p>We therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of k overlapping gaussian bumps: $$x \rightarrow \sum_i^{k} b_i exp(-\frac{(\frac{x}{rR}-a_i)^2}{2w_i^2}) $$ The parameters controlling the shape are then \(3 k\)-dimensional vectors: \(b\) for height of the bump, \(w\) for the size of the bump and \(a\) for the center of the bump. </p>
+
+<p>We also have, as in the original paper, the same parameters controlling the size of the kernels:  \(R \in \mathbb{N}\) common to the kernels of all rules controlling the maximum size of a kernel (what is the maximum sensing distance). As well as, for each rule,  \(r \in [0,1]\) giving the relative size of the kernel compared to \(R\).</p>
+
+
+
+<img src="public/freeK.png" alt="schemeK" class="l-body">
+<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
+Comparison between original kernels (left) and kernel used in this blogpost (right).
+ </p>
+
+<p>These symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility but at the cost of more parameters. </p>
+
+<p>In Lenia, a growth function \( G: [0,1] \rightarrow [-1,1] \) is any unimodal non-monotonic function that satisfies \( G(\mu)&#x3D;1 \). In this work, we use the continuous exponential growth function \( G(x) &#x3D; 2 \exp \left( - \frac{(x - \mu )^2}{2 \sigma^2} \right) - 1 \) which is differentiable with respect to \(\mu\) and \(\sigma\). </p>
+
+<p>To summarize, the parameters of the update rule are thus those controlling the kernel shape (\(R,r,a,w,b\)), those controlling the growth function (\(\mu,\sigma,h\)) and a time controlling parameter (\(T\)). For a total of \(n\) rules (all channels included) with \(k\) bumps kernels, the number of parameters is \( (3k+4)n + 2 \). In our experiments, R and T are chosen randomly and fixed while all the other parameters are optimized, and we use a total of \(n&#x3D;10\) rules with \(k&#x3D;3\) bumps kernels . So in total we have 132 parameters for the rules from which 130 are optimized.</p>
 
 <h2 id='gecko-experiment'>Gecko experiment</h2>
 <p>To test our model differentiability and "power". We tried to reproduce the experiment from <dt-cite key="mordvintsev2020growing"></dt-cite> trying to grow a gecko shape. In our case, the gecko was  1 channel and the initialization was a 40x40 square optimized. The example displayed here needed 1 hidden channel(with also a 40x40 square optimized) and 40 kernels, and was optimized for 2000 steps. Using less kernel really decreases the performance, especially on the tail. Not optimizing the initialization drastically decreases the performance, leading to an oval shape far from the gecko shape.</p>
