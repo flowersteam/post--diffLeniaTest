@@ -74,12 +74,13 @@
                 <source src="public/demo.mp4" type="video/mp4">
               </video>
   <dt-byline></dt-byline>
-<p>Novel classes of Cellular Automata (CA) have been recently introduced in the Artificial Life  (ALife) community, able to generate a high diversity of complex self-organized patterns from local update rules. These patterns can display certain properties of biological systems such as a spatially localized organization, directional or rotational movements, etc. However, while the notions of embodiment within an environment, individuality and self-maintenance are central in theoretical biology (e.g. Maturana &amp; Varela biology of cognition), it remains unclear how such mechanisms and properties can emerge from a set of local update rules in a CA. In this blogpost, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning, on diversity search and on gradient descent over a differentiable CA able to discover the rules leading to the emergence of such creatures. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles or other creatures in their way. They also show great generalization to unseen environments .</p>
+<p>Novel classes of Cellular Automata (CA) have been recently introduced in the Artificial Life  (ALife) community, able to generate a high diversity of complex self-organized patterns from local update rules. These patterns can display certain properties of biological systems such as a spatially localized organization, directional or rotational movements, etc. However, while the notions of embodiment within an environment, individuality and self-maintenance are central in theoretical biology (e.g. Maturana &amp; Varela <dt-cite key="maturana1980autopoiesis"></dt-cite> , Varela <dt-cite key="varela1997patterns"></dt-cite>), it remains unclear how such mechanisms and properties can emerge from a set of local update rules in a CA. In this blogpost, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning, on diversity search and on gradient descent over a differentiable CA able to discover the rules leading to the emergence of such creatures. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles or other creatures in their way. They also show great generalization to unseen environments .</p>
 <d-content>
 <nav style="margin-left:2em;">
 <p><a href="https://colab.research.google.com/drive/11mYwphZ8I4aur8KuHRR1HEg6ST5TI0RW#scrollTo=l6D-g1Q38yyC" class="colab-root">Reproduce in a <span class="colab-span">Notebook</span></a></p>
 </nav>
 <nav id="infoDemoAdvanced" style="margin-left:2em;display:none">
+      
       <li> <b>Press play to begin</b> </li>
       <li>Place creature by clicking on the dark screen with  <b>place creature</b> mode selected)</li>
       <li>(Note that the multi creature setting was not seen during training)</li>
@@ -91,8 +92,9 @@
  
   </nav>
 <nav id="infoDemo" style="margin-left:2em;display:block">
+<p>	&lt;li&gt; The demo displays  a cellular automata (CA) system where an emerging "creature" (yellow) is the result of local rules applied on the whole grid. The blue elements are obstacles (and are also part of the CA system).The rules leading to these very robust creatures were obtained using gradient descent,diversity search and curriculum learning.   &lt;&#x2F;li&gt;</p>
     <li> <b>Press play to begin</b> </li>
-      <li>Choose the creature on the left</li>
+      <li>Choose the type of creature on the left (each creature morphology is the result of different rules in the CA)</li>
       <li>Choose pre defined environments at the bottom </li>
       <li>Draw obstacles by clicking on the canvas  </li>
 <li>More option available at Advanced Options  </li>
