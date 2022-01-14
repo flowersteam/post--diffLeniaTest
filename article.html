@@ -239,8 +239,6 @@
     <h5><a href="#the-system">The System</a></h5>
     <ul>
       <li><a href="#lenia">Lenia</a></li>
-    
-      <li><a href="#differentiable-lenia">Differentiable Lenia</a></li>
     </ul>
     <h5><a href="#how-to-discover-spatially-localized--and-moving-agents-in-lenia-">How to discover spatially localized and moving creatures in Lenia ? </a></h5>
     <ul>
@@ -269,7 +267,7 @@
 
 
 
-<p>Novel classes of Cellular Automata have been recently introduced in the ALife community, able to generate a high diversity of complex self-organized patterns from local update rules. These patterns can display certain properties of biological systems such as a spatially localized organization, directional or rotational movements, etc. However, while the notions of embodiment within an environment, individuality and self-maintenance are central in theoretical biology (e.g. Maturana &amp; Varela biology of cognition), it remains unclear how such mechanisms and properties can emerge from a set of local update rules in a CA. In this blogpost, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning, on diversity search and on gradient descent over a differentiable CA able to discover the rules leading to the emergence of such creatures. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles or other creatures in their way. They also show great generalization to unseen environments .</p>
+<p>Novel classes of Cellular Automata (CA) have been recently introduced in the Artificial Life  (ALife) community, able to generate a high diversity of complex self-organized patterns from local update rules. These patterns can display certain properties of biological systems such as a spatially localized organization, directional or rotational movements, etc. However, while the notions of embodiment within an environment, individuality and self-maintenance are central in theoretical biology (e.g. Maturana &amp; Varela biology of cognition), it remains unclear how such mechanisms and properties can emerge from a set of local update rules in a CA. In this blogpost, we propose to add environmental elements in a cellular automata to study how we can learn a self-organizing creature capable of reacting to the perturbations induced by the environment, i.e. robust creatures with sensorimotor capabilities. We provide a method based on curriculum learning, on diversity search and on gradient descent over a differentiable CA able to discover the rules leading to the emergence of such creatures. The creatures obtained, using only local update rules, are able to regenerate and preserve their integrity and structure while dealing with the obstacles or other creatures in their way. They also show great generalization to unseen environments .</p>
 <h2 id='introduction'>Introduction</h2>
 
 <p>Understanding what has led to the emergence of life, cognition and natural agency as we observe in living organisms is one of the major scientific quests in a variety of disciplines ranging from biology and chemistry to evolutionary science. The pragmatic complementary question, central in disciplines such as artificial life (ALife) and artificial intelligence (AI), is: <i>can we engineer the necessary ingredients to discover forms of functional life and cognition as-it-could-be in an artificial substrata? </i> With respect to this practical goal of building agents-as-they-could-be, key challenges are the modeling of an artificial <i>environment</i><dt-fn> <strong>environment:</strong> system that defines a notion of space, time, physical states and laws</dt-fn>, the characterization of an agent <i>embodiment</i><dt-fn> <strong>embodiment:</strong> ensemble of norms and necessary conditions that define an agent as an autonomous unity we could separate from the rest <dt-cite key="di2019process"></dt-cite></dt-fn><i> </i>and <i>cognitive capacity&#x2F;domain</i><dt-fn> <strong>cognitive capacity&#x2F;domain:</strong> ensemble of performances that an agent is able to realize and regulate in its environment <dt-cite key="di2019process"></dt-cite>, defined as the "domain of interactions in which a unity can engage without disintegration" <dt-cite key="autopoiesisBeer1754"></dt-cite></dt-fn><i> </i>within such an environment; and the finding of agents that (robustly) comply with those criterias. Depending on their focus of research, approaches in the literature can be divided into the <i>mechanistic</i> and the <i>enactivist</i> views<i>. </i>The mechanistic view already presupposes an agent embodiment and rather focuses on understanding how higher-level cognitive interactions can arise, typically seeking for agents capable of <i>sensorimotor adaptivity</i><dt-fn> <strong>sensorimotor adaptivity:</strong> sensory-motor coordination enabling agents to react to environmental perturbations, achieve repertoire of behavioral skills and adapt to unseen conditions</dt-fn>. In the enactive view, "the question of the bodily constitution is conceptually prior to any particular functional account of a cognitive subsystem" <dt-cite key="di2019process"></dt-cite>. The prior conditions of <i>individuality</i><dt-fn> <strong>individuality:</strong> ability of an informational&#x2F;physical structure to preserve its coherence and integrity</dt-fn> and <i>self-maintenance</i><dt-fn> <strong>self-maintenance:</strong> capacity of a structure to modify its interactions with the rest of the environment  for maintaining its integrity</dt-fn> are coined by enactivists as necessary for determining the agent&#39;s own existence and survival. Whereas the mechanistic considerations "jump over" the biological processes that enable organisms to survive (primitive forms of life&#x2F;cognition), the enactivist considerations still "fall behind" on showcasing higher-level processes of sensorimotor adaptivity (advanced forms of life&#x2F;cognition). Can future work in AI and ALife bridge the gap between those two frameworks?</p>
@@ -438,7 +436,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>In Lenia , the system is composed of several communicating grids \( A&#x3D;\{ A_c\}\) which we call <i>channels</i>. The above video illustrates Lenia "physics" in a 2-channel example ( \(A_1\) is colored in yellow and \( A_2 \) in blue). In each of these grids, every cell&#x2F;pixel can take any value between 0 and 1. Cells at 0  are considered dead while others are alive. As shown in the video, the channels are updated in parallel according to their own physics rule. Intuitively, we can see channels as the domain of existence of a certain type of cell. Each type of cell has its own physic : it has its own way to interact with other cells of its type (intra-channel influence) and also its own way to interact with cells of other types (cross-channel influence).</p>
 
-<p>The update of a cell \( a_{x,c}\) at position \(x\) in channel \(c\) can be decomposed in three steps. First the cell senses its neighbourhood in some other channels (its neighbourhood in its channel, with cells of the same type but also in other channels with other types of cells)  through <i>kernels</i> which are filters \(K_k\) of different shapes and sizes. Second, the cell converts this sensing into an update (whether positive or negative growth or neutral) through <i>growth functions</i> \(G_k\) associated with the kernels. Finally, the cell modifies its state by summing the scalars obtained after the growth functions and adding it to its current state. After the update of every rule has been applied, the state is clipped between 0 and 1. Each (kernel,growth function) couple is associated to the source channel \(c_s\) it senses, and to the target channel  \(c_t\) it updates. A couple (kernel,growth function) characterizes a rule on how a type of cell \(c_t\) reacts to its neighbourhood of cells of type \(c_s\). Note that \(c_s\) and \(c_t\) could be the same, which correspond to interaction of cells of the same type. Note also that we can have several rules characterizing the interaction between \(c_s\) and \(c_t\), i.e. \(n(c_s \rightarrow c_t)\) (kernel,growth function) couples. </p>
+<p>The update of a cell \( a_{x,c}\) at position \(x\) in channel \(c\) can be decomposed in three steps. First the cell senses its neighbourhood in some other channels (its neighbourhood in its channel, with cells of the same type but also in other channels with other types of cells)  through convolution <i>kernels</i> which are filters \(K_k\) of different shapes and sizes. Second, the cell converts this sensing into an update (whether positive or negative growth or neutral) through <i>growth functions</i> \(G_k\) associated with the kernels. Finally, the cell modifies its state by summing the scalars obtained after the growth functions and adding it to its current state. After the update of every rule has been applied, the state is clipped between 0 and 1. Each (kernel,growth function) couple is associated to the source channel \(c_s\) it senses, and to the target channel  \(c_t\) it updates. A couple (kernel,growth function) characterizes a rule on how a type of cell \(c_t\) reacts to its neighbourhood of cells of type \(c_s\). Note that \(c_s\) and \(c_t\) could be the same, which correspond to interaction of cells of the same type (intra-channel influence). Note also that we can have several rules characterizing the interaction between \(c_s\) and \(c_t\), i.e. \(n(c_s \rightarrow c_t)\) (kernel,growth function) couples. </p>
 
 <p>A local update in the grid is summarized with the following formula: </p>
 <p>$$a_x^{t+1}&#x3D;f(a_x^t, \mathcal{N}(a_x^t)) &#x3D; \begin{bmatrix} a^t_{x,c_0}  + \sum_{c_s&#x3D;0}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_0)-1}  G^k_{c_s \rightarrow c_0} ( K^k_{c_s \rightarrow c_0} (a^t_{x,c_0}, \mathcal{N}_{c_0}(a^t_x))) \\.\\.\\.\\a^t_{x,c_C}  + \sum_{c_s&#x3D;0}^C  \sum_{k&#x3D;0}^{n(c_s \rightarrow c_C)-1}  G^k_{c_s \rightarrow c_C} ( K^k_{c_s \rightarrow c_C} (a^t_{x,c_C}, \mathcal{N}_{c_C}(a^t_x)))\end{bmatrix} $$ </p>
@@ -449,7 +447,7 @@ Update step  of channel 1 in the Lenia System <br>
 
 <p>For each rule, the shape of the (kernel, growth function) is parametrized. We are thus able to "tune" the physics of the cells and of their interactions by changing the kernels shape (how the cells perceive their neighborhood) as well as the growth function shape (how the cells react to this perception). </p>
 
-<p>However, finding interesting parameters leading to the emergence of localized patterns or even moving one is not easy. For example here a random search of 100 trials (with 1 channel and 10 rules) gives only 3-5 SLP and no moving creature. Even with more advanced diversity-driven exploration searches, moving creatures are hard to find <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. This motivates our choice to use gradient descent in order to learn these parameters.</p>
+<p>However, finding interesting parameters leading to the emergence of localized patterns or even moving one is not easy. For example here is a random search of 100 trials (with 1 channel and 10 rules) gives only 3-5 SLP and no moving creature. Even with more advanced diversity-driven exploration searches, moving creatures are hard to find <dt-cite key="etcheverry2020hierarchically"></dt-cite> <dt-cite key="reinke2020intrinsically"></dt-cite>. This motivates our choice to use gradient descent in order to learn these parameters.</p>
 
 <video id="robust" width="95%"  autoplay  controls muted="" class="l-body videoShow">
                 <source src="public/random.mp4" type="video/mp4">
@@ -460,38 +458,9 @@ Random exploration of the parameter space rarely results in moving creature.<br>
 Each 100 squares are random parameters trials (each  1 channel and  10 rules so \(\sim \)  130 parameters for the kernels)
  </span>
  </p>
-
-<p> </p>
-
-
-
-
-
-<h3 id='differentiable-lenia'>Differentiable Lenia</h3>
-
 <p>Due to the locality and recurrence of the update rule, there is a close relationship between cellular automata and recurrent convolutional networks <dt-cite key="gilpin2019cellular"></dt-cite>. In fact, we can see a rollout in Lenia as applying a recurrent neural network to an initial state. If (some of) the network parameters are differentiable, backpropagation can be done by "unfolding" the Lenia rollout and applying a loss at certain time step(s) like in <dt-cite key="mordvintsev2020growing"></dt-cite> .</p>
 
-<p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, fixing the number of bumps restricts a lot the shape of the kernels compared to the original paper.</p>
-
-<p>We therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of k overlapping gaussian bumps: $$x \rightarrow \sum_i^{n} b_i exp(-\frac{(\frac{x}{rR}-a_i)^2}{2w_i^2}) $$ The parameters controlling the shape are then \(3 n\)-dimensional vectors: \(b\) for height of the bump, \(w\) for the size of the bump and \(a\) for the center of the bump. </p>
-
-<p>We also have, as in the original paper, the same parameters controlling the size of the kernels:  \(R \in \mathbb{N}\) common to the kernels of all rules controlling the maximum size of a kernel (what is the maximum sensing distance). As well as, for each rule,  \(r \in [0,1]\) giving the relative size of the kernel compared to \(R\).</p>
-
-
-
-<img src="public/freeK.png" alt="schemeK" class="l-body">
-<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
-Comparison between original kernels (left) and kernel used in this blogpost (right).
- </p>
-
-<p>The symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility but at the cost of more parameters.</p>
-
-<p>In Lenia, a growth function \( G: [0,1] \rightarrow [-1,1] \) is any unimodal non-monotonic function that satisfies \( G(\mu)&#x3D;1 \). In this work, we use the continuous exponential growth function \( G(x) &#x3D; 2 \exp \left( - \frac{(x - \mu )^2}{2 \sigma^2} \right) - 1 \) which is differentiable with respect to \(\mu\) and \(\sigma\). </p>
-
-<p>To summarize, the parameters of the update rule are thus those controlling the kernel shape (\(R,r,a,w,b\)), those controlling the growth function (\(\mu,\sigma,h\)) and a time controlling parameter (\(T\)). For a total of \(n\) rules (all channels included) with \(k\) bumps kernels, the number of parameters is \( (3k+4)n + 2 \). In our experiments, R and T are chosen randomly and fixed while all the other parameters are optimized, and we use a total of \(n&#x3D;10\) rules with \(k&#x3D;3\) bumps kernels . So in total we have 132 parameters for the rules from which 130 are optimized.</p>
-
-
-<p>However even doing so, differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
+<p>To allow easier differentiation of the Lenia system,  we intoduce some changes to the kernel parametrization. You can find these changes in the <a href='#differentiableLenia'>Differentiable Lenia</a> section of the appendix. However even doing so, Differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. Finding gliders-like creatures will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
 
@@ -1167,6 +1136,31 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 <span id="appendix"><span>
 <h2 id='acknowledgements'>Acknowledgements</h2>
 <p>The authors acknowledge support from the INRIA Bordeaux center for funding this work. We would like to thank Alexander Mordvintsev and his team for providing an <a href='https://github.com/znah/gdocs_distill_template'>easy tool for collaborative writing</a> of this article, as well as for inspiration for our work. We would also like to thank Michael Levin and his team for useful inputs and interesting discussions for future work.</p>
+
+
+<h2 id='differentiable-lenia'>Differentiable Lenia</h2>
+<span id="differentiableLenia"></span>
+
+
+<p>Parameters in Lenia determine the shape of each (kernel, growth function) couple. However, some of the parameters were not differentiable as they were. In fact in <dt-cite key="chan2019lenia"></dt-cite>, the number of bumps in the kernel is given by the length of a list which can not be differentiated. One option is to let the number of bumps fixed to an arbitrary value (3 for example). However, fixing the number of bumps restricts a lot the shape of the kernels compared to the original paper.</p>
+
+<p>We therefore introduced a new class of CA with differentiable parameters. To do so, the main shift is to use kernels in the form of a sum of k overlapping gaussian bumps: $$x \rightarrow \sum_i^{k} b_i exp(-\frac{(\frac{x}{rR}-a_i)^2}{2w_i^2}) $$ The parameters controlling the shape are then \(3 k\)-dimensional vectors: \(b\) for height of the bump, \(w\) for the size of the bump and \(a\) for the center of the bump. </p>
+
+<p>We also have, as in the original paper, the same parameters controlling the size of the kernels:  \(R \in \mathbb{N}\) common to the kernels of all rules controlling the maximum size of a kernel (what is the maximum sensing distance). As well as, for each rule,  \(r \in [0,1]\) giving the relative size of the kernel compared to \(R\).</p>
+
+
+
+<img src="public/freeK.png" alt="schemeK" class="l-body">
+<p  style="font-size: 19px;color:#000000;text-align:center;"  class="l-body">
+Comparison between original kernels (left) and kernel used in this blogpost (right).
+ </p>
+
+<p>These symmetric "free kernels", while very inspired from Lenia's original "vanilla bumps", allow differentiation and more flexibility but at the cost of more parameters. </p>
+
+<p>In Lenia, a growth function \( G: [0,1] \rightarrow [-1,1] \) is any unimodal non-monotonic function that satisfies \( G(\mu)&#x3D;1 \). In this work, we use the continuous exponential growth function \( G(x) &#x3D; 2 \exp \left( - \frac{(x - \mu )^2}{2 \sigma^2} \right) - 1 \) which is differentiable with respect to \(\mu\) and \(\sigma\). </p>
+
+<p>To summarize, the parameters of the update rule are thus those controlling the kernel shape (\(R,r,a,w,b\)), those controlling the growth function (\(\mu,\sigma,h\)) and a time controlling parameter (\(T\)). For a total of \(n\) rules (all channels included) with \(k\) bumps kernels, the number of parameters is \( (3k+4)n + 2 \). In our experiments, R and T are chosen randomly and fixed while all the other parameters are optimized, and we use a total of \(n&#x3D;10\) rules with \(k&#x3D;3\) bumps kernels . So in total we have 132 parameters for the rules from which 130 are optimized.</p>
+
 <h2 id='overcoming-bad-initialization-problem'>Overcoming "bad initialization" problem</h2>
 <img id="badInit" src="public/dependencies.svg" alt="schemeLearn" width="100%" >
 <p  style="font-size: 19px;color:#000000;" >
