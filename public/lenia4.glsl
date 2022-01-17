@@ -237,7 +237,7 @@ vec3 rgb=vec3(0.);
 fragCoord=fragCoord;
 vec2 uv = (fragCoord) / iResolution.xy;
 
-if((iMouse.z <= 0. && iFrame !=-1) || (color[1]>0.5))
+if((iMouse.z <= 0. && iFrame !=-1) || (color[1]>0.5 && iFrame !=-1))
 {
 int intR = int(ceil(R));
 
