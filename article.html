@@ -490,7 +490,7 @@ Each 100 squares are random parameters trials (each  1 channel and  10 rules so 
 
 <p>Due to the locality and recurrence of the update rule, there is a close relationship between cellular automata and recurrent convolutional networks <dt-cite key="gilpin2019cellular"></dt-cite>. In fact, we can see a rollout in Lenia as applying a recurrent neural network to an initial state. If (some of) the network parameters are differentiable, backpropagation can be done by "unfolding" the Lenia rollout and applying a loss at certain time step(s) like in <dt-cite key="mordvintsev2020growing"></dt-cite> .</p>
 
-<p>However, in the classic version of Lenia <dt-cite key="chan2020lenia"></dt-cite> <dt-cite key="chan2019lenia"></dt-cite>, the shape of the kernels are not totally differentiable and not very flexible. To allow easier optimization of the Lenia system,  we introduce some changes to the kernel parametrization. You can find these changes in the <a href='#differentiableLeniaShift'>Differentiable Lenia Shift</a> section of the appendix. However even doing so, Differentiating through Lenia can be difficult because we often have a big number of iterations (through which the gradient must backpropagate without vanishing) and because each iteration has its result clipped between 0 and 1 (through which the gradient can get killed). We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
+<p>However, in the classic version of Lenia <dt-cite key="chan2020lenia"></dt-cite> <dt-cite key="chan2019lenia"></dt-cite>, the shape of the kernels are not totally differentiable and not very flexible. To allow easier optimization of the Lenia system,  we introduce some changes to the kernel parametrization. You can find these changes in the <a href='#differentiableLeniaShift'>Differentiable Lenia Shift</a> section of the appendix. However even doing so, Differentiating through Lenia can be difficult because the gradient must backpropagate through several steps (which moreover have their result clipped between 0 and 1) without vanishing. We should thus limit ourselves to a few iterations when training: in our experiments the loss is applied after 50 steps in Lenia.</p>
 <h2 id='how-to-discover-spatially-localized--and-moving-agents-in-lenia-'>How to discover spatially localized  and moving agents in Lenia ?</h2>
 <p>In this section, we propose tools based on gradient descent and curriculum to learn the CA parameters leading to the emergence of moving creatures. Finding gliders-like creatures will be the basis on which we'll build the method leading to the emergence of sensorimotor capabilities within the Lenia dynamics in the next section. </p>
 
@@ -640,7 +640,7 @@ IMGEP Step <br>
 
 
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-    Self-organizing moving agents emerging from the rules learned through auto-curriculum and gradient descent<br>
+    Robustness of moving creatures, emerging from the rules learned, over longer time spans than in the training process.<br>
  <span style="font-size: 14px;color:#A0A0A0;"> Each square is the result of 1 trial of the method. The video on the left displays successes of the method 
 where the creatures obtained are long term stable. The video on the right displays trials where the creatures obtained die few steps after the
  number of timesteps it has been trained on. The last creature on the right at  last timestep seen (step where loss was applied during training)
@@ -707,9 +707,13 @@ Run 2
 </div>
 </div>
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-Results of successive optimization steps in practice <br>
- <span style="font-size: 14px;color:#A0A0A0;"> Top is the result of IMGEP steps(outer loop) from initialization (left) then successive steps and final video is best
-Imgep step. <br>As shown by the red lines,  the Bottom line is the inner optimization corresponding to the first IMGEP step (from top first video to top second video), gradient descent step (1,20,60,70,80,90,100,110,120) </span>
+Results of successive outer( top) and inner (bottom) optimization steps in practice <br>
+ <span style="font-size: 14px;color:#A0A0A0;"> This figure shows in more details the results of intermediate optimization steps in 2 different runs( left video
+And right video)
+.In each video/run, at the top are the creatures resulting from  the outer loop (IMGEP steps), the first video on the left is the creature obtained after initialization of the parameters (before
+optimization), which as you can see isn't moving at all. Then you can see from left to right the result of the curriculum in the outer optimization loop, with resulting creatures going further and further. The last video at the top being the best.
+ <br>In each run, as shown by the red lines,  the Bottom line displays the result of some  inner optimization steps (gradient descent) corresponding to the first outer step
+</span>
  </p><br>
 </div>
 
