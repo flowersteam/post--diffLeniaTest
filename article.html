@@ -820,6 +820,8 @@ Update step  in our Lenia System with obstacle channel<br>
  <span style="font-size: 14px;color:#A0A0A0;">(Hover on the Formulas button to see Lenia's equation)</span>
 </p><br>
 
+<p>The multi-channel aspect of Lenia allows the implementation of different types of cells&#x2F;particles. To implement obstacles in Lenia we added a separate "obstacle" channel with a kernel going from this channel to the learnable "creature" channel. This kernel triggers a severe negative growth in the pixels of the learnable channel where there are obstacles but has no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels of the learnable channel where there are obstacles.</p>
+
 <div class="l-page side">
 <div id="orbicol">
 <div class="row">
@@ -901,7 +903,7 @@ creature is the same in both left and right video)
 </p>  
 </div>
 </div>
-<p>The multi-channel aspect of Lenia allows the implementation of different types of cells&#x2F;particles. To implement obstacles in Lenia we added a separate "obstacle" channel with a kernel going from this channel to the learnable "creature" channel. This kernel triggers a severe negative growth in the pixels of the learnable channel where there are obstacles but has no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels of the learnable channel where there are obstacles. The learnable channel cells can only sense the obstacles through the changes&#x2F;deformations it implies on it or its neighbours. In fact, as the only kernel that goes from the obstacle channel to the learnable channel is localized, if a macro agent emerges it has to "touch" the obstacle to sense it. To be precise the agent can only sense an obstacle  because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it). This is similar to experiments with swarming bacteria <dt-cite key="PhysRevE.101.012407"></dt-cite>, where the swarm agent must learn to collectively avoid antibiotic zones (externally-added obstacles) where the bacteria can't live.</p>
+<p>The learnable channel cells can only sense the obstacles through the changes&#x2F;deformations it implies on it or its neighbours. In fact, as the only kernel that goes from the obstacle channel to the learnable channel is localized, if a macro agent emerges it has to "touch" the obstacle to sense it. To be precise the agent can only sense an obstacle  because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it). This is similar to experiments with swarming bacteria <dt-cite key="PhysRevE.101.012407"></dt-cite>, where the swarm agent must learn to collectively avoid antibiotic zones (externally-added obstacles) where the bacteria can't live.</p>
 
 
 <p>
