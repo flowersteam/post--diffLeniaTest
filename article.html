@@ -914,11 +914,12 @@ c)  Creatures which are only trained  to move Forward
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 2 Different configurations of obstacles during training<br>
  <span style="font-size: 14px;color:#A0A0A0;">
-Blue: Obstacles ; Yellow: Initialization ; Red: Target (same position in both) ; Green : creature at last timestep.
+
 This figure displays 2 different configurations of obstacles ( the position changes) that the inner optimization can sample. 
 This diversity of position of obstacles allows to have generalization as it induces, during training, different perturbations on the agents. In fact as can be seen
-on the green creature, the perturbation on the creature structure/morphology are totally different in left and right figure. This way by trying to attain the 
-Target (red circle) while learning to deal with several different perturbations, we hope that the creature will be able to be robust to a lot of perturbations. 
+on the green creature, the perturbation on the creature structure/morphology are totally different in left and right figure.
+This way by trying to attain the target while learning to deal with several different perturbations, we hope that the creature 
+will be able to be robust to a lot of perturbations. 
 
 </span>
 </p>
@@ -989,7 +990,7 @@ Target (red circle) while learning to deal with several different perturbations,
 The obtained emerging creatures are robust to perturbation by obstacles<br>
  <span style="font-size: 14px;color:#A0A0A0;">
 The creatures, obtained by adding obstacles perturbation during training, are robust to collision with obstacles.
-This was not the case when the creature was trained to go forward without any perturbation as shown in <a href="#gradientWall">figure c <a> at the 
+This was not the case when the creature was trained to go forward without any perturbation as shown in <a href="#gradientWall">figure c </a> at the 
 beginning of the section.
 The ostacle configurations (blue dot positions) are totally random and has not been seen during training.
   In the 3 first videos, yellow corresponds to the learnable channel (where we want the creature to emerge), and blue to obstacles in the system. 
