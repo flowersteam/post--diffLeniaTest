@@ -820,9 +820,8 @@ Update step  in our Lenia System with obstacle channel<br>
  <span style="font-size: 14px;color:#A0A0A0;">(Hover on the Formulas button to see Lenia's equation)</span>
 </p><br>
 
-
-<p>The multi-channel aspect of Lenia allows the implementation of different types of cells&#x2F;particles. To implement obstacles in Lenia we added a separate "obstacle" channel with a kernel going from this channel to the learnable "creature" channel. This kernel triggers a severe negative growth in the pixels of the learnable channel where there are obstacles but has no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels of the learnable channel where there are obstacles. The learnable channel cells can only sense the obstacles through the changes&#x2F;deformations it implies on it or its neighbours. In fact, as the only kernel that goes from the obstacle channel to the learnable channel is localized, if a macro agent emerges it has to "touch" the obstacle to sense it. To be precise the agent can only sense an obstacle  because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it). This is similar to experiments with swarming bacteria <dt-cite key="PhysRevE.101.012407"></dt-cite>, where the swarm agent must learn to collectively avoid antibiotic zones (externally-added obstacles) where the bacteria can't live.</p>
-<div class="l-page side" id="orbicol">
+<div class="l-page side">
+<div id="orbicol">
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -841,16 +840,7 @@ Update step  in our Lenia System with obstacle channel<br>
 a )  Orbium (glider like in Lenia obtained by hand made mutation ) dies from perturbation by obstacles
 </p>
 </div>
-
-<p>
-Additionally, we impose the obstacles to stay still, meaning that there is no rule that goes toward 
-(and hence no update of) the obstacle channel
- . As such, an update step in the final system is summarized in the
- <a href="#schemeLeniaWall">above figure</a> 
- with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
-
-<p>To grasp the impact of the new obstacle channel and physics, we then tested how the previously-found moving creatures react to this environment.</p>
-<div class="l-page side" id ="complexCol">
+<div id ="complexCol">
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -871,7 +861,7 @@ by luck are able to resist these perturbations.
 </div>
 
 
-<div class="l-page side" id="gradientWall">
+<div id="gradientWall">
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -910,6 +900,18 @@ d) Some creatures obtained in the previous section resist some collisions (left)
 creature is the same in both left and right video)
 </p>  
 </div>
+</div>
+<p>The multi-channel aspect of Lenia allows the implementation of different types of cells&#x2F;particles. To implement obstacles in Lenia we added a separate "obstacle" channel with a kernel going from this channel to the learnable "creature" channel. This kernel triggers a severe negative growth in the pixels of the learnable channel where there are obstacles but has no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels of the learnable channel where there are obstacles. The learnable channel cells can only sense the obstacles through the changes&#x2F;deformations it implies on it or its neighbours. In fact, as the only kernel that goes from the obstacle channel to the learnable channel is localized, if a macro agent emerges it has to "touch" the obstacle to sense it. To be precise the agent can only sense an obstacle  because its interaction with the obstacle will perturb its own configuration and dynamics (i.e. its shape and the interaction between the cells constituting it). This is similar to experiments with swarming bacteria <dt-cite key="PhysRevE.101.012407"></dt-cite>, where the swarm agent must learn to collectively avoid antibiotic zones (externally-added obstacles) where the bacteria can't live.</p>
+
+
+<p>
+Additionally, we impose the obstacles to stay still, meaning that there is no rule that goes toward 
+(and hence no update of) the obstacle channel
+ . As such, an update step in the final system is summarized in the
+ <a href="#schemeLeniaWall">above figure</a> 
+ with the channel 1 being the learnable channel while the channel 2 is the obstacle channel.</p>
+
+<p>To grasp the impact of the new obstacle channel and physics, we then tested how the previously-found moving creatures react to this environment.</p>
 
 <p>The creatures found by hand in Lenia are not very robust to this new environment physics. A glider type of creature that was found in 1-channel Lenia dies from most collisions with external obstacless (<a href='#orbicol'>figure a</a>). Another multi-channel creature (<a href='#complexCol'>figure b</a> left) dies from special collisions with the wall. Only one multi-kernel creature was able to sense the wall and resist perturbation, but even this required us to manually slow down Lenia's time (parameter T) so that the creature can make smaller updates. And even then, the creature movements are kind of erratic.</p>
 
