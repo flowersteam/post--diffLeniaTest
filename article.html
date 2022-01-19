@@ -713,14 +713,9 @@ Run 2
 </div>
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 Results of successive outer (top) and inner (bottom) optimization steps in practice in 2 different runs <br>
- <span style="font-size: 14px;color:#A0A0A0;"> This figure shows the results of intermediate optimization steps in 2 different runs to display the 
-progressive improvement on the movement.
-In each run, at the top are the creatures resulting from successive steps of the outer loop (IMGEP steps), 
-the first video on the left is the creature obtained after initialization of the parameters (before
-optimization), which as you can see isn't moving at all. Then you can see from left to right the progessive improvement, 
-with resulting creatures going further and further. the last video at the top being the best after several outer steps.
- <br>In each run the bottom line displays the result of some  inner optimization steps  corresponding to the first outer step , as shown
- by the red lines.
+ <span style="font-size: 14px;color:#A0A0A0;"> 
+This figure shows how the bi-level optimization progressively evolves moving creatures. For each run, the upper-left video corresponds to the creature obtained after initialization of the parameters (before optimization), which is not able to move at all. After several outer steps (shown at the top and separated by blue lines), we can see how the evolved creatures improve their behavior, with the upper-right one (at the end of the bi-level optimization) reaching quickly the edge of the grid. At the bottom, a "zoom" shows how successive gradient  steps of the first inner loop (between red lines)
+ locally improves the creature.
 </span>
  </p><br>
 </div>
@@ -901,8 +896,8 @@ c) Creatures obtained in the previous section
 </div>
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-d) Some creatures obtained in the previous section resist some collisions (left) but often die from other collisions (right). (The 
-creature is the same in both left and right video)
+d) Some creatures obtained in the previous section resist some collisions (left) but often die from other collisions (right). The 
+creature is the same in both videos.
 </p>  
 </div>
 </div>
