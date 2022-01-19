@@ -885,8 +885,13 @@ by luck are able to resist these perturbations.
     </div>
  
   </div>
+<p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-<div class="row">
+c) Creatures obtained in the previous section 
+(which were trained to move forward without external perturbations) die from collision with obstacles. 
+</p>  
+
+<div class="row" id="resistColliDie">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
                     <source src="public/move9wall.mp4" type="video/mp4">
@@ -901,15 +906,15 @@ by luck are able to resist these perturbations.
 </div>
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-c) Creatures obtained in the previous section 
-(which were trained to move forward without external perturbations) die from collision with obstacles
+d) Some creatures obtained in the previous section resist some collisions (left) but often die from other collisions (right). (The 
+creature is the same in both left and right video)
 </p>  
 </div>
 
 <p>The creatures found by hand in Lenia are not very robust to this new environment physics. A glider type of creature that was found in 1-channel Lenia dies from most collisions with external obstacless (<a href='#orbicol'>figure a</a>). Another multi-channel creature (<a href='#complexCol'>figure b</a> left) dies from special collisions with the wall. Only one multi-kernel creature was able to sense the wall and resist perturbation, but even this required us to manually slow down Lenia's time (parameter T) so that the creature can make smaller updates. And even then, the creature movements are kind of erratic.</p>
 
 
-<p>Similarly, the moving creatures obtained with gradient descent and curriculum in the previous section do not display much robustness to collision with obstacles: only few by luck already have some level of robustness (<a href='http://gradientWall'>figure c</a>). This motivated the need for training methods which, given this environmental physics in the CA paradigm, are able to learn the parameters leading to the emergence of agency and sensorimotor capabilities with better resilience to perturbations. </p>
+<p>Similarly, the moving creatures obtained with gradient descent and curriculum in the previous section do not display much robustness to collision with obstacles (<a href='#gradientWall'>figure c</a>): only few by luck already have some level of robustness (<a href='#resistColliDie'>figure d</a>). This motivated the need for training methods which, given this environmental physics in the CA paradigm, are able to learn the parameters leading to the emergence of agency and sensorimotor capabilities with better resilience to perturbations. </p>
 <h3 id='training-method-with-stochastic-environmental-perturbations'>Training method with stochastic environmental perturbations</h3>
 <img id="figConfigOb" src="public/Merge.svg" alt="schemeLearn" width="100%" class="l-middle" >
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
