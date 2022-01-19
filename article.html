@@ -649,7 +649,7 @@ IMGEP Step <br>
  <span style="font-size: 14px;color:#A0A0A0;"> Each square is the result of 1 trial of the method. The video on the left displays successes of the method 
 where the creatures obtained are long term stable. The video on the right displays trials where the creatures obtained die few steps after the
  number of timesteps it has been trained on. The last creature on the right 
- tries as much as possible to fit the target at last seen timestep resulting in a death few steps after </span>
+ tries as much as possible to fit the target at last seen timestep resulting in a death right after. </span>
  </p><br>
 <p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors. Seeing that the majority of creatures that emerge from training are long term stable (8 over 10 trials with initialization selection, see <a href='#badInit'>appendix</a> for more info on initialization selection), whereas it is not specified&#x2F;penalized in the training loss, is a first hint of the generalization capabilities of self-organizing agents.</p>
 <!---
@@ -712,12 +712,15 @@ Run 2
 </div>
 </div>
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-Results of successive outer( top) and inner (bottom) optimization steps in practice in 2 different runs (left and right) <br>
- <span style="font-size: 14px;color:#A0A0A0;"> This figure shows in more details the results of intermediate optimization steps in 2 different runs( left video
-And right video)
-.In each video/run, at the top are the creatures resulting from  the outer loop (IMGEP steps), the first video on the left is the creature obtained after initialization of the parameters (before
-optimization), which as you can see isn't moving at all. Then you can see from left to right the result of the curriculum in the outer optimization loop, with resulting creatures going further and further. The last video at the top being the best.
- <br>In each run, as shown by the red lines,  the Bottom line displays the result of some  inner optimization steps (gradient descent) corresponding to the first outer step
+Results of successive outer (top) and inner (bottom) optimization steps in practice in 2 different runs <br>
+ <span style="font-size: 14px;color:#A0A0A0;"> This figure shows the results of intermediate optimization steps in 2 different runs to display the 
+progressive improvement on the movement.
+In each run, at the top are the creatures resulting from successive steps of the outer loop (IMGEP steps), 
+the first video on the left is the creature obtained after initialization of the parameters (before
+optimization), which as you can see isn't moving at all. Then you can see from left to right the progessive improvement, 
+with resulting creatures going further and further. the last video at the top being the best after several outer steps.
+ <br>In each run the bottom line displays the result of some  inner optimization steps  corresponding to the first outer step , as shown
+ by the red lines.
 </span>
  </p><br>
 </div>
@@ -999,11 +1002,11 @@ The obtained emerging creatures are robust to perturbation by obstacles<br>
 The creatures were obtained by adding obstacle perturbations during training.
 This robustness was not observed when the creature was trained to go forward without any perturbation as shown in <a href="#gradientWall">figure c </a> at the 
 beginning of the section.
-The ostacle configurations are totally random and have not been seen during training.
+The obstacle configurations are totally random and have not been seen during training.
   In the 3 first videos, yellow corresponds to the learnable channel (where we want the creature to emerge), and blue to obstacles in the system.
  In the last video, the learnable channel has a custom colormap allowing to see 
 more easily the wide range of continuous states in the creature while the obstacles are 
-In black.
+in black.
 </span>
 </p>
 
