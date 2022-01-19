@@ -504,8 +504,9 @@ Each 100 squares are random parameters trials (each  1 channel and  10 rules so 
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-body">
 Schematic view of optimization step<br>
  <span style="font-size: 14px;color:#A0A0A0;">Differentiable Lenia allows to optimize the CA parameters such that its dynamics converges
- towards a target pattern.Here the figure shows optimization of the system with MSE error between target image and system state at last timestep, 
-this is just one possibility out of many. The loss could also be applied to intermediate steps.
+ towards a target pattern. Here the figure shows optimization of the system with MSE error between target image and system state at last timestep. 
+Different training losses could be envisaged and applied at intermediate time steps depending on the dynamical 
+properties one aim to emerge in the system
 . </span>
  </p>
 
@@ -644,11 +645,11 @@ IMGEP Step <br>
 
 
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
-    Robustness of moving creatures, emerging from the rules learned, over longer time spans than in the training process.<br>
+    Robustness of learned moving creatures over longer time spans than in the training process.<br>
  <span style="font-size: 14px;color:#A0A0A0;"> Each square is the result of 1 trial of the method. The video on the left displays successes of the method 
 where the creatures obtained are long term stable. The video on the right displays trials where the creatures obtained die few steps after the
- number of timesteps it has been trained on. The last creature on the right at  last timestep seen (step where loss was applied during training)
- tries as much as possible to fit the target resulting in a death few steps after </span>
+ number of timesteps it has been trained on. The last creature on the right 
+ tries as much as possible to fit the target at last seen timestep resulting in a death few steps after </span>
  </p><br>
 <p>The method proposed above gives us a set of rules and an initialization in Lenia that lead to the emergence of a moving creature. The obtained rules and initialization are different every time we run the search as the method's initialization (first line in the pseudocode) is random. This results in different creatures emerging with every set of obtained rules (different seeds of the method).  Interestingly, some of the emerged creatures are long term stable (their shape is kept stable) while others may become unstable after a few timesteps. In fact as the creature is only trained for 50 timesteps, when running for longer, the creature can have unpredictable behaviors. Seeing that the majority of creatures that emerge from training are long term stable (8 over 10 trials with initialization selection, see <a href='#badInit'>appendix</a> for more info on initialization selection), whereas it is not specified&#x2F;penalized in the training loss, is a first hint of the generalization capabilities of self-organizing agents.</p>
 <!---
@@ -865,7 +866,7 @@ Additionally, we impose the obstacles to stay still, meaning that there is no ru
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
 b)   In the creatures found by handmade random exploration, some die from perturbation by the obstacle while some 
-By luck are able to resist these perturbations. 
+by luck are able to resist these perturbations. 
 </p>
 </div>
 
@@ -884,6 +885,7 @@ By luck are able to resist these perturbations.
     </div>
  
   </div>
+
 <div class="row">
     <div class="column">
       <video id="robust" width="95%" autoplay loop muted="" class="videoShow">
@@ -899,9 +901,8 @@ By luck are able to resist these perturbations.
 </div>
 <p  style="font-size: 14px;color:#A0A0A0;text-align:center;">
 
-c)  Creatures which are only trained  to move Forward
-(by optimizing the rules using auto-curriculum and gradient descent explained in previous section), without environmental perturbations
- during training, die from perturbation by obstacles
+c) Creatures obtained in the previous section 
+(which were trained to move forward without external perturbations) die from collision with obstacles
 </p>  
 </div>
 
@@ -914,13 +915,10 @@ c)  Creatures which are only trained  to move Forward
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 2 Different configurations of obstacles during training<br>
  <span style="font-size: 14px;color:#A0A0A0;">
-
-This figure displays 2 different configurations of obstacles ( the position changes) that the inner optimization can sample. 
-This diversity of position of obstacles allows to have generalization as it induces, during training, different perturbations on the agents. In fact as can be seen
-on the green creature, the perturbation on the creature structure/morphology are totally different in left and right figure.
-This way by trying to attain the target while learning to deal with several different perturbations, we hope that the creature 
-will be able to be robust to a lot of perturbations. 
-
+The inner optimization samples diverse position of obstacles allowing generalization as it induces, during training,
+ different perturbations on the agents. 
+For instance this figure displays 2 examples of sampled configurations (blue circles positions) and we can see that
+ the perturbations on the creature structure/morphology are totally different in left and right figure.
 </span>
 </p>
      
@@ -989,11 +987,14 @@ will be able to be robust to a lot of perturbations.
 <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 The obtained emerging creatures are robust to perturbation by obstacles<br>
  <span style="font-size: 14px;color:#A0A0A0;">
-The creatures, obtained by adding obstacles perturbation during training, are robust to collision with obstacles.
-This was not the case when the creature was trained to go forward without any perturbation as shown in <a href="#gradientWall">figure c </a> at the 
+The creatures were obtained by adding obstacle perturbations during training.
+This robustness was not observed when the creature was trained to go forward without any perturbation as shown in <a href="#gradientWall">figure c </a> at the 
 beginning of the section.
-The ostacle configurations (blue dot positions) are totally random and has not been seen during training.
-  In the 3 first videos, yellow corresponds to the learnable channel (where we want the creature to emerge), and blue to obstacles in the system. 
+The ostacle configurations are totally random and have not been seen during training.
+  In the 3 first videos, yellow corresponds to the learnable channel (where we want the creature to emerge), and blue to obstacles in the system.
+ In the last video, the learnable channel has a custom colormap allowing to see 
+more easily the wide range of continuous states in the creature while the obstacles are 
+In black.
 </span>
 </p>
 
