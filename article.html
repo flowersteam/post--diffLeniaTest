@@ -739,12 +739,12 @@ Run 2
 </div>
 </div>
 </div>
-<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
+<p  style="font-size: 19px;color:#000000;text-align:center;" class="l-screen-inset">
 Results of successive outer (top) and inner (bottom) optimization steps in practice in 2 different runs <br>
  <span style="font-size: 14px;color:#A0A0A0;"> 
-This figure shows how the bi-level optimization progressively evolves moving creatures. For each run, the upper-left video corresponds to the creature obtained after initialization of the parameters (before optimization), which is not able to move at all. After several outer steps (shown at the top and separated by blue lines), we can see how the evolved creatures improve their behavior, with the upper-right one (at the end of the bi-level optimization) reaching quickly the edge of the grid. At the bottom, a "zoom" (represented by the red lines) 
+This figure shows how the bi-level optimization (an inner loop inside of an outer loop) progressively evolves moving creatures. For each run, the upper-left video corresponds to the creature obtained after initialization of the parameters (before optimization), which is not able to move at all. After several outer steps (shown at the top and separated by blue lines), we can see how the evolved creatures improve their behavior, with the upper-right one (at the end of the bi-level optimization) reaching quickly the edge of the grid. At the bottom, a "zoom" (represented by the red lines) 
  on the first outer step (between first and second top videos)
-shows in more details the successive small improvements made by the first inner loop
+shows in more details the successive small improvements made by the inner loop
  (gradient steps)  during first outer step. Each inner step slightly  improves the creature by making it go a little further. At the end of 
 these inner steps, we get the result of the first outer step (second top video).
 </span>
