@@ -431,8 +431,7 @@ Creatures obtained by hand made random exploration<br>
  <span style="font-size: 14px;color:#A0A0A0;">
 Creatures at the top are<a href="https://chakazul.github.io/Lenia/JavaScript/Lenia.html">orbiums in Lenia </a> <dt-cite key="chan2019lenia"></dt-cite>.
  Videos at the bottom are  from Bert Chan's twitter, found by handmade random exploration : 
-<a href="https://twitter.com/BertChakovsky/status/1219332395456815104">left</a>
-,<a href="https://twitter.com/BertChakovsky/status/1265861527829004288">right</a><br>
+<a href="https://twitter.com/BertChakovsky/status/1219332395456815104">left</a>, <a href="https://twitter.com/BertChakovsky/status/1265861527829004288">right</a><br>
 Findig creature like this can take time (and expert knowledge) especially for more complicated ones. <br>
 You can find a library of creatures found in the first version of Lenia (<dt-cite key="chan2019lenia"></dt-cite><dt-cite key="chan2020lenia"></dt-cite>) at this <a href="https://chakazul.github.io/Lenia/JavaScript/Lenia.html">link</a>.
 
@@ -858,7 +857,7 @@ Update step in our Lenia System with obstacle channel<br>
  <span style="font-size: 14px;color:#A0A0A0;">The obstacle channel is another parallel grid which allows to put obstacles in the environment by putting 
 some of the pixels of this grid to 1. These obstacles will have a direct impact (through a fixed local rule) on the learnable channel 
 as it will prevent any growth of the creature where obstacles are present.
-Hover on the Formulas button to see Lenia's equations.</span>
+You can hover on the Formulas button to see the corresponding Lenia's equations.</span>
 </p><br>
 
 <p>The multi-channel aspect of Lenia allows the implementation of different types of cells&#x2F;particles. To implement obstacles in Lenia we added a separate "obstacle" channel with a kernel going from this channel to the learnable "creature" channel. This kernel triggers a severe negative growth in the pixels of the learnable channel where there are obstacles but has no impact on other pixels where there are no obstacles (very localized kernel). This way we prevent any growth in the pixels of the learnable channel where there are obstacles.</p>
