@@ -504,7 +504,7 @@ Update step  of channel 1 in the Lenia System <br>
 Random exploration of the parameter space rarely results in moving creature.<br>
  <span style="font-size: 14px;color:#A0A0A0;">
 Each 100 squares are random parameters trials (each  1 channel and  10 rules so \(\sim \)  130 parameters for all the rules of a square). The parameters 
-controls the local rules of interaction between cells, by changing the kernel shape (how a cell senses) and the growth function shape (how this sensing 
+control the local rules of interaction between cells, by changing the kernel shape (how a cell senses) and the growth function (how this sensing 
 is converted into growth). </span>
  </p>
 <h3 id='differentiable-lenia'>Differentiable Lenia</h3>
@@ -579,10 +579,9 @@ Left to right is one optimization step. The agent learns to go a little bit furt
 
  <p  style="font-size: 19px;color:#000000;text-align:center;" class="l-middle-outset">
 IMGEP Step <br>
- <span style="font-size: 14px;color:#A0A0A0;">hover over gray area to show step by step. <br>
+ <span style="font-size: 14px;color:#A0A0A0;">Hover over gray area to show the details of the step. <br>
  An IMGEP is an algorithmic process that allows to sample new goals and try to achieve them. The IMGEP process reuses knowledge from the previous
-trials. In our case, we use IMGEP as it allows to automatically build a curriculum by trying randomly 
-different curriculum paths. 
+trials. In our case, we use IMGEP as it allows to automatically build a curriculum by randomly trying new goals.
 </span>
  </p><br>
 <p>In our case, the goal space is simply a 2-dimensional vector space representing the position of the center of mass of the creature. Hence, a policy in Lenia (controlling the CA initialization and rules) achieves a target goal when it emerges a creature whose position at the last timestep (here t&#x3D;50) is within an accepted range from the target one. While there exist many goal-sampling strategies in the IMGEP literature, we use here a simple version that randomly samples positions in the grid but that biases the sampling both toward one edge of the grid in order to obtain moving creatures  and taking care that the sampled goals are not too far from already-attained positions. To attain a new target position&#x2F;goal, the goal-achievement policy relies on (i) the history of previously-tried policies to select the parameters that performed best (achieved the closest position); and (ii) an inner loop that uses gradient descent with  MSE error between the selected policy's last state and the target shape centered at the target goal. Therefore, there are two loops, one outer setting the goals and one inner that applies several steps of gradient descent toward this goal. The overall method can be summarized as such:</p>
