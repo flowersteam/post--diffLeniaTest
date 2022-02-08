@@ -295,7 +295,7 @@ vec3 val = texture(iChannel0, uv).rgb;
 //WALL
 growthDst[0]=growthDst[0]-2.*val[2];
 //lazy trick for attract /non attract mode
-if(color[1]<0.5){
+if(color[1]<0.5 || iFrame <50){
 growthDst[0]=growthDst[0]-growth[3][3]-growth[3][2] -growth[3][1]-growth[3][0]-growth[2][3]-growth[2][2];
 }
 rgb = clamp(1./T * growthDst + val, 0., 1.);
