@@ -454,7 +454,7 @@ You can find a library of creatures found in the first version of Lenia (<dt-cit
 
 <h3 id='lenia'>Lenia</h3>
 <div class="l-middle-outset" style="width:calc(816px + 96px + 200px);">
- <video id="robust" width="95%"  autoplay  controls muted="" class="videoShow">
+ <video id="robust" width="95%"  controls muted="" class="videoShow">
                 <source src="public/leniaVid.mp4" type="video/mp4">
               </video>
  <p  style="font-size: 19px;color:#000000;text-align:center;" >
@@ -1121,7 +1121,7 @@ in black.
                 <source src="public/initDie.mp4" type="video/mp4">
               </video>
 
-<p>While the creature initialization has been learned with a lot of degree of liberty, we can look if the same creature can emerge from other (maybe simpler) initialization. This capacity to converge to the desired shape in spite of a different initialization can be found in nature, as shown in this work from Vandenberg &amp; al. <dt-cite key="Vandenberg2012Tadpole"></dt-cite> on morphogenesis in tadpoles with perturbed structures. This would show how the learned CA rule is prone to encode, grow and maintain a target shape. In fact, as the creature learned to recover from perturbed morphology, we can expect the shape to be a strong attractor thus letting more freedom on the initialization. Indeed, what we find in practice is that the creature can emerge from other initializations, especially as shown here from a circle with a gradient (need some asymmetry to initiate movement as the kernels are fully symmetric). Bigger initializations also lead to multiple creatures forming and separating from each other (see next section for more about individuality). However the robustness to initialization is far from being perfect as other initializations easily lead to death, like for example here a circle of inappropriate size.</p>
+<p>While the creature initialization has been learned with a lot of degree of liberty, we can look if the same creature can emerge from other (maybe simpler) initialization. This capacity to converge to the desired shape in spite of a different initialization can be found in nature, as shown in this work from Vandenberg et al. <dt-cite key="Vandenberg2012Tadpole"></dt-cite> on morphogenesis in tadpoles with perturbed structures. This would show how the learned CA rule is prone to encode, grow and maintain a target shape. In fact, as the creature learned to recover from perturbed morphology, we can expect the shape to be a strong attractor thus letting more freedom on the initialization. Indeed, what we find in practice is that the creature can emerge from other initializations, especially as shown here from a circle with a gradient (need some asymmetry to initiate movement as the kernels are fully symmetric). Bigger initializations also lead to multiple creatures forming and separating from each other (see next section for more about individuality). However the robustness to initialization is far from being perfect as other initializations easily lead to death, like for example here a circle of inappropriate size.</p>
 
 <h4 id='do-the-creatures-react-to-body-damages'><strong>Do the creatures react to body damages?</strong></h4>
 
@@ -1202,10 +1202,10 @@ For this creature displayed here, we had to tune by hand the kernel after the tr
 
 
 <h4 id='coevolving-the-morphology-and-the-controller'><strong>CO-EVOLVING THE MORPHOLOGY AND THE CONTROLLER</strong></h4>
-<p>Evolving the morphology to find good (and diverse) morphology for a task (with the associated global controller) has been studied in <dt-cite key="zhao2020robogrammar"></dt-cite>, <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1906-05370"></dt-cite>. However, in those works the morphology is fixed during the simulation, which is not the case in our system.</p>
+<p>Evolving the morphology to find good (and diverse) morphology for a task (with the associated global controller) has been studied in <dt-cite key="zhao2020robogrammar"></dt-cite> <dt-cite key="DBLP:journals&#x2F;corr&#x2F;abs-1906-05370"></dt-cite> <dt-cite key="Ha2018designrl"></dt-cite> . However, in those works the morphology is fixed during the simulation, which is not the case in our system.</p>
 
 
-<p> Pathak &amp; al <dt-cite key="pathak19assemblies"></dt-cite> worked on the dynamical self assemblies of simple entities in order to build a bigger modular agent able to move in space. In this work, each tiny entity (limb) has a motor and is capable of linking to other close entities (during simulation) leading to the assembly of complex morphologies during the simulation. Each limb is independent and acts using its own information as well as the information from its neighbors. Each entity (limb) in this work is at a "good" level of cognition with concrete action such as linking or contracting.</p>
+<p> Pathak et al <dt-cite key="pathak19assemblies"></dt-cite> worked on the dynamical self assemblies of simple entities in order to build a bigger modular agent able to move in space. In this work, each tiny entity (limb) has a motor and is capable of linking to other close entities (during simulation) leading to the assembly of complex morphologies during the simulation. Each limb is independent and acts using its own information as well as the information from its neighbors. Each entity (limb) in this work is at a "good" level of cognition with concrete action such as linking or contracting.</p>
 
 
 <h4 id='open-ended-exploration-'><strong>OPEN ENDED </strong><strong>EXPLORATION </strong></h4>
@@ -2400,6 +2400,15 @@ pages={20--78},
 year={1945},
 publisher={Williams and Wilkins}
 }
+@article{Ha2018designrl,
+  author = {David Ha},
+  title  = {Reinforcement Learning for Improving Agent Design},
+  eprint = {arXiv:1810.03779},
+  url    = {https://designrl.github.io},
+  note   = "\url{https://designrl.github.io}",
+  year   = {2018}
+}
+
 
 
 
